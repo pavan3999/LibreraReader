@@ -171,7 +171,7 @@ jobs:
       # ---------------------------------------------------------
       - name: Build F-Droid Release
         run: |
-          ./gradlew --no-daemon --stacktrace assembleFdroid
+          ./gradlew --no-daemon --stacktrace assembleFdroidRelease
 
       # ---------------------------------------------------------
       # Show generated APKs
