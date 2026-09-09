@@ -166,6 +166,13 @@ jobs:
 
           ./link_to_mupdf*.sh
 
+      - name: Create google-services.json
+        shell: bash
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}" \
+            | base64 --decode \
+            > app/google-services.json
+
       # ---------------------------------------------------------
       # Build F-Droid Release
       # ---------------------------------------------------------
