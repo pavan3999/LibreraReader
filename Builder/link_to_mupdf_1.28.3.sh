@@ -188,14 +188,32 @@ ls -la "$LIBS" || true
 ls -la "$LIBS/arm64-v8a" || true
 
 echo "=================="
+echo "RESOLVED JNI PATH"
+echo "=================="
+
+readlink -f "$LIBS/arm64-v8a" || true
+
+echo "=================="
 echo "FIND SO FILES"
 echo "=================="
 
-find "$MUPDF_JAVA/libs" -type f -name '*.so' -ls || true
-find "$LIBS" -type f -name '*.so' -ls || true
-
+find -L "$MUPDF_JAVA/libs" -type f -name '*.so' -ls || true
+find -L "$LIBS" -type f -name '*.so' -ls || true
 
 echo "=================="
-echo "MUPDF:"$MUPDF_JAVA
-echo "JNI:"$LIBS
+echo "VERIFY REQUIRED ARM64 LIBS"
+echo "=================="
+
+test -f "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so"
+test -f "$MUPDF_JAVA/libs/arm64-v8a/liblame.so"
+
+test -f "$LIBS/arm64-v8a/libMuPDF.so"
+test -f "$LIBS/arm64-v8a/liblame.so"
+
+echo "libMuPDF.so: OK"
+echo "liblame.so: OK"
+
+echo "=================="
+echo "MUPDF:""$MUPDF_JAVA"
+echo "JNI:""$LIBS"
 echo "=================="
