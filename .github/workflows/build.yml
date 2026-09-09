@@ -297,6 +297,60 @@ jobs:
             --stacktrace \
             assembleProRelease
 
+      - name: Inspect Pro APK native libraries
+        shell: bash
+        run: |
+          set -e
+
+          echo "=============================="
+          echo "PRO APK NATIVE LIBRARY CHECK"
+          echo "=============================="
+
+          find . -type f -name "*.apk" -print
+
+          APK=$(find . -type f -name "*.apk" | grep -i "Pro" | head -n 1)
+
+          if [ -z "$APK" ]; then
+            echo "ERROR: Pro APK not found"
+            exit 1
+          fi
+
+          echo "APK: $APK"
+
+          echo "=============================="
+          echo "ARM64 LIBRARIES IN APK"
+          echo "=============================="
+
+          unzip -l "$APK" | grep 'lib/arm64-v8a/' || true
+
+          echo "=============================="
+          echo "MuPDF"
+          echo "=============================="
+
+          if unzip -l "$APK" | grep -q 'lib/arm64-v8a/libMuPDF.so'; then
+            echo "libMuPDF.so: FOUND"
+          else
+            echo "libMuPDF.so: MISSING"
+          fi
+
+          echo "=============================="
+          echo "LAME"
+          echo "=============================="
+
+          if unzip -l "$APK" | grep -q 'lib/arm64-v8a/liblame.so'; then
+            echo "liblame.so: FOUND"
+          else
+            echo "liblame.so: MISSING"
+          fi
+
+          echo "=============================="
+          echo "GRADLE NATIVE LIBRARIES"
+          echo "=============================="
+
+          find app/build -type f \
+            \( -name "libMuPDF.so" -o -name "liblame.so" \) \
+            -print 2>/dev/null || true
+
       # ---------------------------------------------------------
       # Show generated output
       # ---------------------------------------------------------
