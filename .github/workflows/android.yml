@@ -9,6 +9,8 @@ on:
         default: ""
 
   push:
+    branches:
+      - '**'
     tags:
       - "r*"
 
