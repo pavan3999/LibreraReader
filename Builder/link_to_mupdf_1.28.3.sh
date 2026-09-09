@@ -121,8 +121,13 @@ if [ "$(uname)" == "Darwin" ]; then
   FDRIOD_NDK_VERSION=$NDK_VERSION
 fi
 
-PATH1=/Users/ivanivanenko/Library/Android/sdk/ndk
-PATH2=/home/dev/Android/Sdk/ndk
+if [ -n "${ANDROID_NDK_HOME:-}" ]; then
+  PATH1="$ANDROID_NDK_HOME/.."
+else
+  PATH1="/Users/ivanivanenko/Library/Android/sdk/ndk"
+fi
+
+PATH2=${ANDROID_HOME:-/home/dev/Android/Sdk}/ndk
 
 if [ ! -d "$PATH1/$NDK_VERSION" ]; then
     echo "-- NDK ERROR --"
