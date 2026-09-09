@@ -63,6 +63,18 @@ cp -p "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so" \
 cp -p "$MUPDF_JAVA/libs/arm64-v8a/liblame.so" \
       "$LIBS/arm64-v8a/liblame.so"
 
+echo "=================="
+echo "VERIFY COPIED JNI LIBS"
+echo "=================="
+
+ls -lah "$LIBS/arm64-v8a"
+
+test -f "$LIBS/arm64-v8a/libMuPDF.so"
+test -f "$LIBS/arm64-v8a/liblame.so"
+
+echo "libMuPDF.so: OK"
+echo "liblame.so: OK"
+
 if [ "$1" == "copy" ]; then
 
 cp -rpv $DEST/html/css-apply.c    $SRC/css-apply.c
