@@ -54,10 +54,12 @@ cp -Rp jni $MUPDF_JAVA/jni
 mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 
 
-rm -r $LIBS
-mkdir $LIBS
+rm -rf "$LIBS"
+mkdir -p "$LIBS/arm64-v8a"
 
-ln -s $MUPDF_JAVA/libs/arm64-v8a $LIBS
+cp -av \
+  "$MUPDF_JAVA/libs/arm64-v8a/"*.so \
+  "$LIBS/arm64-v8a/"
 
 if [ "$1" == "copy" ]; then
 
