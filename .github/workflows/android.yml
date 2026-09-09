@@ -224,18 +224,18 @@ jobs:
           echo "ARM64 configuration:"
           grep -n -A6 "defaultConfig" app/build.gradle
 
-       - name: Install MuPDF build dependencies
-         run: |
-           sudo apt-get update
-           sudo apt-get install -y \
-             mesa-common-dev \
-             libxcursor-dev \
-             libxrandr-dev \
-             libxinerama-dev \
-             libglu1-mesa-dev \
-             libxi-dev \
-             pkg-config \
-             libgl-dev
+      - name: Install MuPDF build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            mesa-common-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libglu1-mesa-dev \
+            libxi-dev \
+            pkg-config \
+            libgl-dev
 
       # ---------------------------------------------------------
       # Prepare MuPDF
