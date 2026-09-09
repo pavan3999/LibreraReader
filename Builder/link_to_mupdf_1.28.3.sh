@@ -57,9 +57,11 @@ mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 rm -rf "$LIBS"
 mkdir -p "$LIBS/arm64-v8a"
 
-cp -av \
-  "$MUPDF_JAVA/libs/arm64-v8a/"*.so \
-  "$LIBS/arm64-v8a/"
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so" \
+      "$LIBS/arm64-v8a/libMuPDF.so"
+
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/liblame.so" \
+      "$LIBS/arm64-v8a/liblame.so"
 
 if [ "$1" == "copy" ]; then
 
