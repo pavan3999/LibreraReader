@@ -1,4 +1,4 @@
-name: F-Droid ARM64 Release
+name: ARM64 Release
 
 on:
   workflow_dispatch:
@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    name: Build F-Droid ARM64-v8a
+    name: Build ARM64-v8a
     runs-on: ubuntu-latest
 
     steps:
@@ -105,7 +105,7 @@ jobs:
       # properties belonging to multiple flavors while Gradle
       # configures the project.
       #
-      # They are intentionally empty for this F-Droid build.
+      # They are intentionally empty for this build.
       #
       - name: Configure required Gradle properties
         shell: bash
@@ -252,9 +252,9 @@ jobs:
           ./link_to_mupdf_1.28.3.sh
 
       # ---------------------------------------------------------
-      # Build F-Droid Release
+      # Build Release
       # ---------------------------------------------------------
-      - name: Build F-Droid Release
+      - name: Build Release
         shell: bash
         run: |
           set -e
@@ -262,7 +262,7 @@ jobs:
           ./gradlew \
             --no-daemon \
             --stacktrace \
-            assembleFdroidRelease
+            assembleProRelease
 
       # ---------------------------------------------------------
       # Show generated output
@@ -273,10 +273,10 @@ jobs:
           set -e
 
           echo "========================================"
-          echo "F-Droid release output"
+          echo "Release output"
           echo "========================================"
 
-          find app/build/outputs/apk/fdroid/release \
+          find app/build/outputs/apk/pro/release \
             -maxdepth 3 \
             -print \
             -exec file {} \;
@@ -288,7 +288,7 @@ jobs:
       # Do NOT assume the APK has a .apk extension.
       # The previous build produced:
       #
-      # app/build/outputs/apk/fdroid/release/Librera
+      # app/build/outputs/apk/pro/release/Librera
       #
       # so we locate regular files and identify the APK.
       #
@@ -297,7 +297,7 @@ jobs:
         run: |
           set -e
 
-          OUTPUT_DIR="app/build/outputs/apk/fdroid/release"
+          OUTPUT_DIR="app/build/outputs/apk/pro/release"
 
           if [ ! -d "$OUTPUT_DIR" ]; then
             echo "ERROR: APK output directory does not exist:"
@@ -347,7 +347,7 @@ jobs:
           mkdir -p artifacts
 
           cp "$APK_PATH" \
-            "artifacts/Librera-FDroid-ARM64-${{ github.ref_name }}.apk"
+            "artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
 
           echo "Prepared APK:"
           ls -lh artifacts/
@@ -360,7 +360,7 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-FDroid-ARM64-${{ github.ref_name }}.apk"
+          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
 
           if [ ! -f "$APK" ]; then
             echo "ERROR: APK does not exist:"
@@ -388,7 +388,7 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-FDroid-ARM64-${{ github.ref_name }}.apk"
+          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
 
           echo "APK:"
           echo "$APK"
@@ -453,7 +453,7 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-FDroid-ARM64-${{ github.ref_name }}.apk"
+          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
 
           echo "========================================"
           echo "APK"
@@ -471,7 +471,7 @@ jobs:
       - name: Upload ARM64 APK
         uses: actions/upload-artifact@v7
         with:
-          name: Librera-FDroid-ARM64
+          name: Librera-Pro-ARM64
           path: artifacts/*.apk
           if-no-files-found: error
 
@@ -483,7 +483,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
-          name: Librera F-Droid ARM64 ${{ github.ref_name }}
+          name: Librera Pro ARM64 ${{ github.ref_name }}
           draft: true
           prerelease: false
           generate_release_notes: true
