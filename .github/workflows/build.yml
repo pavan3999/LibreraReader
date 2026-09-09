@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       git-ref:
-        description: "Git ref to build"
+        description: Git Ref (Optional)
         required: false
-        default: ""
+      dry-run:
+        description: Creates a draft release
+        required: false
 
   push:
-    branches:
-      - '**'
     tags:
       - "r*"
 
