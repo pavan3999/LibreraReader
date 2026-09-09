@@ -168,3 +168,35 @@ echo "MUPDF:"$MUPDF_JAVA
 echo "JNI:"$LIBS
 echo "=================="
 fi
+
+
+# ============================================================
+# CHECK NATIVE LIBRARIES BEFORE GRADLE
+# ============================================================
+
+echo "=================="
+echo "CHECK MUPDF LIBS"
+echo "=================="
+
+ls -la "$MUPDF_JAVA/libs/arm64-v8a/" || true
+
+echo "=================="
+echo "CHECK JNI LIBS"
+echo "=================="
+
+ls -la "$LIBS" || true
+ls -la "$LIBS/arm64-v8a" || true
+
+echo "=================="
+echo "FIND SO FILES"
+echo "=================="
+
+find "$MUPDF_JAVA/libs" -type f -name '*.so' -ls || true
+find "$LIBS" -type f -name '*.so' -ls || true
+
+
+echo "=================="
+echo "MUPDF:"$MUPDF_JAVA
+echo "JNI:"$LIBS
+echo "=================="
+fi
