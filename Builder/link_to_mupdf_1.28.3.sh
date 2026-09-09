@@ -57,10 +57,7 @@ mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 rm -r $LIBS
 mkdir $LIBS
 
-ln -s $MUPDF_JAVA/libs/armeabi-v7a $LIBS
 ln -s $MUPDF_JAVA/libs/arm64-v8a $LIBS
-ln -s $MUPDF_JAVA/libs/x86 $LIBS
-ln -s $MUPDF_JAVA/libs/x86_64 $LIBS
 
 if [ "$1" == "copy" ]; then
 
@@ -121,13 +118,8 @@ if [ "$(uname)" == "Darwin" ]; then
   FDRIOD_NDK_VERSION=$NDK_VERSION
 fi
 
-if [ -n "${ANDROID_NDK_HOME:-}" ]; then
-  PATH1="$ANDROID_NDK_HOME/.."
-else
-  PATH1="/Users/ivanivanenko/Library/Android/sdk/ndk"
-fi
-
-PATH2=${ANDROID_HOME:-/home/dev/Android/Sdk}/ndk
+PATH1=${ANDROID_HOME:-/home/dev/Android/Sdk}/ndk
+PATH2="/Users/ivanivanenko/Library/Android/sdk/ndk"
 
 if [ ! -d "$PATH1/$NDK_VERSION" ]; then
     echo "-- NDK ERROR --"
@@ -152,10 +144,7 @@ if [ "$1" == "fdroid" ]; then
   for NDK in "$PATH1/$FDRIOD_NDK_VERSION/ndk-build" "$PATH2/$FDRIOD_NDK_VERSION/ndk-build";
     do
       if [ -f "$NDK" ]; then
-      $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=armeabi-v7a APP_PLATFORM=android-24 &
-      $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a   APP_PLATFORM=android-24 &
-      $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86         APP_PLATFORM=android-24 &
-      $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86_64      APP_PLATFORM=android-24
+      $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a   APP_PLATFORM=android-24
       echo "=================="
       echo "NDK:"  $NDK
       echo "APP_PLATFORM=android-24"
@@ -165,10 +154,7 @@ else
   for NDK in "$PATH1/$NDK_VERSION/ndk-build" "$PATH2/$NDK_VERSION/ndk-build";
   do
     if [ -f "$NDK" ]; then
-    $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=armeabi-v7a APP_PLATFORM=android-24 &
-    $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a   APP_PLATFORM=android-24 &
-    $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86         APP_PLATFORM=android-24 &
-    $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86_64      APP_PLATFORM=android-24
+    $NDK NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a   APP_PLATFORM=android-24
     echo "=================="
     echo "NDK:"  $NDK
     echo "APP_PLATFORM=android-24"
