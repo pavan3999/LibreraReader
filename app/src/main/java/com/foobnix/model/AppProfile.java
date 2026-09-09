@@ -10,6 +10,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Environment;
 import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -288,7 +289,7 @@ public class AppProfile {
 
     }
 
-    public static void showDialog(Activity a, ResultResponse<String> onclick) {
+    public static void showDialog(Activity a, ResultResponse<String> onclick, Runnable onRestoreDefaults) {
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(a);
         // builder.setTitle(R.string.tag);
@@ -298,7 +299,10 @@ public class AppProfile {
 
         final ListView list = (ListView) inflate.findViewById(R.id.listView1);
         final TextView add = (TextView) inflate.findViewById(R.id.addTag);
-        TxtUtils.underline(add, a.getString(R.string.new_profile));
+        // Named for what it adds and drawn as a ringed button, as the panel draws its own.
+        // The layout is shared with the tag and playlist dialogs, so this is set here only.
+        add.setText(R.string.add_profile);
+        asRingedButton(add);
 
         final List<String> profiles = getAllProfiles();
 
@@ -309,7 +313,11 @@ public class AppProfile {
                         text.setText(tagName);
 
                         ImageView delete = (ImageView) layout.findViewById(R.id.delete1);
-                        TintUtil.setTintImageWithAlpha(delete, Color.GRAY);
+                        // Ringed and drawn in the colour of the name beside it, like the mark
+                        // that drops a folder or a book.
+                        final int rowColor = text.getCurrentTextColor();
+                        TintUtil.setRingColor(delete, rowColor);
+                        TintUtil.setTintImageNoAlpha(delete, rowColor);
                         if (tagName.equals(getCurrent())) {
                             delete.setVisibility(View.GONE);
                         } else {
@@ -375,6 +383,15 @@ public class AppProfile {
             }
         });
 
+        if (onRestoreDefaults != null) {
+            builder.setNeutralButton(R.string.restore_defaults_short, new AlertDialog.OnClickListener() {
+
+                @Override public void onClick(DialogInterface dialog, int which) {
+                    onRestoreDefaults.run();
+                }
+            });
+        }
+
         AlertDialog create = builder.create();
         create.setOnDismissListener(new DialogInterface.OnDismissListener() {
 
@@ -386,6 +403,27 @@ public class AppProfile {
         });
         create.show();
 
+        // The dialog's own words are ringed to match, once the frame has made them.
+        asRingedButton(create.getButton(DialogInterface.BUTTON_NEGATIVE));
+        asRingedButton(create.getButton(DialogInterface.BUTTON_NEUTRAL));
+
+    }
+
+    /** Draws a word as a button the way the settings panel does: a ring cut from its own colour. */
+    private static void asRingedButton(TextView button) {
+        if (button == null) {
+            return;
+        }
+        TintUtil.asLinkButton(button);
+        // A dialog lays its own words out in a bar of its own height. The air a button carries
+        // in the settings panel pushes the ring past the top and bottom of that bar, and it is
+        // drawn cut off; inside a dialog the padding alone gives the ring its room.
+        if (button.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) button.getLayoutParams();
+            lp.topMargin = lp.bottomMargin = 0;
+            button.setLayoutParams(lp);
+        }
+        TintUtil.setRingColor(button, button.getCurrentTextColor());
     }
 
     public static void addDialog(final Activity a, final Runnable onRefresh) {
