@@ -22,19 +22,19 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.git-ref != '' && inputs.git-ref || github.ref }}
           submodules: recursive
 
       - name: Set up Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "21"
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       - name: Install required Android NDK
         shell: bash
@@ -57,6 +57,7 @@ jobs:
       - name: Configure release signing
         shell: bash
         run: |
+          mkdir -p "$HOME/.gradle"
           mkdir -p "$RUNNER_TEMP/signing"
 
           echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" \
@@ -166,7 +167,7 @@ jobs:
       # Upload artifact
       # ---------------------------------------------------------
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Librera-FDroid-ARM64
           path: app/build/outputs/apk/**/*.apk
@@ -177,7 +178,7 @@ jobs:
       # ---------------------------------------------------------
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/r')
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: Librera F-Droid ARM64 ${{ github.ref_name }}
