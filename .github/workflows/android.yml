@@ -71,6 +71,21 @@ jobs:
           RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}
           EOF
 
+      - name: Configure required Gradle properties
+        shell: bash
+        run: |
+          mkdir -p "$HOME/.gradle"
+
+          cat >> "$HOME/.gradle/gradle.properties" <<'EOF'
+          librera_appGdriveKey=
+          pdf_classic_appGdriveKey=
+          ebooka_appGdriveKey=
+          pdf_v2_appGdriveKey=
+          epub_reader_appGdriveKey=
+          tts_reader_appGdriveKey=
+          pro_appGdriveKey=
+          EOF
+
       # ---------------------------------------------------------
       # Build only ARM64
       # ---------------------------------------------------------
