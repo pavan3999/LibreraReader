@@ -253,6 +253,37 @@ jobs:
 
           ./link_to_mupdf_1.28.3.sh
 
+      - name: Verify native libraries before Gradle
+        shell: bash
+        run: |
+          set -e
+
+          echo "=============================="
+          echo "VERIFY JNI LIBRARIES"
+          echo "=============================="
+
+          pwd
+
+          echo "--- app/src/main/jniLibs ---"
+          ls -la app/src/main/jniLibs
+
+          echo "--- arm64-v8a ---"
+          ls -la app/src/main/jniLibs/arm64-v8a
+
+          echo "--- resolved path ---"
+          readlink -f app/src/main/jniLibs/arm64-v8a
+
+          echo "--- SO files ---"
+          find -L app/src/main/jniLibs -type f -name "*.so" -ls
+
+          echo "--- MuPDF SO ---"
+          test -f app/src/main/jniLibs/arm64-v8a/libMuPDF.so
+
+          echo "--- LAME SO ---"
+          test -f app/src/main/jniLibs/arm64-v8a/liblame.so
+
+          echo "Native libraries are present."
+
       # ---------------------------------------------------------
       # Build Pro Release
       # ---------------------------------------------------------
