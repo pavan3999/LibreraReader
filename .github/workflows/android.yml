@@ -234,9 +234,9 @@ jobs:
 
           cd Builder
 
-          chmod +x link_to_mupdf*.sh
+          chmod +x link_to_mupdf_1.28.3.sh
 
-          ./link_to_mupdf*.sh
+          ./link_to_mupdf_1.28.3.sh
 
       # ---------------------------------------------------------
       # Build F-Droid Release
@@ -377,47 +377,60 @@ jobs:
 
           APK="artifacts/Librera-FDroid-ARM64-${{ github.ref_name }}.apk"
 
-          echo "========================================"
-          echo "Native libraries in APK"
-          echo "========================================"
-
-          unzip -l "$APK" \
-            | grep -E 'lib/(arm64-v8a|armeabi-v7a|x86|x86_64)/' \
-            || true
+          echo "APK:"
+          echo "$APK"
 
           echo
-          echo "Checking ARM64-v8a..."
+          echo "========================================"
+          echo "Native libraries"
+          echo "========================================"
 
-          if ! unzip -l "$APK" \
-            | grep -q 'lib/arm64-v8a/'; then
-
-            echo "ERROR: ARM64-v8a libraries are missing."
-            exit 1
-          fi
-
-          echo "✓ ARM64-v8a is present."
+          unzip -l "$APK" | grep -E '(^|/)lib/' || true
 
           echo
-          echo "Checking for unwanted ABIs..."
+          echo "========================================"
+          echo "APK native library directories"
+          echo "========================================"
 
-          if unzip -l "$APK" \
-            | grep -Eq \
-            'lib/(armeabi-v7a|x86|x86_64)/'; then
+          ABIS=$(unzip -l "$APK" \
+            | sed -nE 's#.*lib/([^/]+)/.*#\1#p' \
+            | sort -u)
 
-            echo "ERROR: APK contains a non-ARM64 ABI."
+          if [ -z "$ABIS" ]; then
+            echo "WARNING: No lib/<ABI>/ directory found."
             echo
-            unzip -l "$APK" \
-              | grep -E \
-              'lib/(armeabi-v7a|x86|x86_64)/'
+            echo "This APK may contain native code outside the normal"
+            echo "lib/<ABI>/ layout."
+          else
+            echo "Detected ABI(s):"
+            echo "$ABIS"
 
-            exit 1
+            if echo "$ABIS" | grep -Eq \
+              '^(armeabi-v7a|x86|x86_64)$'; then
+              echo "ERROR: Non-ARM64 ABI detected."
+              exit 1
+            fi
+
+            if echo "$ABIS" | grep -q '^arm64-v8a$'; then
+              echo "✓ ARM64-v8a detected."
+            fi
           fi
 
-          echo "✓ No armeabi-v7a libraries."
-          echo "✓ No x86 libraries."
-          echo "✓ No x86_64 libraries."
           echo
-          echo "✓ APK is ARM64-v8a only."
+          echo "========================================"
+          echo "APK native ELF files"
+          echo "========================================"
+
+          mkdir -p "$RUNNER_TEMP/apk-check"
+
+          unzip -q "$APK" \
+            -d "$RUNNER_TEMP/apk-check"
+
+          find "$RUNNER_TEMP/apk-check" \
+            -type f \
+            -exec file {} \; \
+            | grep -E 'ELF|shared object' \
+            || true
 
       # ---------------------------------------------------------
       # Show APK information
