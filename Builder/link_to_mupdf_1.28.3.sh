@@ -121,14 +121,16 @@ if [ "$(uname)" == "Darwin" ]; then
   FDRIOD_NDK_VERSION=$NDK_VERSION
 fi
 
-PATH1=/Users/ivanivanenko/Library/Android/sdk/ndk
-PATH2=/home/dev/Android/Sdk/ndk
+NDK="${ANDROID_NDK_HOME:-$ANDROID_HOME/ndk/$NDK_VERSION}/ndk-build"
 
-if [ ! -d "$PATH1/$NDK_VERSION" ]; then
+if [ ! -f "$NDK" ]; then
     echo "-- NDK ERROR --"
-    echo "$PATH1/$NDK_VERSION NDK NOT FOUND"
-    echo "----"
+    echo "$NDK NOT FOUND"
+    exit 1
 fi
+
+echo "Using NDK:"
+echo "$NDK"
 
 if [ "$1" == "clean_ndk" ]; then
   rm -rf $MUPDF_JAVA/obj
