@@ -199,4 +199,3 @@ echo "=================="
 echo "MUPDF:"$MUPDF_JAVA
 echo "JNI:"$LIBS
 echo "=================="
-fi
