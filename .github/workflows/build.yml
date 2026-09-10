@@ -252,7 +252,7 @@ jobs:
       # Save MuPDF cache even if a later build step fails
       # =========================================================
       - name: Save MuPDF ARM64 cache
-        if: always()
+        if: success()
         uses: actions/cache/save@v6
         with:
           path: |
