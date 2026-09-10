@@ -53,12 +53,6 @@ rm -rf  $MUPDF_JAVA/jni
 cp -Rp jni $MUPDF_JAVA/jni
 mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 
-
-rm -r $LIBS
-mkdir $LIBS
-
-ln -s $MUPDF_JAVA/libs/arm64-v8a $LIBS
-
 if [ "$1" == "copy" ]; then
 
 cp -rpv $DEST/html/css-apply.c    $SRC/css-apply.c
@@ -163,8 +157,95 @@ else
 
 fi
 
+# ============================================================
+# COPY FINAL NDK LIBRARIES INTO ANDROID JNI LIBS
+# ============================================================
+
+echo "=================="
+echo "COPY FINAL ARM64 JNI LIBS"
+echo "=================="
+
+echo "Source:"
+echo "$MUPDF_JAVA/libs/arm64-v8a"
+
+echo "Destination:"
+echo "$LIBS/arm64-v8a"
+
+# Verify source libraries exist BEFORE deleting destination
+test -f "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so"
+test -f "$MUPDF_JAVA/libs/arm64-v8a/liblame.so"
+
+rm -rf "$LIBS"
+mkdir -p "$LIBS/arm64-v8a"
+
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so" \
+      "$LIBS/arm64-v8a/libMuPDF.so"
+
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/liblame.so" \
+      "$LIBS/arm64-v8a/liblame.so"
+
+echo "=================="
+echo "VERIFY COPIED JNI LIBS"
+echo "=================="
+
+ls -lah "$LIBS/arm64-v8a"
+
+test -f "$LIBS/arm64-v8a/libMuPDF.so"
+test -f "$LIBS/arm64-v8a/liblame.so"
+
+echo "libMuPDF.so: OK"
+echo "liblame.so: OK"
+
 echo "=================="
 echo "MUPDF:"$MUPDF_JAVA
 echo "JNI:"$LIBS
 echo "=================="
 fi
+
+# ============================================================
+# CHECK NATIVE LIBRARIES BEFORE GRADLE
+# ============================================================
+
+echo "=================="
+echo "CHECK MUPDF LIBS"
+echo "=================="
+
+ls -la "$MUPDF_JAVA/libs/arm64-v8a/" || true
+
+echo "=================="
+echo "CHECK JNI LIBS"
+echo "=================="
+
+ls -la "$LIBS" || true
+ls -la "$LIBS/arm64-v8a" || true
+
+echo "=================="
+echo "RESOLVED JNI PATH"
+echo "=================="
+
+readlink -f "$LIBS/arm64-v8a" || true
+
+echo "=================="
+echo "FIND SO FILES"
+echo "=================="
+
+find -L "$MUPDF_JAVA/libs" -type f -name '*.so' -ls || true
+find -L "$LIBS" -type f -name '*.so' -ls || true
+
+echo "=================="
+echo "VERIFY REQUIRED ARM64 LIBS"
+echo "=================="
+
+test -f "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so"
+test -f "$MUPDF_JAVA/libs/arm64-v8a/liblame.so"
+
+test -f "$LIBS/arm64-v8a/libMuPDF.so"
+test -f "$LIBS/arm64-v8a/liblame.so"
+
+echo "libMuPDF.so: OK"
+echo "liblame.so: OK"
+
+echo "=================="
+echo "MUPDF:""$MUPDF_JAVA"
+echo "JNI:""$LIBS"
+echo "=================="
