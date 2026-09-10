@@ -217,6 +217,15 @@ jobs:
             pkg-config \
             libgl-dev
 
+      - name: Cache MuPDF ARM64 libraries
+        uses: actions/cache@v5
+        with:
+          path: |
+            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
+            app/src/main/jniLibs/arm64-v8a/liblame.so
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
+          restore-keys: |
+            mupdf-1.28.3-ndk30-arm64-
 
       # =========================================================
       # Prepare MuPDF
@@ -226,10 +235,17 @@ jobs:
         run: |
           set -e
 
+          LIB_DIR="app/src/main/jniLibs/arm64-v8a"
+
+          if [ -f "$LIB_DIR/libMuPDF.so" ] &&
+             [ -f "$LIB_DIR/liblame.so" ]; then
+              echo "Cached MuPDF ARM64 libraries found."
+              ls -lh "$LIB_DIR"
+              exit 0
+          fi
+
           cd Builder
-
           chmod +x link_to_mupdf_1.28.3.sh
-
           ./link_to_mupdf_1.28.3.sh
 
 
