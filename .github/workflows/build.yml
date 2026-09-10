@@ -350,6 +350,7 @@ jobs:
           ./gradlew \
             --no-daemon \
             --stacktrace \
+            -PsplitByAbi=arm64-v8a \
             assembleProRelease
 
 
