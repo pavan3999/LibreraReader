@@ -60,7 +60,6 @@ jobs:
           set -e
 
           yes | sdkmanager --licenses >/dev/null || true
-
           sdkmanager "ndk;30.0.14904198"
 
 
@@ -79,10 +78,7 @@ jobs:
             exit 1
           fi
 
-          echo "Using NDK:"
-          echo "$NDK"
-
-          ls -la "$NDK"
+          echo "Using NDK: $NDK"
 
           echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
 
@@ -193,7 +189,6 @@ jobs:
             exit 1
           fi
 
-          echo "google-services.json created successfully."
 
       # =========================================================
       # Restore MuPDF ARM64 cache
@@ -207,6 +202,7 @@ jobs:
             app/src/main/jniLibs/arm64-v8a/liblame.so
           key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
 
+
       # =========================================================
       # Prepare MuPDF
       # =========================================================
@@ -219,18 +215,13 @@ jobs:
 
           if [ -f "$LIB_DIR/libMuPDF.so" ] &&
              [ -f "$LIB_DIR/liblame.so" ]; then
-              echo "========================================"
-              echo "Cached MuPDF ARM64 libraries found."
-              echo "Skipping MuPDF compilation."
-              echo "========================================"
-              ls -lh "$LIB_DIR"
-              exit 0
+            echo "Cached MuPDF ARM64 libraries found."
+            ls -lh "$LIB_DIR"
+            exit 0
           fi
 
-          echo "========================================"
-          echo "MuPDF cache miss"
-          echo "Installing build dependencies..."
-          echo "========================================"
+          echo "MuPDF cache miss."
+          echo "Building MuPDF ARM64..."
 
           sudo apt-get update
 
@@ -248,8 +239,9 @@ jobs:
           chmod +x link_to_mupdf_1.28.3.sh
           ./link_to_mupdf_1.28.3.sh
 
+
       # =========================================================
-      # Save MuPDF cache even if a later build step fails
+      # Save MuPDF cache
       # =========================================================
       - name: Save MuPDF ARM64 cache
         if: success()
@@ -259,35 +251,17 @@ jobs:
             app/src/main/jniLibs/arm64-v8a/libMuPDF.so
             app/src/main/jniLibs/arm64-v8a/liblame.so
           key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
- 
+
+
       # =========================================================
-      # Verify native libraries BEFORE Gradle
+      # Verify native libraries
       # =========================================================
-      - name: Verify native libraries before Gradle
+      - name: Verify native libraries
         shell: bash
         run: |
           set -e
 
-          echo "=============================="
-          echo "VERIFY JNI LIBRARIES"
-          echo "=============================="
-
           JNI_DIR="app/src/main/jniLibs/arm64-v8a"
-
-          echo "JNI directory:"
-          echo "$JNI_DIR"
-
-          if [ ! -d "$JNI_DIR" ]; then
-            echo "ERROR: $JNI_DIR does not exist."
-            exit 1
-          fi
-
-          echo
-          echo "--- Directory ---"
-          ls -lah "$JNI_DIR"
-
-          echo
-          echo "--- Native libraries ---"
 
           test -f "$JNI_DIR/libMuPDF.so" || {
             echo "ERROR: libMuPDF.so missing."
@@ -299,30 +273,24 @@ jobs:
             exit 1
           }
 
-          echo "libMuPDF.so: FOUND"
-          echo "liblame.so: FOUND"
-
-          echo
-          echo "--- ELF architecture ---"
-
+          echo "libMuPDF.so:"
           file "$JNI_DIR/libMuPDF.so"
+
+          echo "liblame.so:"
           file "$JNI_DIR/liblame.so"
 
-          echo
-          echo "--- Expected: ARM aarch64 ---"
-
-          if ! file "$JNI_DIR/libMuPDF.so" | grep -qi "ARM aarch64"; then
-            echo "ERROR: libMuPDF.so is NOT ARM64."
+          file "$JNI_DIR/libMuPDF.so" | grep -qi "ARM aarch64" || {
+            echo "ERROR: libMuPDF.so is not ARM64."
             exit 1
-          fi
+          }
 
-          if ! file "$JNI_DIR/liblame.so" | grep -qi "ARM aarch64"; then
-            echo "ERROR: liblame.so is NOT ARM64."
+          file "$JNI_DIR/liblame.so" | grep -qi "ARM aarch64" || {
+            echo "ERROR: liblame.so is not ARM64."
             exit 1
-          fi
+          }
 
-          echo
-          echo "✓ JNI libraries are present and ARM64."
+          echo "✓ Native libraries are present and ARM64."
+
 
       # =========================================================
       # Build Pro Release
@@ -340,140 +308,7 @@ jobs:
 
 
       # =========================================================
-      # Inspect generated Pro APK
-      # =========================================================
-      - name: Inspect Pro APK native libraries
-        shell: bash
-        run: |
-          set -e
-
-          echo "=============================="
-          echo "PRO APK NATIVE LIBRARY CHECK"
-          echo "=============================="
-
-          APK=$(find app/build/outputs/apk \
-            -type f \
-            -name "*.apk" \
-            | head -n 1)
-
-          if [ -z "$APK" ]; then
-            echo "ERROR: Pro APK not found."
-            exit 1
-          fi
-
-          echo "APK:"
-          echo "$APK"
-
-          echo
-          echo "=============================="
-          echo "SEARCH libMuPDF.so"
-          echo "=============================="
-
-          unzip -l "$APK" | grep -i 'libMuPDF.so' || true
-
-          echo
-          echo "=============================="
-          echo "SEARCH liblame.so"
-          echo "=============================="
-
-          unzip -l "$APK" | grep -i 'liblame.so' || true
-
-          echo
-          echo "=============================="
-          echo "SEARCH ABI PATHS"
-          echo "=============================="
-
-          unzip -l "$APK" \
-            | grep -Ei 'arm64|armeabi|x86|mips' \
-            || true
-
-          echo
-          echo "=============================="
-          echo "ALL .so FILES"
-          echo "=============================="
-
-          unzip -l "$APK" \
-            | grep -Ei '\.so$' \
-            || true
-
-          echo
-          echo "=============================="
-          echo "ALL APK CONTENT"
-          echo "=============================="
-
-          unzip -l "$APK"
-
-      # =========================================================
-      # Show generated APK output
-      # =========================================================
-      - name: Show generated APK output
-        shell: bash
-        run: |
-          set -e
-
-          echo "========================================"
-          echo "Pro release output"
-          echo "========================================"
-
-          find app/build/outputs/apk/pro/release \
-            -maxdepth 3 \
-            -print \
-            -exec file {} \;
-
-
-      # =========================================================
-      # Locate generated ARM64 APK
-      # =========================================================
-      - name: Inspect Pro APK contents
-        shell: bash
-        run: |
-          set -e
-
-          APK=$(find app/build/outputs/apk \
-            -type f \
-            -name "*.apk" \
-            | head -n 1)
-
-          if [ -z "$APK" ]; then
-            echo "ERROR: APK not found."
-            exit 1
-          fi
-
-          echo "APK:"
-          echo "$APK"
-
-          echo
-          echo "=============================="
-          echo "SEARCH ALL NATIVE LIBRARIES"
-          echo "=============================="
-
-          unzip -l "$APK" | grep -Ei \
-            '\.(so|aar)$|arm64|armeabi|x86|mips' \
-            || true
-
-          echo
-          echo "=============================="
-          echo "SEARCH MuPDF"
-          echo "=============================="
-
-          unzip -l "$APK" | grep -i 'libMuPDF.so' || true
-
-          echo
-          echo "=============================="
-          echo "SEARCH LAME"
-          echo "=============================="
-
-          unzip -l "$APK" | grep -i 'liblame.so' || true
-
-          echo
-          echo "=============================="
-          echo "ALL APK ENTRIES"
-          echo "=============================="
-
-          unzip -l "$APK"
-
-      # =========================================================
-      # Copy to stable APK filename
+      # Prepare APK artifact
       # =========================================================
       - name: Prepare APK artifact
         shell: bash
@@ -488,23 +323,29 @@ jobs:
 
           if [ -z "$APK_PATH" ]; then
             echo "ERROR: Pro ARM64 APK not found."
-            echo
-            echo "Available APKs:"
             find app/build/outputs/apk -type f -name "*.apk" -print
             exit 1
           fi
 
-          echo "Source APK:"
-          echo "$APK_PATH"
+          VERSION=$(basename "$APK_PATH" \
+            | sed -E 's/^Librera Pro-([0-9.]+)-arm64\.apk$/\1/')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" = "$(basename "$APK_PATH")" ]; then
+            echo "ERROR: Could not determine app version."
+            exit 1
+          fi
 
           mkdir -p artifacts
 
-          cp "$APK_PATH" \
-            "artifacts/Librera-Pro-ARM64.apk"
+          OUTPUT="artifacts/Librera-Pro-${VERSION}-ARM64.apk"
 
-          echo
-          echo "Prepared APK:"
-          ls -lh artifacts/
+          cp "$APK_PATH" "$OUTPUT"
+
+          echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "APK_PATH=$OUTPUT" >> "$GITHUB_ENV"
+
+          echo "Prepared:"
+          ls -lh "$OUTPUT"
 
 
       # =========================================================
@@ -515,62 +356,28 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64.apk"
-
-          if [ -z "$APK" ]; then
-            echo "ERROR: Pro ARM64 APK does not exist."
-            echo "Available artifacts:"
-            find artifacts -maxdepth 1 -type f -name "*.apk" -print
-            exit 1
-          fi
-
           BUILD_TOOLS=$(ls "$ANDROID_HOME/build-tools" \
             | sort -V \
             | tail -1)
 
-          echo "Checking APK signature:"
-          echo "$APK"
-
           "$ANDROID_HOME/build-tools/$BUILD_TOOLS/apksigner" \
             verify \
             --verbose \
-            "$APK"
+            "$APK_PATH"
 
 
       # =========================================================
-      # Final ARM64-only verification
+      # Verify ARM64-only APK
       # =========================================================
       - name: Verify ARM64-v8a only
         shell: bash
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64.apk"
-
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: Pro ARM64 APK not found:"
-            echo "$APK"
-            exit 1
-          fi
+          APK="$APK_PATH"
 
           echo "APK:"
           echo "$APK"
-
-          echo
-          echo "========================================"
-          echo "APK native libraries"
-          echo "========================================"
-
-          echo "--- lib/ entries ---"
-          unzip -l "$APK" | grep -E 'lib/' || {
-            echo "ERROR: No lib/ entries found in APK."
-            exit 1
-          }
-
-          echo
-          echo "========================================"
-          echo "Detected ABI(s)"
-          echo "========================================"
 
           ABIS=$(
             unzip -Z1 "$APK" \
@@ -578,6 +385,7 @@ jobs:
               | sort -u
           )
 
+          echo "Detected ABI(s):"
           echo "$ABIS"
 
           if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
@@ -591,15 +399,6 @@ jobs:
             exit 1
           fi
 
-          echo
-          echo "✓ ARM64-v8a detected."
-          echo "✓ No non-ARM64 ABI detected."
-
-          echo
-          echo "========================================"
-          echo "Extract native libraries"
-          echo "========================================"
-
           CHECK_DIR="$RUNNER_TEMP/apk-check"
 
           rm -rf "$CHECK_DIR"
@@ -607,34 +406,20 @@ jobs:
 
           unzip -q "$APK" -d "$CHECK_DIR"
 
-          echo
-          echo "Native ELF files:"
-          find "$CHECK_DIR/lib/arm64-v8a" \
-            -type f \
-            -name "*.so" \
-            -exec file {} \;
-
-          echo
-          echo "========================================"
-          echo "VERIFY ELF ARCHITECTURE"
-          echo "========================================"
-
           SO_COUNT=0
 
           while IFS= read -r -d '' SO; do
             SO_COUNT=$((SO_COUNT + 1))
 
-            echo
             echo "Checking:"
             echo "$SO"
 
             file "$SO"
 
-            if ! file "$SO" | grep -qi "ARM aarch64"; then
-              echo "ERROR: Non-ARM64 ELF detected:"
-              echo "$SO"
+            file "$SO" | grep -qi "ARM aarch64" || {
+              echo "ERROR: Non-ARM64 ELF detected."
               exit 1
-            fi
+            }
 
           done < <(
             find "$CHECK_DIR/lib/arm64-v8a" \
@@ -644,14 +429,9 @@ jobs:
           )
 
           if [ "$SO_COUNT" -eq 0 ]; then
-            echo "ERROR: No .so files found under lib/arm64-v8a."
+            echo "ERROR: No native libraries found."
             exit 1
           fi
-
-          echo
-          echo "========================================"
-          echo "MuPDF / LAME"
-          echo "========================================"
 
           test -f "$CHECK_DIR/lib/arm64-v8a/libMuPDF.so" || {
             echo "ERROR: libMuPDF.so missing from APK."
@@ -663,21 +443,11 @@ jobs:
             exit 1
           }
 
+          echo "✓ ARM64-v8a only"
+          echo "✓ All native ELF files are ARM64"
           echo "✓ libMuPDF.so present"
           echo "✓ liblame.so present"
 
-          echo
-          echo "========================================"
-          echo "FINAL RESULT"
-          echo "========================================"
-
-          echo "✓ APK exists"
-          echo "✓ arm64-v8a ABI exists"
-          echo "✓ No other ABI exists"
-          echo "✓ Native ELF files are ARM64/aarch64"
-          echo "✓ libMuPDF.so is packaged"
-          echo "✓ liblame.so is packaged"
-          echo "✓ ARM64-only verification PASSED"
 
       # =========================================================
       # APK information
@@ -687,22 +457,16 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64.apk"
+          echo "APK:"
+          ls -lh "$APK_PATH"
 
-          if [ -z "$APK" ]; then
-            echo "ERROR: Pro ARM64 APK not found."
-            exit 1
-          fi
-
-          echo "========================================"
-          echo "APK"
-          echo "========================================"
-
-          ls -lh "$APK"
+          echo
+          echo "Version:"
+          echo "$APP_VERSION"
 
           echo
           echo "SHA-256:"
-          sha256sum "$APK"
+          sha256sum "$APK_PATH"
 
 
       # =========================================================
@@ -711,7 +475,7 @@ jobs:
       - name: Upload ARM64 APK
         uses: actions/upload-artifact@v7
         with:
-          name: Librera-Pro-ARM64
+          name: Librera-Pro-${{ env.APP_VERSION }}-ARM64
           path: artifacts/*.apk
           if-no-files-found: error
 
@@ -724,7 +488,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
-          name: Librera Pro ARM64 ${{ github.ref_name }}
+          name: Librera Pro ARM64 ${{ env.APP_VERSION }}
           draft: true
           prerelease: false
           generate_release_notes: true
