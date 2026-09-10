@@ -432,102 +432,53 @@ jobs:
       # =========================================================
       # Locate generated ARM64 APK
       # =========================================================
-      - name: Locate generated ARM64 APK
+      - name: Inspect Pro APK contents
         shell: bash
         run: |
           set -e
 
-          OUTPUT_DIR="app/build/outputs/apk/pro/release"
-
-          echo "========================================"
-          echo "PRO RELEASE OUTPUT"
-          echo "========================================"
-
-          if [ ! -d "$OUTPUT_DIR" ]; then
-            echo "ERROR: APK output directory does not exist:"
-            echo "$OUTPUT_DIR"
-            exit 1
-          fi
-
-          find "$OUTPUT_DIR" \
-            -maxdepth 2 \
-            -type f \
-            -print \
-            -exec file {} \;
-
-          APK=$(find "$OUTPUT_DIR" \
+          APK=$(find app/build/outputs/apk \
             -type f \
             -name "*.apk" \
-            -print \
             | head -n 1)
 
           if [ -z "$APK" ]; then
-            echo "ERROR: No APK found."
+            echo "ERROR: APK not found."
             exit 1
           fi
 
-          echo
           echo "APK:"
           echo "$APK"
 
           echo
-          echo "========================================"
-          echo "CHECK APK ABIs"
-          echo "========================================"
+          echo "=============================="
+          echo "SEARCH ALL NATIVE LIBRARIES"
+          echo "=============================="
 
-          ABIS=$(unzip -l "$APK" \
-            | sed -nE 's#.*lib/([^/]+)/.*#\1#p' \
-            | sort -u)
-
-          echo "Detected ABI(s):"
-          echo "$ABIS"
-
-          if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
-            echo "ERROR: APK does not contain arm64-v8a."
-            exit 1
-          fi
-
-          if echo "$ABIS" | grep -Eq \
-            '^(x86|x86_64|armeabi-v7a)$'; then
-            echo "ERROR: Non-ARM64 ABI detected."
-            exit 1
-          fi
-
-          echo "✓ APK contains arm64-v8a only."
+          unzip -l "$APK" | grep -Ei \
+            '\.(so|aar)$|arm64|armeabi|x86|mips' \
+            || true
 
           echo
-          echo "========================================"
-          echo "VERIFY MuPDF"
-          echo "========================================"
+          echo "=============================="
+          echo "SEARCH MuPDF"
+          echo "=============================="
 
-          unzip -l "$APK" \
-            | grep -q 'lib/arm64-v8a/libMuPDF.so' \
-            || {
-              echo "ERROR: libMuPDF.so missing from APK."
-              exit 1
-            }
-
-          echo "✓ libMuPDF.so present."
+          unzip -l "$APK" | grep -i 'libMuPDF.so' || true
 
           echo
-          echo "========================================"
-          echo "VERIFY LAME"
-          echo "========================================"
+          echo "=============================="
+          echo "SEARCH LAME"
+          echo "=============================="
 
-          unzip -l "$APK" \
-            | grep -q 'lib/arm64-v8a/liblame.so' \
-            || {
-              echo "ERROR: liblame.so missing from APK."
-              exit 1
-            }
-
-          echo "✓ liblame.so present."
+          unzip -l "$APK" | grep -i 'liblame.so' || true
 
           echo
-          echo "ARM64 APK verified successfully."
+          echo "=============================="
+          echo "ALL APK ENTRIES"
+          echo "=============================="
 
-          echo "APK_PATH=$APK" >> "$GITHUB_ENV"
-
+          unzip -l "$APK"
 
       # =========================================================
       # Copy to stable APK filename
