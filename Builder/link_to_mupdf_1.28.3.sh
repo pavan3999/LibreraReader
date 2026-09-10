@@ -53,28 +53,6 @@ rm -rf  $MUPDF_JAVA/jni
 cp -Rp jni $MUPDF_JAVA/jni
 mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 
-
-rm -rf "$LIBS"
-mkdir -p "$LIBS/arm64-v8a"
-
-cp -p "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so" \
-      "$LIBS/arm64-v8a/libMuPDF.so"
-
-cp -p "$MUPDF_JAVA/libs/arm64-v8a/liblame.so" \
-      "$LIBS/arm64-v8a/liblame.so"
-
-echo "=================="
-echo "VERIFY COPIED JNI LIBS"
-echo "=================="
-
-ls -lah "$LIBS/arm64-v8a"
-
-test -f "$LIBS/arm64-v8a/libMuPDF.so"
-test -f "$LIBS/arm64-v8a/liblame.so"
-
-echo "libMuPDF.so: OK"
-echo "liblame.so: OK"
-
 if [ "$1" == "copy" ]; then
 
 cp -rpv $DEST/html/css-apply.c    $SRC/css-apply.c
@@ -179,12 +157,50 @@ else
 
 fi
 
+# ============================================================
+# COPY FINAL NDK LIBRARIES INTO ANDROID JNI LIBS
+# ============================================================
+
+echo "=================="
+echo "COPY FINAL ARM64 JNI LIBS"
+echo "=================="
+
+echo "Source:"
+echo "$MUPDF_JAVA/libs/arm64-v8a"
+
+echo "Destination:"
+echo "$LIBS/arm64-v8a"
+
+# Verify source libraries exist BEFORE deleting destination
+test -f "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so"
+test -f "$MUPDF_JAVA/libs/arm64-v8a/liblame.so"
+
+rm -rf "$LIBS"
+mkdir -p "$LIBS/arm64-v8a"
+
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/libMuPDF.so" \
+      "$LIBS/arm64-v8a/libMuPDF.so"
+
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/liblame.so" \
+      "$LIBS/arm64-v8a/liblame.so"
+
+echo "=================="
+echo "VERIFY COPIED JNI LIBS"
+echo "=================="
+
+ls -lah "$LIBS/arm64-v8a"
+
+test -f "$LIBS/arm64-v8a/libMuPDF.so"
+test -f "$LIBS/arm64-v8a/liblame.so"
+
+echo "libMuPDF.so: OK"
+echo "liblame.so: OK"
+
 echo "=================="
 echo "MUPDF:"$MUPDF_JAVA
 echo "JNI:"$LIBS
 echo "=================="
 fi
-
 
 # ============================================================
 # CHECK NATIVE LIBRARIES BEFORE GRADLE
