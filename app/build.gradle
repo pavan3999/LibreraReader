@@ -100,8 +100,16 @@ android {
         abi {
             enable = true
             reset()
-            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
-            universalApk = true
+
+            def requestedAbi = project.findProperty("splitByAbi")
+
+            if (requestedAbi) {
+                include requestedAbi
+                universalApk = false
+            } else {
+                include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+                universalApk = true
+            }
         }
     }
 
