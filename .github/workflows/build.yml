@@ -505,11 +505,7 @@ jobs:
         run: |
           set -e
 
-          APK=$(find artifacts \
-            -maxdepth 1 \
-            -type f \
-            -name "Librera Pro-*-arm64.apk" \
-            | head -n 1)
+          APK="artifacts/Librera-Pro-ARM64.apk"
 
           if [ -z "$APK" ]; then
             echo "ERROR: Pro ARM64 APK does not exist."
@@ -539,11 +535,7 @@ jobs:
         run: |
           set -e
 
-          APK=$(find artifacts \
-            -maxdepth 1 \
-            -type f \
-            -name "Librera Pro-*-arm64.apk" \
-            | head -n 1)
+          APK="artifacts/Librera-Pro-ARM64.apk"
 
           if [ -z "$APK" ]; then
             echo "ERROR: Pro ARM64 APK not found."
@@ -639,11 +631,7 @@ jobs:
         run: |
           set -e
 
-          APK=$(find artifacts \
-            -maxdepth 1 \
-            -type f \
-            -name "Librera Pro-*-arm64.apk" \
-            | head -n 1)
+          APK="artifacts/Librera-Pro-ARM64.apk"
 
           if [ -z "$APK" ]; then
             echo "ERROR: Pro ARM64 APK not found."
