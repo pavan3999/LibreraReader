@@ -200,7 +200,7 @@ jobs:
       # =========================================================
       - name: Restore MuPDF ARM64 cache
         id: mupdf-cache
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: |
             app/src/main/jniLibs/arm64-v8a/libMuPDF.so
@@ -248,7 +248,18 @@ jobs:
           chmod +x link_to_mupdf_1.28.3.sh
           ./link_to_mupdf_1.28.3.sh
 
-
+      # =========================================================
+      # Save MuPDF cache even if a later build step fails
+      # =========================================================
+      - name: Save MuPDF ARM64 cache
+        if: always()
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
+            app/src/main/jniLibs/arm64-v8a/liblame.so
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
+ 
       # =========================================================
       # Verify native libraries BEFORE Gradle
       # =========================================================
@@ -312,18 +323,6 @@ jobs:
 
           echo
           echo "✓ JNI libraries are present and ARM64."
-
-      # =========================================================
-      # Save MuPDF cache even if a later build step fails
-      # =========================================================
-      - name: Save MuPDF ARM64 cache
-        if: always()
-        uses: actions/cache/save@v5
-        with:
-          path: |
-            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
-            app/src/main/jniLibs/arm64-v8a/liblame.so
-          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
 
       # =========================================================
       # Build Pro Release
