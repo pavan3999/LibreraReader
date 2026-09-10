@@ -449,16 +449,34 @@ jobs:
       # =========================================================
       # Copy to stable APK filename
       # =========================================================
-      - name: Prepare ARM64 APK
+      - name: Prepare APK artifact
         shell: bash
         run: |
           set -e
 
+          APK_PATH=$(find app/build/outputs/apk/pro/release \
+          -maxdepth 1 \
+          -type f \
+          -name "Librera Pro-*-arm64.apk" \
+          | head -n 1)
+
+          if [ -z "$APK_PATH" ]; then
+            echo "ERROR: Pro ARM64 APK not found."
+            echo
+            echo "Available APKs:"
+            find app/build/outputs/apk -type f -name "*.apk" -print
+            exit 1
+          fi
+
+          echo "Source APK:"
+          echo "$APK_PATH"
+
           mkdir -p artifacts
 
           cp "$APK_PATH" \
-            "artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+            "artifacts/Librera-Pro-ARM64.apk"
 
+          echo
           echo "Prepared APK:"
           ls -lh artifacts/
 
