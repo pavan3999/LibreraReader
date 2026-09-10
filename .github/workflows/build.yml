@@ -23,39 +23,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Checkout
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Checkout
         uses: actions/checkout@v7
         with:
           ref: ${{ inputs.git-ref != '' && inputs.git-ref || github.ref }}
           submodules: recursive
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Java
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Set up Java 21
         uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: "21"
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Android SDK
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
 
-      # ---------------------------------------------------------
-      # NDK
-      # ---------------------------------------------------------
+
+      # =========================================================
+      # Android NDK
+      # =========================================================
       - name: Install required Android NDK
         shell: bash
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "ndk;21.4.7075529" "ndk;30.0.14904198"
+          set -e
 
+          yes | sdkmanager --licenses >/dev/null || true
+          sdkmanager "ndk;30.0.14904198"
+
+
+      # =========================================================
+      # Check NDK
+      # =========================================================
       - name: Check NDK
         shell: bash
         run: |
@@ -68,13 +78,14 @@ jobs:
             exit 1
           fi
 
-          ls -la "$NDK"
+          echo "Using NDK: $NDK"
 
           echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Release signing
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Configure release signing
         shell: bash
         run: |
@@ -99,16 +110,10 @@ jobs:
           RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}
           EOF
 
-      # ---------------------------------------------------------
-      # Gradle properties required during project configuration
-      # ---------------------------------------------------------
-      #
-      # These are needed because app/build.gradle evaluates
-      # properties belonging to multiple flavors while Gradle
-      # configures the project.
-      #
-      # They are intentionally empty for this Pro build.
-      #
+
+      # =========================================================
+      # Gradle properties
+      # =========================================================
       - name: Configure required Gradle properties
         shell: bash
         run: |
@@ -161,9 +166,10 @@ jobs:
           pro_admobRewardId=
           EOF
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Firebase / Google Services
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Create google-services.json
         shell: bash
         run: |
@@ -183,52 +189,42 @@ jobs:
             exit 1
           fi
 
-          echo "google-services.json created successfully."
 
-      # ---------------------------------------------------------
-      # Restrict Android build to ARM64-v8a
-      # ---------------------------------------------------------
-      - name: Restrict build to ARM64-v8a
+      # =========================================================
+      # Restore MuPDF ARM64 cache
+      # =========================================================
+      - name: Restore MuPDF ARM64 cache
+        id: mupdf-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: |
+            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
+            app/src/main/jniLibs/arm64-v8a/liblame.so
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
+
+
+      # =========================================================
+      # Prepare MuPDF
+      # =========================================================
+      - name: Prepare MuPDF
         shell: bash
         run: |
           set -e
 
-          python3 <<'PY'
-          from pathlib import Path
+          LIB_DIR="app/src/main/jniLibs/arm64-v8a"
 
-          path = Path("app/build.gradle")
-          text = path.read_text()
+          if [ -f "$LIB_DIR/libMuPDF.so" ] &&
+             [ -f "$LIB_DIR/liblame.so" ]; then
+            echo "Cached MuPDF ARM64 libraries found."
+            ls -lh "$LIB_DIR"
+            exit 0
+          fi
 
-          marker = "defaultConfig {"
+          echo "MuPDF cache miss."
+          echo "Building MuPDF ARM64..."
 
-          if marker not in text:
-              raise SystemExit(
-                  "ERROR: Could not find defaultConfig in app/build.gradle"
-              )
-
-          # Avoid inserting it twice if this workflow/script is
-          # ever changed to reuse the modified file.
-          if 'abiFilters "arm64-v8a"' in text:
-              print("ARM64 abiFilter already present.")
-          else:
-              replacement = """defaultConfig {
-              ndk {
-                  abiFilters "arm64-v8a"
-              }
-          """
-
-              text = text.replace(marker, replacement, 1)
-              path.write_text(text)
-
-          PY
-
-          echo
-          echo "ARM64 configuration:"
-          grep -n -A6 "defaultConfig" app/build.gradle
-
-      - name: Install MuPDF build dependencies
-        run: |
           sudo apt-get update
+
           sudo apt-get install -y \
             mesa-common-dev \
             libxcursor-dev \
@@ -239,23 +235,66 @@ jobs:
             pkg-config \
             libgl-dev
 
-      # ---------------------------------------------------------
-      # Prepare MuPDF
-      # ---------------------------------------------------------
-      - name: Prepare MuPDF
+          cd Builder
+          chmod +x link_to_mupdf_1.28.3.sh
+          ./link_to_mupdf_1.28.3.sh
+
+
+      # =========================================================
+      # Save MuPDF cache
+      # =========================================================
+      - name: Save MuPDF ARM64 cache
+        if: success() && steps.mupdf-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: |
+            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
+            app/src/main/jniLibs/arm64-v8a/liblame.so
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
+
+
+      # =========================================================
+      # Verify native libraries
+      # =========================================================
+      - name: Verify native libraries
         shell: bash
         run: |
           set -e
 
-          cd Builder
+          JNI_DIR="app/src/main/jniLibs/arm64-v8a"
 
-          chmod +x link_to_mupdf_1.28.3.sh
+          test -f "$JNI_DIR/libMuPDF.so" || {
+            echo "ERROR: libMuPDF.so missing."
+            exit 1
+          }
 
-          ./link_to_mupdf_1.28.3.sh
+          test -f "$JNI_DIR/liblame.so" || {
+            echo "ERROR: liblame.so missing."
+            exit 1
+          }
 
-      # ---------------------------------------------------------
+          echo "libMuPDF.so:"
+          file "$JNI_DIR/libMuPDF.so"
+
+          echo "liblame.so:"
+          file "$JNI_DIR/liblame.so"
+
+          file "$JNI_DIR/libMuPDF.so" | grep -qi "ARM aarch64" || {
+            echo "ERROR: libMuPDF.so is not ARM64."
+            exit 1
+          }
+
+          file "$JNI_DIR/liblame.so" | grep -qi "ARM aarch64" || {
+            echo "ERROR: liblame.so is not ARM64."
+            exit 1
+          }
+
+          echo "✓ Native libraries are present and ARM64."
+
+
+      # =========================================================
       # Build Pro Release
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Build Pro Release
         shell: bash
         run: |
@@ -264,231 +303,194 @@ jobs:
           ./gradlew \
             --no-daemon \
             --stacktrace \
+            -PsplitByAbi=arm64-v8a \
             assembleProRelease
 
-      # ---------------------------------------------------------
-      # Show generated output
-      # ---------------------------------------------------------
-      - name: Show generated APK output
+
+      # =========================================================
+      # Prepare APK artifact
+      # =========================================================
+      - name: Prepare APK artifact
         shell: bash
         run: |
           set -e
 
-          echo "========================================"
-          echo "Pro release output"
-          echo "========================================"
+          APK_PATH=$(find app/build/outputs/apk/pro/release \
+            -maxdepth 1 \
+            -type f \
+            -name "Librera Pro-*-arm64.apk" \
+            | head -n 1)
 
-          find app/build/outputs/apk/pro/release \
-            -maxdepth 3 \
-            -print \
-            -exec file {} \;
-
-      # ---------------------------------------------------------
-      # Locate actual APK
-      # ---------------------------------------------------------
-      #
-      # Do NOT assume the APK has a .apk extension.
-      # The previous build produced:
-      #
-      # app/build/outputs/apk/pro/release/Librera
-      #
-      # so we locate regular files and identify the APK.
-      #
-      - name: Locate generated APK
-        shell: bash
-        run: |
-          set -e
-
-          OUTPUT_DIR="app/build/outputs/apk/pro/release"
-
-          if [ ! -d "$OUTPUT_DIR" ]; then
-            echo "ERROR: APK output directory does not exist:"
-            echo "$OUTPUT_DIR"
+          if [ -z "$APK_PATH" ]; then
+            echo "ERROR: Pro ARM64 APK not found."
+            find app/build/outputs/apk -type f -name "*.apk" -print
             exit 1
           fi
 
-          APK=""
+          VERSION=$(basename "$APK_PATH" \
+            | sed -E 's/^Librera Pro-([0-9.]+)-arm64\.apk$/\1/')
 
-          while IFS= read -r -d '' file; do
-            TYPE=$(file -b "$file")
-
-            echo "Checking candidate:"
-            echo "  $file"
-            echo "  $TYPE"
-
-            if echo "$TYPE" | grep -qiE \
-              'Android package|Zip archive|Java archive'; then
-              APK="$file"
-              break
-            fi
-          done < <(find "$OUTPUT_DIR" -type f -print0)
-
-          if [ -z "$APK" ]; then
-            echo
-            echo "ERROR: Could not locate generated APK."
-            echo
-            echo "Available files:"
-            find "$OUTPUT_DIR" -type f -print
+          if [ -z "$VERSION" ] || [ "$VERSION" = "$(basename "$APK_PATH")" ]; then
+            echo "ERROR: Could not determine app version."
             exit 1
           fi
-
-          echo
-          echo "APK found:"
-          echo "$APK"
-
-          echo "APK_PATH=$APK" >> "$GITHUB_ENV"
-
-      # ---------------------------------------------------------
-      # Copy to a stable APK filename
-      # ---------------------------------------------------------
-      - name: Prepare ARM64 APK
-        shell: bash
-        run: |
-          set -e
 
           mkdir -p artifacts
 
-          cp "$APK_PATH" \
-            "artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          OUTPUT="artifacts/Librera-Pro-${VERSION}-ARM64.apk"
 
-          echo "Prepared APK:"
-          ls -lh artifacts/
+          cp "$APK_PATH" "$OUTPUT"
 
-      # ---------------------------------------------------------
+          echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "APK_PATH=$OUTPUT" >> "$GITHUB_ENV"
+
+          echo "Prepared:"
+          ls -lh "$OUTPUT"
+
+
+      # =========================================================
       # Verify APK signature
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Verify APK signature
         shell: bash
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
-
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: APK does not exist:"
-            echo "$APK"
-            exit 1
-          fi
-
           BUILD_TOOLS=$(ls "$ANDROID_HOME/build-tools" \
             | sort -V \
             | tail -1)
 
-          echo "Checking APK signature:"
-          echo "$APK"
-
           "$ANDROID_HOME/build-tools/$BUILD_TOOLS/apksigner" \
             verify \
             --verbose \
-            "$APK"
+            "$APK_PATH"
 
-      # ---------------------------------------------------------
-      # Verify ARM64-v8a only
-      # ---------------------------------------------------------
+
+      # =========================================================
+      # Verify ARM64-only APK
+      # =========================================================
       - name: Verify ARM64-v8a only
         shell: bash
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          APK="$APK_PATH"
 
           echo "APK:"
           echo "$APK"
 
-          echo
-          echo "========================================"
-          echo "Native libraries"
-          echo "========================================"
+          ABIS=$(
+            unzip -Z1 "$APK" \
+              | sed -nE 's#^lib/([^/]+)/.*#\1#p' \
+              | sort -u
+          )
 
-          unzip -l "$APK" | grep -E '(^|/)lib/' || true
+          echo "Detected ABI(s):"
+          echo "$ABIS"
 
-          echo
-          echo "========================================"
-          echo "APK native library directories"
-          echo "========================================"
-
-          ABIS=$(unzip -l "$APK" \
-            | sed -nE 's#.*lib/([^/]+)/.*#\1#p' \
-            | sort -u)
-
-          if [ -z "$ABIS" ]; then
-            echo "WARNING: No lib/<ABI>/ directory found."
-            echo
-            echo "This APK may contain native code outside the normal"
-            echo "lib/<ABI>/ layout."
-          else
-            echo "Detected ABI(s):"
-            echo "$ABIS"
-
-            if echo "$ABIS" | grep -Eq \
-              '^(armeabi-v7a|x86|x86_64)$'; then
-              echo "ERROR: Non-ARM64 ABI detected."
-              exit 1
-            fi
-
-            if echo "$ABIS" | grep -q '^arm64-v8a$'; then
-              echo "✓ ARM64-v8a detected."
-            fi
+          if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
+            echo "ERROR: arm64-v8a missing."
+            exit 1
           fi
 
-          echo
-          echo "========================================"
-          echo "APK native ELF files"
-          echo "========================================"
+          if echo "$ABIS" | grep -Eq \
+            '^(armeabi-v7a|x86|x86_64|mips|mips64)$'; then
+            echo "ERROR: Non-ARM64 ABI detected."
+            exit 1
+          fi
 
-          mkdir -p "$RUNNER_TEMP/apk-check"
+          CHECK_DIR="$RUNNER_TEMP/apk-check"
 
-          unzip -q "$APK" \
-            -d "$RUNNER_TEMP/apk-check"
+          rm -rf "$CHECK_DIR"
+          mkdir -p "$CHECK_DIR"
 
-          find "$RUNNER_TEMP/apk-check" \
-            -type f \
-            -exec file {} \; \
-            | grep -E 'ELF|shared object' \
-            || true
+          unzip -q "$APK" -d "$CHECK_DIR"
 
-      # ---------------------------------------------------------
-      # Show APK information
-      # ---------------------------------------------------------
+          SO_COUNT=0
+
+          while IFS= read -r -d '' SO; do
+            SO_COUNT=$((SO_COUNT + 1))
+
+            echo "Checking:"
+            echo "$SO"
+
+            file "$SO"
+
+            file "$SO" | grep -qi "ARM aarch64" || {
+              echo "ERROR: Non-ARM64 ELF detected."
+              exit 1
+            }
+
+          done < <(
+            find "$CHECK_DIR/lib/arm64-v8a" \
+              -type f \
+              -name "*.so" \
+              -print0
+          )
+
+          if [ "$SO_COUNT" -eq 0 ]; then
+            echo "ERROR: No native libraries found."
+            exit 1
+          fi
+
+          test -f "$CHECK_DIR/lib/arm64-v8a/libMuPDF.so" || {
+            echo "ERROR: libMuPDF.so missing from APK."
+            exit 1
+          }
+
+          test -f "$CHECK_DIR/lib/arm64-v8a/liblame.so" || {
+            echo "ERROR: liblame.so missing from APK."
+            exit 1
+          }
+
+          echo "✓ ARM64-v8a only"
+          echo "✓ All native ELF files are ARM64"
+          echo "✓ libMuPDF.so present"
+          echo "✓ liblame.so present"
+
+
+      # =========================================================
+      # APK information
+      # =========================================================
       - name: APK information
         shell: bash
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          echo "APK:"
+          ls -lh "$APK_PATH"
 
-          echo "========================================"
-          echo "APK"
-          echo "========================================"
-
-          ls -lh "$APK"
+          echo
+          echo "Version:"
+          echo "$APP_VERSION"
 
           echo
           echo "SHA-256:"
-          sha256sum "$APK"
+          sha256sum "$APK_PATH"
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Upload GitHub Actions artifact
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Upload ARM64 APK
         uses: actions/upload-artifact@v7
         with:
-          name: Librera-Pro-ARM64
+          name: Librera-Pro-${{ env.APP_VERSION }}-ARM64
           path: artifacts/*.apk
           if-no-files-found: error
 
-      # ---------------------------------------------------------
+
+      # =========================================================
       # Create draft GitHub Release
-      # ---------------------------------------------------------
+      # =========================================================
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/r')
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
-          name: Librera Pro ARM64 ${{ github.ref_name }}
+          name: Librera Pro ARM64 ${{ env.APP_VERSION }}
           draft: true
           prerelease: false
           generate_release_notes: true
           files: |
             artifacts/*.apk
-
