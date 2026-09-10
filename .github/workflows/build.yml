@@ -244,7 +244,7 @@ jobs:
       # Save MuPDF cache
       # =========================================================
       - name: Save MuPDF ARM64 cache
-        if: success()
+        if: success() && steps.mupdf-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: |
