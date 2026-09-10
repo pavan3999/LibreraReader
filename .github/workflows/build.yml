@@ -61,9 +61,7 @@ jobs:
 
           yes | sdkmanager --licenses >/dev/null || true
 
-          sdkmanager \
-            "ndk;21.4.7075529" \
-            "ndk;30.0.14904198"
+          sdkmanager "ndk;30.0.14904198"
 
 
       # =========================================================
@@ -198,25 +196,8 @@ jobs:
           echo "google-services.json created successfully."
 
       # =========================================================
-      # MuPDF build dependencies
+      # Cache MuPDF ARM64 libraries
       # =========================================================
-      - name: Install MuPDF build dependencies
-        shell: bash
-        run: |
-          set -e
-
-          sudo apt-get update
-
-          sudo apt-get install -y \
-            mesa-common-dev \
-            libxcursor-dev \
-            libxrandr-dev \
-            libxinerama-dev \
-            libglu1-mesa-dev \
-            libxi-dev \
-            pkg-config \
-            libgl-dev
-
       - name: Cache MuPDF ARM64 libraries
         uses: actions/cache@v5
         with:
@@ -224,8 +205,7 @@ jobs:
             app/src/main/jniLibs/arm64-v8a/libMuPDF.so
             app/src/main/jniLibs/arm64-v8a/liblame.so
           key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.3.sh') }}
-          restore-keys: |
-            mupdf-1.28.3-ndk30-arm64-
+
 
       # =========================================================
       # Prepare MuPDF
@@ -239,10 +219,30 @@ jobs:
 
           if [ -f "$LIB_DIR/libMuPDF.so" ] &&
              [ -f "$LIB_DIR/liblame.so" ]; then
+              echo "========================================"
               echo "Cached MuPDF ARM64 libraries found."
+              echo "Skipping MuPDF compilation."
+              echo "========================================"
               ls -lh "$LIB_DIR"
               exit 0
           fi
+
+          echo "========================================"
+          echo "MuPDF cache miss"
+          echo "Installing build dependencies..."
+          echo "========================================"
+
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            mesa-common-dev \
+            libxcursor-dev \
+            libxrandr-dev \
+            libxinerama-dev \
+            libglu1-mesa-dev \
+            libxi-dev \
+            pkg-config \
+            libgl-dev
 
           cd Builder
           chmod +x link_to_mupdf_1.28.3.sh
@@ -471,10 +471,10 @@ jobs:
           set -e
 
           APK_PATH=$(find app/build/outputs/apk/pro/release \
-          -maxdepth 1 \
-          -type f \
-          -name "Librera Pro-*-arm64.apk" \
-          | head -n 1)
+            -maxdepth 1 \
+            -type f \
+            -name "Librera Pro-*-arm64.apk" \
+            | head -n 1)
 
           if [ -z "$APK_PATH" ]; then
             echo "ERROR: Pro ARM64 APK not found."
@@ -505,11 +505,16 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          APK=$(find artifacts \
+            -maxdepth 1 \
+            -type f \
+            -name "Librera Pro-*-arm64.apk" \
+            | head -n 1)
 
-          if [ ! -f "$APK" ]; then
-            echo "ERROR: APK does not exist:"
-            echo "$APK"
+          if [ -z "$APK" ]; then
+            echo "ERROR: Pro ARM64 APK does not exist."
+            echo "Available artifacts:"
+            find artifacts -maxdepth 1 -type f -name "*.apk" -print
             exit 1
           fi
 
@@ -534,7 +539,16 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          APK=$(find artifacts \
+            -maxdepth 1 \
+            -type f \
+            -name "Librera Pro-*-arm64.apk" \
+            | head -n 1)
+
+          if [ -z "$APK" ]; then
+            echo "ERROR: Pro ARM64 APK not found."
+            exit 1
+          fi
 
           echo "APK:"
           echo "$APK"
@@ -625,7 +639,16 @@ jobs:
         run: |
           set -e
 
-          APK="artifacts/Librera-Pro-ARM64-${{ github.ref_name }}.apk"
+          APK=$(find artifacts \
+            -maxdepth 1 \
+            -type f \
+            -name "Librera Pro-*-arm64.apk" \
+            | head -n 1)
+
+          if [ -z "$APK" ]; then
+            echo "ERROR: Pro ARM64 APK not found."
+            exit 1
+          fi
 
           echo "========================================"
           echo "APK"
