@@ -537,8 +537,9 @@ jobs:
 
           APK="artifacts/Librera-Pro-ARM64.apk"
 
-          if [ -z "$APK" ]; then
-            echo "ERROR: Pro ARM64 APK not found."
+          if [ ! -f "$APK" ]; then
+            echo "ERROR: Pro ARM64 APK not found:"
+            echo "$APK"
             exit 1
           fi
 
@@ -547,24 +548,26 @@ jobs:
 
           echo
           echo "========================================"
-          echo "Native libraries"
+          echo "APK native libraries"
           echo "========================================"
 
-          unzip -l "$APK" | grep -E '(^|/)lib/' || {
-            echo "ERROR: No native libraries found."
+          echo "--- lib/ entries ---"
+          unzip -l "$APK" | grep -E 'lib/' || {
+            echo "ERROR: No lib/ entries found in APK."
             exit 1
           }
 
           echo
           echo "========================================"
-          echo "APK native library directories"
+          echo "Detected ABI(s)"
           echo "========================================"
 
-          ABIS=$(unzip -l "$APK" \
-            | sed -nE 's#.*lib/([^/]+)/.*#\1#p' \
-            | sort -u)
+          ABIS=$(
+            unzip -Z1 "$APK" \
+              | sed -nE 's#^lib/([^/]+)/.*#\1#p' \
+              | sort -u
+          )
 
-          echo "Detected ABI(s):"
           echo "$ABIS"
 
           if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
@@ -573,26 +576,30 @@ jobs:
           fi
 
           if echo "$ABIS" | grep -Eq \
-            '^(armeabi-v7a|x86|x86_64)$'; then
+            '^(armeabi-v7a|x86|x86_64|mips|mips64)$'; then
             echo "ERROR: Non-ARM64 ABI detected."
             exit 1
           fi
 
+          echo
           echo "✓ ARM64-v8a detected."
           echo "✓ No non-ARM64 ABI detected."
 
           echo
           echo "========================================"
-          echo "APK native ELF files"
+          echo "Extract native libraries"
           echo "========================================"
 
-          rm -rf "$RUNNER_TEMP/apk-check"
-          mkdir -p "$RUNNER_TEMP/apk-check"
+          CHECK_DIR="$RUNNER_TEMP/apk-check"
 
-          unzip -q "$APK" \
-            -d "$RUNNER_TEMP/apk-check"
+          rm -rf "$CHECK_DIR"
+          mkdir -p "$CHECK_DIR"
 
-          find "$RUNNER_TEMP/apk-check" \
+          unzip -q "$APK" -d "$CHECK_DIR"
+
+          echo
+          echo "Native ELF files:"
+          find "$CHECK_DIR/lib/arm64-v8a" \
             -type f \
             -name "*.so" \
             -exec file {} \;
@@ -602,26 +609,65 @@ jobs:
           echo "VERIFY ELF ARCHITECTURE"
           echo "========================================"
 
+          SO_COUNT=0
+
           while IFS= read -r -d '' SO; do
+            SO_COUNT=$((SO_COUNT + 1))
+
+            echo
             echo "Checking:"
             echo "$SO"
+
+            file "$SO"
 
             if ! file "$SO" | grep -qi "ARM aarch64"; then
               echo "ERROR: Non-ARM64 ELF detected:"
               echo "$SO"
-              file "$SO"
               exit 1
             fi
+
           done < <(
-            find "$RUNNER_TEMP/apk-check/lib/arm64-v8a" \
+            find "$CHECK_DIR/lib/arm64-v8a" \
               -type f \
               -name "*.so" \
               -print0
           )
 
-          echo
-          echo "✓ All APK native libraries are ARM64."
+          if [ "$SO_COUNT" -eq 0 ]; then
+            echo "ERROR: No .so files found under lib/arm64-v8a."
+            exit 1
+          fi
 
+          echo
+          echo "========================================"
+          echo "MuPDF / LAME"
+          echo "========================================"
+
+          test -f "$CHECK_DIR/lib/arm64-v8a/libMuPDF.so" || {
+            echo "ERROR: libMuPDF.so missing from APK."
+            exit 1
+          }
+
+          test -f "$CHECK_DIR/lib/arm64-v8a/liblame.so" || {
+            echo "ERROR: liblame.so missing from APK."
+            exit 1
+          }
+
+          echo "✓ libMuPDF.so present"
+          echo "✓ liblame.so present"
+
+          echo
+          echo "========================================"
+          echo "FINAL RESULT"
+          echo "========================================"
+
+          echo "✓ APK exists"
+          echo "✓ arm64-v8a ABI exists"
+          echo "✓ No other ABI exists"
+          echo "✓ Native ELF files are ARM64/aarch64"
+          echo "✓ libMuPDF.so is packaged"
+          echo "✓ liblame.so is packaged"
+          echo "✓ ARM64-only verification PASSED"
 
       # =========================================================
       # APK information
