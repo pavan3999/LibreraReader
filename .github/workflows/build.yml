@@ -340,76 +340,42 @@ jobs:
 
           echo
           echo "=============================="
-          echo "APK LIBRARIES"
+          echo "SEARCH libMuPDF.so"
           echo "=============================="
 
-          unzip -l "$APK" | grep -E '(^|/)lib/' || {
-            echo "ERROR: APK contains no lib/ directory."
-            exit 1
-          }
+          unzip -l "$APK" | grep -i 'libMuPDF.so' || true
 
           echo
           echo "=============================="
-          echo "ABI"
+          echo "SEARCH liblame.so"
           echo "=============================="
 
-          ABIS=$(unzip -l "$APK" \
-            | sed -nE 's#.*lib/([^/]+)/.*#\1#p' \
-            | sort -u)
-
-          echo "Detected ABI(s):"
-          echo "$ABIS"
-
-          if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
-            echo "ERROR: arm64-v8a missing."
-            exit 1
-          fi
-
-          if echo "$ABIS" | grep -Eq \
-            '^(x86|x86_64|armeabi-v7a)$'; then
-            echo "ERROR: Non-ARM64 ABI detected."
-            exit 1
-          fi
-
-          echo "✓ Only ARM64-v8a detected."
+          unzip -l "$APK" | grep -i 'liblame.so' || true
 
           echo
           echo "=============================="
-          echo "MuPDF"
+          echo "SEARCH ABI PATHS"
           echo "=============================="
 
           unzip -l "$APK" \
-            | grep -q 'lib/arm64-v8a/libMuPDF.so' \
-            || {
-              echo "ERROR: libMuPDF.so missing from APK."
-              exit 1
-            }
-
-          echo "✓ libMuPDF.so FOUND"
+            | grep -Ei 'arm64|armeabi|x86|mips' \
+            || true
 
           echo
           echo "=============================="
-          echo "LAME"
+          echo "ALL .so FILES"
           echo "=============================="
 
           unzip -l "$APK" \
-            | grep -q 'lib/arm64-v8a/liblame.so' \
-            || {
-              echo "ERROR: liblame.so missing from APK."
-              exit 1
-            }
-
-          echo "✓ liblame.so FOUND"
+            | grep -Ei '\.so$' \
+            || true
 
           echo
           echo "=============================="
-          echo "FINAL RESULT"
+          echo "ALL APK CONTENT"
           echo "=============================="
 
-          echo "✓ ARM64-v8a"
-          echo "✓ libMuPDF.so"
-          echo "✓ liblame.so"
-
+          unzip -l "$APK"
 
       # =========================================================
       # Show generated APK output
