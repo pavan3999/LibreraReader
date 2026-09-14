@@ -91,6 +91,7 @@
    <string name="styles">Stiliai</string>
    <string name="document_styles">Dokumento</string>
    <string name="automatic_hyphenation">Automatinė pertrauka</string>
+   <string name="parse_bbcode_tags">Apdoroti BBCode žymes</string>
    <string name="empty_line">Tuščia linija</string>
    <string name="margin_width">Paraštės plotis</string>
    <string name="top">Viršuje</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Viso puslapių</string>
    <string name="close_menu">Uždaryti meniu</string>
    <string name="go_to_page">Eiti į puslapį</string>
-   <string name="update_library">Atnaujinti biblioteką</string>
+   <string name="update_library">Atnaujinti</string>
    <string name="ascending">Kylant</string>
    <string name="descending">Besileidžianti</string>
    <string name="remove">Pašalinti</string>

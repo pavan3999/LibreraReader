@@ -91,6 +91,7 @@
    <string name="styles">Styly</string>
    <string name="document_styles">Dokument</string>
    <string name="automatic_hyphenation">Povolit dělení slov</string>
+   <string name="parse_bbcode_tags">Zpracovávat značky BBCode</string>
    <string name="empty_line">Prázdný řádek</string>
    <string name="margin_width">Okraje stránky</string>
    <string name="top">Nahoře</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Celkem stránek</string>
    <string name="close_menu">Zavřete nabídku</string>
    <string name="go_to_page">Jdi na stránku</string>
-   <string name="update_library">Aktualizovat knihovnu</string>
+   <string name="update_library">Aktualizovat</string>
    <string name="ascending">Vzestupně</string>
    <string name="descending">Sestupně</string>
    <string name="remove">Odstranit</string>

@@ -91,6 +91,7 @@
    <string name="styles">样式</string>
    <string name="document_styles">文档样式</string>
    <string name="automatic_hyphenation">自动断字</string>
+   <string name="parse_bbcode_tags">解析 BBCode 标签</string>
    <string name="empty_line">段落间距</string>
    <string name="margin_width">页边距</string>
    <string name="top">顶部</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">总页数</string>
    <string name="close_menu">关闭菜单</string>
    <string name="go_to_page">转到页面</string>
-   <string name="update_library">更新书库</string>
+   <string name="update_library">更新</string>
    <string name="ascending">升序</string>
    <string name="descending">降序</string>
    <string name="remove">移除</string>

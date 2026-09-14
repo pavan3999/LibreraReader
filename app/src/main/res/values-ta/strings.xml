@@ -91,6 +91,7 @@
    <string name="styles">பாங்குகள்</string>
    <string name="document_styles">ஆவணம்</string>
    <string name="automatic_hyphenation">சொல்பிரிகை இயக்கு</string>
+   <string name="parse_bbcode_tags">BBCode குறிச்சொற்களைச் செயலாக்கு</string>
    <string name="empty_line">ஸ்டான்ஸா இடைவெளி</string>
    <string name="margin_width">பக்க விளிம்புகள்</string>
    <string name="top">மேலே</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">மொத்த பக்கங்கள்</string>
    <string name="close_menu">பட்டியல்லை மூடு</string>
    <string name="go_to_page">பக்கத்திற்கு செல்</string>
-   <string name="update_library">நூலகத்தைப் புதுப்பிக்கவும்</string>
+   <string name="update_library">புதுப்பி</string>
    <string name="ascending">ஏறுவரிசை</string>
    <string name="descending">இறங்கு வரிசை</string>
    <string name="remove">அகற்று</string>

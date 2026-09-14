@@ -91,6 +91,7 @@
    <string name="styles">الأنماط</string>
    <string name="document_styles">أنماط المستند</string>
    <string name="automatic_hyphenation">الواصلة التلقائي</string>
+   <string name="parse_bbcode_tags">معالجة وسوم BBCode</string>
    <string name="empty_line">خط فارغ</string>
    <string name="margin_width">عرض الهوامش</string>
    <string name="top">الجانب العلوي</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">إجمالي الصفحات</string>
    <string name="close_menu">إغلاق القائمة</string>
    <string name="go_to_page">انتقل إلى صفحة</string>
-   <string name="update_library">مكتبة التحديث</string>
+   <string name="update_library">تحديث</string>
    <string name="ascending">تصاعدي</string>
    <string name="descending">تنازلي</string>
    <string name="remove">إزالة</string>

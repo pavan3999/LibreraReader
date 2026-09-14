@@ -91,6 +91,7 @@
    <string name="styles">Estilos</string>
    <string name="document_styles">Estilo de documento</string>
    <string name="automatic_hyphenation">Hifenização automática</string>
+   <string name="parse_bbcode_tags">Interpretar tags BBCode</string>
    <string name="empty_line">Linha vazia</string>
    <string name="margin_width">Largura da margem</string>
    <string name="top">Lado superior</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Total de páginas</string>
    <string name="close_menu">Fechar menu</string>
    <string name="go_to_page">Vá para página</string>
-   <string name="update_library">Atualizar biblioteca</string>
+   <string name="update_library">Atualizar</string>
    <string name="ascending">Crescente</string>
    <string name="descending">Decrescente</string>
    <string name="remove">Remover</string>

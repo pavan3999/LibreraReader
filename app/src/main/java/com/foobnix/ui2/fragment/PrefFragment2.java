@@ -2,6 +2,8 @@ package com.foobnix.ui2.fragment;
 
 import static com.foobnix.pdf.info.view.confline.ConfAction.of;
 
+import android.content.res.ColorStateList;
+import android.widget.ProgressBar;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.Html;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,9 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -139,7 +137,8 @@ public class PrefFragment2 extends UIFragment {
     private static final String WWW_WIKI_SITE = "https://librera.mobi/faq";
     View section1, section2, section3, section4, section5, section6, section7, section8, section9, panelRecent, overlay,
             statusBarHack;
-    TextView singIn, syncInfo, syncInfo2, syncHeader;
+    TextView singIn, syncInfo, syncInfo2, syncHeader, syncNow;
+    ProgressBar syncProgress;
     CheckBox isEnableSync;
     private TextView curBrightness, themeColor, profileLetter;
     private CheckBox isRememberDictionary;
@@ -188,7 +187,6 @@ public class PrefFragment2 extends UIFragment {
 
     @Override public void onTintChanged() {
 
-        TintUtil.setStatusBarColor(getActivity(), TintUtil.color);
         TintUtil.setSectionFillColor(section1, TintUtil.color);
         TintUtil.setSectionFillColor(section2, TintUtil.color);
         TintUtil.setSectionFillColor(section3, TintUtil.color);
@@ -251,7 +249,16 @@ public class PrefFragment2 extends UIFragment {
 
         isEnableSync.setChecked(AppSP.get().isEnableSync);
         onSync(null);
+        updateSyncNow();
 
+    }
+
+    // The sync-now button stands only while an account is signed in.
+    private void updateSyncNow() {
+        if (syncNow == null || getActivity() == null) {
+            return;
+        }
+        syncNow.setVisibility(TxtUtils.isNotEmpty(GFile.getDisplayInfo(getActivity())) ? View.VISIBLE : View.GONE);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN) public void onSync(MessageSync msg) {
@@ -281,6 +288,14 @@ public class PrefFragment2 extends UIFragment {
             syncHeader.setText(R.string.sync_google_drive);
 
         }
+
+        // A running sync is drawn here as a small wheel beside the last-sync line. The message
+        // says so as it is sent; before any message has come, the saved status does.
+        if (syncProgress != null) {
+            boolean running = msg != null ? msg.state == MessageSync.STATE_VISIBLE
+                                          : AppSP.get().syncTimeStatus == MessageSync.STATE_VISIBLE;
+            syncProgress.setVisibility(running ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -290,7 +305,23 @@ public class PrefFragment2 extends UIFragment {
         singIn = inflate.findViewById(R.id.signIn);
         syncInfo = inflate.findViewById(R.id.syncInfo);
         syncInfo2 = inflate.findViewById(R.id.syncInfo2);
+        syncProgress = inflate.findViewById(R.id.syncProgress);
+        syncProgress.setIndeterminateTintList(ColorStateList.valueOf(TintUtil.getColorInDayNighth()));
+        // The last-sync line opens the sync log, where a running sync shows its progress.
+        inflate.findViewById(R.id.syncStatus)
+               .setOnClickListener(v -> Dialogs.showSyncLOGDialog(getActivity()));
         syncHeader = inflate.findViewById(R.id.syncHeader);
+        syncNow = inflate.findViewById(R.id.syncNow);
+        // A sync by hand. With sync switched off the service does nothing, so the button
+        // switches it on through its own box, whose listener starts the first run.
+        syncNow.setOnClickListener(v -> {
+            if (!AppSP.get().isEnableSync) {
+                isEnableSync.setChecked(true);
+            } else {
+                GFile.runSyncService(getActivity(), true);
+            }
+        });
+        updateSyncNow();
         onSync(null);
         syncHeader.setOnClickListener((in) -> Dialogs.showSyncLOGDialog(getActivity()));
 
@@ -321,14 +352,7 @@ public class PrefFragment2 extends UIFragment {
                    isSyncWifiOnly.setOnCheckedChangeListener(
                            (buttonView, isChecked) -> BookCSS.get().isSyncWifiOnly = isChecked);
 
-                   final CheckBox isShowSyncWheel = new CheckBox(getActivity());
-                   isShowSyncWheel.setText(getString(R.string.animate_sync_progress));
-                   isShowSyncWheel.setChecked(BookCSS.get().isSyncAnimation);
-                   isShowSyncWheel.setOnCheckedChangeListener(
-                           (buttonView, isChecked) -> BookCSS.get().isSyncAnimation = isChecked);
-
-                   AlertDialogs.showViewDialog(getActivity(), null, isSyncPullToRefresh, isSyncWifiOnly,
-                           isShowSyncWheel);
+                   AlertDialogs.showViewDialog(getActivity(), null, isSyncPullToRefresh, isSyncWifiOnly);
                });
 
         updateSyncInfo(null);
@@ -913,7 +937,7 @@ public class PrefFragment2 extends UIFragment {
                                                                AppState.get().brigtnessImage = 0;
                                                                AppState.get().bolderTextOnImage = false;
                                                                AppState.get().isEnableBCOptional1 = false;
-                                                               AppState.get().tintColor = Color.BLACK;
+                                                               AppState.get().tintThemeColor = Color.BLACK;
                                                                AppState.get().isUiTextColor = false;
 
                                                                IMG.clearDiscCache();
@@ -2220,7 +2244,7 @@ public class PrefFragment2 extends UIFragment {
 
                     @Override public void onClick(View v) {
                         TintUtil.color = intColor;
-                        AppState.get().tintColor = intColor;
+                        AppState.get().tintThemeColor = intColor;
                         TempHolder.listHash++;
 
                         onTintChanged();
@@ -2251,7 +2275,7 @@ public class PrefFragment2 extends UIFragment {
 
                         @Override public void colorSelected(Integer color) {
                             AppState.get().userColor = color;
-                            AppState.get().tintColor = color;
+                            AppState.get().tintThemeColor = color;
                             TintUtil.color = color;
                             img.setColorFilter(color);
                             TintUtil.setColorSwatchOutline(img, color);
@@ -2274,7 +2298,7 @@ public class PrefFragment2 extends UIFragment {
         {
             Runnable onAccent = new Runnable() {
                 @Override public void run() {
-                    if (AppState.get().isUiTextColor && AppState.get().uiTextColorUser != AppState.get().tintColor) {
+                    if (AppState.get().isUiTextColor && AppState.get().uiTextColorUser != AppState.get().tintThemeColor) {
                         AppState.get().statusBarColorDay = AppState.get().uiTextColorUser;
                         AppState.get().statusBarColorNight = AppState.get().uiTextColorUser;
                     } else {
@@ -2784,7 +2808,7 @@ public class PrefFragment2 extends UIFragment {
     private void onEink() {
         AppState.get().appTheme = AppState.THEME_INK;
         AppState.get().blueLightAlpha = 0;
-        AppState.get().tintColor = Color.BLACK;
+        AppState.get().tintThemeColor = Color.BLACK;
         AppState.get().uiTextColor = Color.BLACK;
         AppState.get().isUiTextColor = true;
         TintUtil.color = Color.BLACK;
@@ -3093,6 +3117,7 @@ public class PrefFragment2 extends UIFragment {
         if (getActivity() == null) {
             return;
         }
+
         // A scan already under way is left to finish: starting a second one over the same
         // folders would have the two writing the library out from under each other. The
         // reader is told why nothing happened, as everywhere else that waits on this.

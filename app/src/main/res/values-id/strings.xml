@@ -91,6 +91,7 @@
    <string name="styles">Gaya</string>
    <string name="document_styles">Gaya dokumen</string>
    <string name="automatic_hyphenation">Tanda hubung otomatis</string>
+   <string name="parse_bbcode_tags">Proses tag BBCode</string>
    <string name="empty_line">Garis kosong</string>
    <string name="margin_width">Lebar margin</string>
    <string name="top">Sisi atas</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Total halaman</string>
    <string name="close_menu">Menu tutup</string>
    <string name="go_to_page">Buka halaman</string>
-   <string name="update_library">Perbarui perpustakaan</string>
+   <string name="update_library">Perbarui</string>
    <string name="ascending">Naik</string>
    <string name="descending">Menurun</string>
    <string name="remove">Menghapus</string>

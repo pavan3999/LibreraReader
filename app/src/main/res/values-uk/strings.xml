@@ -91,6 +91,7 @@
    <string name="styles">Стилі</string>
    <string name="document_styles">Вбудовані</string>
    <string name="automatic_hyphenation">Авторозставляння перенесень</string>
+   <string name="parse_bbcode_tags">Обробка BBCode тегів</string>
    <string name="empty_line">Порожній рядок</string>
    <string name="margin_width">Розмір відступів</string>
    <string name="top">Вгорі</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Загальна кількість сторінок</string>
    <string name="close_menu">Закрити меню</string>
    <string name="go_to_page">Перейти на сторінку</string>
-   <string name="update_library">Оновити бібліотеку</string>
+   <string name="update_library">Оновити</string>
    <string name="ascending">Висхідний</string>
    <string name="descending">Низхідний</string>
    <string name="remove">Видалити</string>

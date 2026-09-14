@@ -91,6 +91,7 @@
    <string name="styles">Stile</string>
    <string name="document_styles">Dokumentenstile</string>
    <string name="automatic_hyphenation">Automatische Silbentrennung</string>
+   <string name="parse_bbcode_tags">BBCode-Tags verarbeiten</string>
    <string name="empty_line">Leere Zeile</string>
    <string name="margin_width">Randbreite</string>
    <string name="top">Oben</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Alle Seiten</string>
    <string name="close_menu">Menü schließen</string>
    <string name="go_to_page">Gehe zur Seite</string>
-   <string name="update_library">Bibliothek aktualisieren</string>
+   <string name="update_library">Aktualisieren</string>
    <string name="ascending">Aufsteigend</string>
    <string name="descending">Absteigend</string>
    <string name="remove">Entfernen</string>

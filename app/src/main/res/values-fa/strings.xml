@@ -91,6 +91,7 @@
    <string name="styles">سبک</string>
    <string name="document_styles">سبک های سند</string>
    <string name="automatic_hyphenation">فاصلهگذاری اتوماتیک</string>
+   <string name="parse_bbcode_tags">پردازش تگ‌های BBCode</string>
    <string name="empty_line">خط خالی</string>
    <string name="margin_width">عرض حاشیه</string>
    <string name="top">سمت بالا</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">صفحات کل</string>
    <string name="close_menu">منوی بستن</string>
    <string name="go_to_page">رفتن به صفحه</string>
-   <string name="update_library">به روزرسانی کتابخانه</string>
+   <string name="update_library">به‌روزرسانی</string>
    <string name="ascending">صعودی</string>
    <string name="descending">نزولی</string>
    <string name="remove">برداشتن</string>

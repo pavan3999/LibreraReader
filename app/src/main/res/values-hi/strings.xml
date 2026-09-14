@@ -91,6 +91,7 @@
    <string name="styles">शैलियाँ</string>
    <string name="document_styles">दस्तावेज़ शैलियाँ</string>
    <string name="automatic_hyphenation">स्वत: हायफ़नेशन</string>
+   <string name="parse_bbcode_tags">BBCode टैग संसाधित करें</string>
    <string name="empty_line">खाली पंक्ति</string>
    <string name="margin_width">मार्जिन चौड़ाई</string>
    <string name="top">ऊपर की ओर</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">कुल पृष्ठ</string>
    <string name="close_menu">बंद मेनू</string>
    <string name="go_to_page">पृष्ठ पर जाओ</string>
-   <string name="update_library">लाइब्रेरी को अपडेट करें</string>
+   <string name="update_library">अपडेट करें</string>
    <string name="ascending">आरोही</string>
    <string name="descending">उतरते</string>
    <string name="remove">हटाना</string>

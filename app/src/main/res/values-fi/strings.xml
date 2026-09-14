@@ -91,6 +91,7 @@
    <string name="styles">Tyylit</string>
    <string name="document_styles">Asiakirja</string>
    <string name="automatic_hyphenation">Tekstin tavutus</string>
+   <string name="parse_bbcode_tags">BBCode-tagien käsittely</string>
    <string name="empty_line">Tyhjä rivi</string>
    <string name="margin_width">Sivun marginaalit</string>
    <string name="top">Yläreuna</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Sivuja yhteensä</string>
    <string name="close_menu">Sulje valikko</string>
    <string name="go_to_page">Mene sivulle</string>
-   <string name="update_library">Päivitä kirjasto</string>
+   <string name="update_library">Päivitä</string>
    <string name="ascending">Nouseva</string>
    <string name="descending">Laskeva</string>
    <string name="remove">Poista</string>

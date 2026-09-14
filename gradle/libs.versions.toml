@@ -22,7 +22,6 @@ kotlin = "2.3.0"
 kotlinxSerializationCore = "1.10.0"
 ksp = "2.3.4"
 legacySupportV4 = "1.0.0"
-multidex = "2.0.1"
 okio = "3.16.4"
 pdfmpCompose = "1.0.9"
 
@@ -77,6 +76,8 @@ spmForKmp = { id = "io.github.frankois944.spmForKmp", version.ref = "spmForKmp" 
 
 [libraries]
 appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+# EdgeToEdge.enable() sets the window's cut-out mode itself from 1.9 on (appcompat alone brings 1.8)
+activity = { module = "androidx.activity:activity", version = "1.9.2" }
 billing = { module = "com.android.billingclient:billing", version.ref = "billing" }
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 commons-logging-api = { module = "commons-logging:commons-logging-api", version.ref = "commonsLoggingApi" }
@@ -108,8 +109,6 @@ juniversalchardet = { module = "com.github.albfernandez:juniversalchardet", vers
 junrar = { module = "com.github.junrar:junrar", version.ref = "junrar" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 legacy-support-v4 = { module = "androidx.legacy:legacy-support-v4", version.ref = "legacySupportV4" }
-
-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 pdfmp-compose = { module = "com.dshatz.pdfmp:pdfmp-compose", version.ref = "pdfmpCompose" }

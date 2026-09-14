@@ -91,6 +91,7 @@
    <string name="styles">スタイル</string>
    <string name="document_styles">文書のスタイル</string>
    <string name="automatic_hyphenation">自動ハイフネーション</string>
+   <string name="parse_bbcode_tags">BBCodeタグを処理する</string>
    <string name="empty_line">空行</string>
    <string name="margin_width">マージン幅</string>
    <string name="top">上部</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">全ページ</string>
    <string name="close_menu">メニューを閉じる</string>
    <string name="go_to_page">ページに移動</string>
-   <string name="update_library">ライブラリを更新する</string>
+   <string name="update_library">更新</string>
    <string name="ascending">昇順</string>
    <string name="descending">降順</string>
    <string name="remove">削除する</string>

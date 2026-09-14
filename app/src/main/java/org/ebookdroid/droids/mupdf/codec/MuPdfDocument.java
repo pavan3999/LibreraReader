@@ -232,6 +232,28 @@ public class MuPdfDocument extends AbstractCodecDocument {
         return getPageCountWithException(documentHandle, getW(), getH(), BookCSS.get().fontSizeSp);
     }
 
+    private static native String getBookmarkTextInternal(long handle, int page);
+
+    private static native int findBookmarkPageInternal(long handle, int page, String text, String pageText, int range);
+
+    @Override public String getBookmarkText(int page) {
+        TempHolder.lock.lock();
+        try {
+            return isRecycled() ? null : getBookmarkTextInternal(documentHandle, page);
+        } finally {
+            TempHolder.lock.unlock();
+        }
+    }
+
+    @Override public int findBookmarkPage(int page, String text, String pageText) {
+        TempHolder.lock.lock();
+        try {
+            return isRecycled() ? -1 : findBookmarkPageInternal(documentHandle, page, text, pageText, 10);
+        } finally {
+            TempHolder.lock.unlock();
+        }
+    }
+
     @Override public CodecPageInfo getUnifiedPageInfo() {
         if (isEpub) {
             LOG.d("MuPdfDocument, getUnifiedPageInfo");

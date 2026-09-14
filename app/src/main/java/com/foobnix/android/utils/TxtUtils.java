@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Html;
@@ -28,7 +27,6 @@ import com.foobnix.dao2.FileMeta;
 import com.foobnix.model.AppSP;
 import com.foobnix.model.AppState;
 import com.foobnix.model.MyPath;
-import com.foobnix.pdf.info.IMG;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.info.TintUtil;
 import com.foobnix.pdf.info.model.BookCSS;
@@ -146,6 +144,85 @@ public class TxtUtils {
         return builder.toString()
                       .trim();
     }
+
+    public static String replaceBBTag(String text, String tag, String openHtml, String closeHtml) {
+        text = text.replace("[" + tag + "]", openHtml)
+                   .replace("[/" + tag + "]", closeHtml)
+                   .replace("[" + tag.toUpperCase(Locale.US) + "]", openHtml)
+                   .replace("[/" + tag.toUpperCase(Locale.US) + "]", closeHtml);
+        if (text.contains("&lt;")) {
+            text = text.replace("&lt;" + tag + "&gt;", openHtml)
+                       .replace("&lt;/" + tag + "&gt;", closeHtml)
+                       .replace("&lt;" + tag.toUpperCase(Locale.US) + "&gt;", openHtml)
+                       .replace("&lt;/" + tag.toUpperCase(Locale.US) + "&gt;", closeHtml);
+        }
+        return text;
+    }
+
+    public static String convertBBCodeToHtml(String text) {
+        if (text == null || text.length() < 3) {
+            return text;
+        }
+        if (!text.contains("[") && !text.contains("&lt;")) {
+            return text;
+        }
+
+        text = replaceBBTag(text, "i", "<i>", "</i>");
+        text = replaceBBTag(text, "em", "<em>", "</em>");
+        text = replaceBBTag(text, "b", "<b>", "</b>");
+        text = replaceBBTag(text, "strong", "<strong>", "</strong>");
+        text = replaceBBTag(text, "u", "<span style=\"text-decoration:underline;\">", "</span>");
+        text = replaceBBTag(text, "s", "<span style=\"text-decoration:line-through;\">", "</span>");
+        text = replaceBBTag(text, "strike", "<span style=\"text-decoration:line-through;\">", "</span>");
+        text = replaceBBTag(text, "h1", "<h1>", "</h1>");
+        text = replaceBBTag(text, "h2", "<h2>", "</h2>");
+        text = replaceBBTag(text, "h3", "<h3>", "</h3>");
+        text = replaceBBTag(text, "h4", "<h4>", "</h4>");
+        text = replaceBBTag(text, "h5", "<h5>", "</h5>");
+        text = replaceBBTag(text, "h6", "<h6>", "</h6>");
+        text = replaceBBTag(text, "sub", "<sub>", "</sub>");
+        text = replaceBBTag(text, "sup", "<sup>", "</sup>");
+        text = replaceBBTag(text, "code", "<code>", "</code>");
+        text = replaceBBTag(text, "center", "<span style=\"display:block; text-align:center;\">", "</span>");
+        text = replaceBBTag(text, "left", "<span style=\"display:block; text-align:left;\">", "</span>");
+        text = replaceBBTag(text, "right", "<span style=\"display:block; text-align:right;\">", "</span>");
+        text = replaceBBTag(text, "quote", "<blockquote style=\"border-left:3px solid #888; padding-left:10px;\">", "</blockquote>");
+        text = replaceBBTag(text, "list", "<ul>", "</ul>");
+        text = replaceBBTag(text, "ul", "<ul>", "</ul>");
+        text = replaceBBTag(text, "ol", "<ol>", "</ol>");
+        text = replaceBBTag(text, "li", "<li>", "</li>");
+        text = replaceBBTag(text, "table", "<table>", "</table>");
+        text = replaceBBTag(text, "tr", "<tr>", "</tr>");
+        text = replaceBBTag(text, "th", "<th>", "</th>");
+        text = replaceBBTag(text, "td", "<td>", "</td>");
+        text = replaceBBTag(text, "pre", "<pre>", "</pre>");
+
+        text = replaceBBTag(text, "spoiler", "", "");
+
+        if (text.contains("[")) {
+            text = text.replace("[hr]", "<hr/>").replace("[HR]", "<hr/>")
+                       .replace("[br]", "<br/>").replace("[BR]", "<br/>")
+                       .replace("[*]", "<li>");
+
+            text = text.replaceAll("(?i)\\[(?:url|video)\\]([^\\[\\]\"<>]+)\\[/(?:url|video)\\]", "<a href=\"$1\">$1</a>");
+            text = text.replaceAll("(?i)\\[img\\]([^\\[\\]\"<>]+)\\[/img\\]", "<img src=\"$1\"/>");
+
+            if (text.contains("=")) {
+                text = text.replaceAll("(?i)\\[list=[^\\]]*\\]", "<ul>");
+                text = text.replaceAll("(?i)\\[spoiler=([^\\]]+)\\]", "<b><i>$1</i></b>");
+                text = text.replaceAll("(?i)\\[quote=([^\\]]+)\\]", "<blockquote style=\"border-left:3px solid #888; padding-left:10px;\"><b><i>$1</i></b>");
+                text = text.replaceAll("(?i)\\[color=([^\\]]+)\\](.*?)\\[/color\\]", "<span style=\"color:$1\">$2</span>");
+                text = text.replaceAll("(?i)\\[size=([0-9]+)%?\\](.*?)\\[/size\\]", "<span style=\"font-size:$1%\">$2</span>");
+                text = text.replaceAll("(?i)\\[font=([^\\]]+)\\](.*?)\\[/font\\]", "<span style=\"font-family:$1\">$2</span>");
+                text = text.replaceAll("(?i)\\[url=([^\\]\"<>]+)\\]", "<a href=\"$1\">");
+                text = text.replaceAll("(?i)\\[code=[^\\]]*\\]", "<code>");
+            }
+            text = text.replace("[/url]", "</a>").replace("[/URL]", "</a>");
+        }
+
+        return text;
+    }
+
 
     public static String toBionicWord(String w) {
         LOG.d("toBionicWord", w);
@@ -1407,7 +1484,7 @@ public class TxtUtils {
             } else {
                 LOG.d("updateAllLinks parent is not ViewGroup");
             }
-            if (AppState.get().uiTextColor == AppState.get().tintColor) {
+            if (AppState.get().uiTextColor == AppState.get().tintThemeColor) {
                 color = Color.WHITE;
             }
             if (AppState.get().appTheme == AppState.THEME_DARK_OLED && !AppState.get().isUiTextColor) {
@@ -1490,7 +1567,7 @@ public class TxtUtils {
                             // they stand on a tinted bar rather than on the page.
                             imageView.setImageTintList(ColorStateList.valueOf(Color.BLACK));
                         } else if (accentImages || AppState.get().isUiTextColor) {
-                            if (AppState.get().uiTextColor == AppState.get().tintColor) {
+                            if (AppState.get().uiTextColor == AppState.get().tintThemeColor) {
                                 imageView.setImageTintList(ColorStateList.valueOf(Color.WHITE));
                             } else {
                                 imageView.setImageTintList(tint);

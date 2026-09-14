@@ -91,6 +91,7 @@
    <string name="styles">Stiluri</string>
    <string name="document_styles">Stilurile documentului</string>
    <string name="automatic_hyphenation">Automată despărțirea în silabe</string>
+   <string name="parse_bbcode_tags">Procesează etichetele BBCode</string>
    <string name="empty_line">Linie goală</string>
    <string name="margin_width">Lățimea marginii</string>
    <string name="top">Partea de sus</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Pagini totale</string>
    <string name="close_menu">Închide meniul</string>
    <string name="go_to_page">Mergi la pagina</string>
-   <string name="update_library">Biblioteca de actualizare</string>
+   <string name="update_library">Actualizează</string>
    <string name="ascending">Ascendent</string>
    <string name="descending">Descendentă</string>
    <string name="remove">Elimina</string>

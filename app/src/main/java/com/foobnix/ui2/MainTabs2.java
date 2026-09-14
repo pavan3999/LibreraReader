@@ -120,7 +120,6 @@ public class MainTabs2 extends AdsFragmentActivity {
     View imageMenuParent, overlay;
     TextView toastBrightnessText, onSubscribe;
     Handler handler;
-    MyProgressBar fab;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean isMyKey = false;
     OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -350,7 +349,6 @@ public class MainTabs2 extends AdsFragmentActivity {
         handler = new Handler(Looper.getMainLooper());
         isEink = Dips.isEInk();
 
-        TintUtil.setStatusBarColor(this);
         DocumentController.doRotation(this);
         DocumentController.doContextMenu(this);
 
@@ -365,17 +363,6 @@ public class MainTabs2 extends AdsFragmentActivity {
         imageMenu = findViewById(R.id.imageMenu1);
         imageMenuParent = findViewById(R.id.imageParent1);
         imageMenuParent.setBackgroundColor(SlidingTabLayout.floatingTint(TintUtil.color));
-
-        fab = findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
-        fab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Dialogs.showSyncLOGDialog(MainTabs2.this);
-            }
-        });
-        fab.setBackgroundResource(R.drawable.bg_circular);
-        TintUtil.setDrawableTint(fab.getBackground().getCurrent(), TintUtil.color);
 
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(TintUtil.color);
@@ -498,7 +485,6 @@ public class MainTabs2 extends AdsFragmentActivity {
                         swipeRefreshLayout.setEnabled(true);
                         swipeRefreshLayout.setColorSchemeColors(TintUtil.color);
                     }
-                    TintUtil.setDrawableTint(fab.getBackground().getCurrent(), TintUtil.color);
                 } catch (Exception e) {
                     LOG.e(e);
                 }
@@ -549,7 +535,7 @@ public class MainTabs2 extends AdsFragmentActivity {
             // under rather than stopping above.
             indicator.post(() -> {
                 WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(indicator);
-                int below = insets == null ? 0 : insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                int below = DocumentController.keptClearOf(MainTabs2.this, insets).bottom;
                 ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) indicator.getLayoutParams();
                 lp.bottomMargin = Dips.DP_8 + below;
                 indicator.setLayoutParams(lp);
@@ -563,7 +549,7 @@ public class MainTabs2 extends AdsFragmentActivity {
             imageMenuParent.setOutlineProvider(null);
             imageMenuParent.post(() -> {
                 WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(imageMenuParent);
-                int top = insets == null ? 0 : insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+                int top = DocumentController.keptClearOf(MainTabs2.this, insets).top;
                 imageMenuParent.setPadding(imageMenuParent.getPaddingLeft(), top,
                                            imageMenuParent.getPaddingRight(),
                                            imageMenuParent.getPaddingBottom());
@@ -725,23 +711,12 @@ public class MainTabs2 extends AdsFragmentActivity {
         });
     }
 
+    // A sync is drawn in the preferences now, and nowhere else in the app; here the message
+    // only lets go of the pull-to-refresh wheel that may have started it.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onShowSycn(MessageSync msg) {
-
         try {
-            if (msg.state == MessageSync.STATE_VISIBLE) {
-                if (BookCSS.get().isSyncAnimation) {
-                    fab.setVisibility(View.VISIBLE);
-                }
-                swipeRefreshLayout.setRefreshing(false);
-            } else if (msg.state == MessageSync.STATE_FAILE) {
-                fab.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
-                //Toast.makeText(this, getString(R.string.sync_error), Toast.LENGTH_LONG).show();
-            } else {
-                fab.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+            swipeRefreshLayout.setRefreshing(false);
         } catch (Exception e) {
             LOG.e(e);
         }

@@ -91,6 +91,7 @@
    <string name="styles">Istiles</string>
    <string name="document_styles">Documentu</string>
    <string name="automatic_hyphenation">Abìlita sa sillabatzione</string>
+   <string name="parse_bbcode_tags">Intèrpreta sas etichetas BBCode</string>
    <string name="empty_line">Lìnia bòida</string>
    <string name="margin_width">Oros de sa pàgina</string>
    <string name="top">A pitzos</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Pàginas totales</string>
    <string name="close_menu">Serra su menù</string>
    <string name="go_to_page">Bae a sa pàgina</string>
-   <string name="update_library">Atualiza sa biblioteca</string>
+   <string name="update_library">Atualiza</string>
    <string name="ascending">In artziada</string>
    <string name="descending">In achirrada</string>
    <string name="remove">Boga</string>

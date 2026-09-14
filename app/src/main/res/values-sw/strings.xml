@@ -91,6 +91,7 @@
    <string name="styles">Styles</string>
    <string name="document_styles">Mitindo Document</string>
    <string name="automatic_hyphenation">Moja kwa moja hyphenation</string>
+   <string name="parse_bbcode_tags">Chakata lebo za BBCode</string>
    <string name="empty_line">Line tupu</string>
    <string name="margin_width">Margin upana</string>
    <string name="top">Juu ya upande</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Kurasa jumla</string>
    <string name="close_menu">Menyu ya karibu</string>
    <string name="go_to_page">Nenda kwenye ukurasa</string>
-   <string name="update_library">Sasisha maktaba</string>
+   <string name="update_library">Sasisha</string>
    <string name="ascending">Kupaa</string>
    <string name="descending">Kushuka</string>
    <string name="remove">Ondoa</string>

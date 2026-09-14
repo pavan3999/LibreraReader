@@ -1,7 +1,6 @@
 package com.foobnix.pdf.info;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
@@ -17,26 +16,22 @@ import android.view.Gravity;
 import android.graphics.Outline;
 import android.view.ViewOutlineProvider;
 import android.view.ViewGroup;
-import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ClipDrawable;
-import android.graphics.drawable.RippleDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.content.Context;
+import android.util.TypedValue;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.ImageViewCompat;
 
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppState;
-import com.foobnix.pdf.info.wrapper.MagicHelper;
 
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,6 +53,36 @@ public class TintUtil {
 
     public static int COLOR_TINT_GRAY = Color.parseColor("#009688");
     public static int COLOR_ORANGE = Color.parseColor("#FF8C00");
+
+    /**
+     * Whether a view drawn in this context sits on a light surface - the theme's colour for the
+     * given attribute, measured rather than assumed. The two readers choose a light or dark
+     * theme by different rules (one by the book's day mode, one by the app's theme), so what is
+     * drawn on their sheets asks the theme it is in rather than repeating either rule. An
+     * attribute the theme cannot give falls back to the window background.
+     */
+    public static boolean isLightSurface(Context c, int attr) {
+        if (c == null) {
+            return false;
+        }
+        Integer surface = resolveColor(c, attr);
+        if (surface == null) {
+            surface = resolveColor(c, android.R.attr.colorBackground);
+        }
+        return surface != null && ColorUtils.calculateLuminance(surface) > 0.5;
+    }
+
+    private static Integer resolveColor(Context c, int attr) {
+        TypedValue value = new TypedValue();
+        if (!c.getTheme()
+              .resolveAttribute(attr, value, true)) {
+            return null;
+        }
+        if (value.type < TypedValue.TYPE_FIRST_COLOR_INT || value.type > TypedValue.TYPE_LAST_COLOR_INT) {
+            return null;
+        }
+        return value.data;
+    }
 
     public static int getColorInDayNighth() {
         if(AppState.get().appTheme == AppState.THEME_INK){
@@ -95,18 +120,22 @@ public class TintUtil {
         }
     }
 
-    public static int getStatusBarColor() {
+    /**
+     * The colour of the reader's own status line - page, clock, battery - in the day or the
+     * night scheme. Nothing to do with the system's status bar.
+     */
+    public static int getStatusBarTextColor() {
         return AppState.get().isDayNotInvert ? AppState.get().statusBarColorDay : AppState.get().statusBarColorNight;
     }
 
     public static int tintRandomColor() {
-        AppState.get().tintColor = Color.HSVToColor(new float[]{new Random().nextInt(360), new Random().nextFloat(), (3f + new Random().nextInt(4)) / 10f});
-        TintUtil.color = AppState.get().tintColor;
-        return AppState.get().tintColor;
+        AppState.get().tintThemeColor = Color.HSVToColor(new float[]{new Random().nextInt(360), new Random().nextFloat(), (3f + new Random().nextInt(4)) / 10f});
+        TintUtil.color = AppState.get().tintThemeColor;
+        return AppState.get().tintThemeColor;
     }
 
     public static void init() {
-        color = AppState.get().tintColor;
+        color = AppState.get().tintThemeColor;
     }
 
     public static void clean() {
@@ -200,23 +229,6 @@ public class TintUtil {
             asLinkButton((TextView) root);
             alignInRow((TextView) root);
         }
-    }
-
-    /**
-     * A word at the foot of a dialog, drawn as one of the panel's buttons. The frame a dialog
-     * stands its own buttons in keeps a tall floor under them for a finger to land on, and the
-     * ring is drawn on the button itself - so left alone it comes out a ring far taller than
-     * the word inside it. The floor is taken away and the ring left to the word and its air.
-     */
-    public static void asDialogButton(TextView button) {
-        if (button == null) {
-            return;
-        }
-        asLinkButton(button, 0);
-        button.setMinHeight(0);
-        button.setMinimumHeight(0);
-        button.setMinWidth(0);
-        button.setMinimumWidth(0);
     }
 
     /**
@@ -598,16 +610,6 @@ public class TintUtil {
         } else {
             txtView.setBackgroundDrawable(states);
         }
-    }
-
-    @SuppressLint("NewApi")
-    public static void setStatusBarColor(Activity activity) {
-        setStatusBarColor(activity, TintUtil.color);
-    }
-
-    @SuppressLint("NewApi")
-    public static void setStatusBarColor(Activity activity, int color) {
-
     }
 
     public static void grayScaleImageView(ImageView v) {

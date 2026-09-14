@@ -91,6 +91,7 @@
    <string name="styles">Stílusok</string>
    <string name="document_styles">Dokumentum</string>
    <string name="automatic_hyphenation">Elválasztás engedélyezése</string>
+   <string name="parse_bbcode_tags">BBCode-címkék feldolgozása</string>
    <string name="empty_line">Üres sor</string>
    <string name="margin_width">Oldalmargók</string>
    <string name="top">Felül</string>
@@ -624,7 +625,7 @@
    <string name="m_total_pages">Összes oldal</string>
    <string name="close_menu">Menü bezárása</string>
    <string name="go_to_page">Menj az oldalra</string>
-   <string name="update_library">Frissítsd a könyvtárat</string>
+   <string name="update_library">Frissítés</string>
    <string name="ascending">Emelkedő</string>
    <string name="descending">Csökkenő</string>
    <string name="remove">Eltávolítás</string>
