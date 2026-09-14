@@ -2,13 +2,13 @@ name: Pro ARM64 Release
 
 on:
   workflow_dispatch:
-  inputs:
-    git-ref:
+    inputs:
+      git-ref:
       description: Git Ref (Optional)
       required: false
       type: string
 
-    dry-run:
+      dry-run:
       description: Creates a draft release
       required: false
       type: boolean
@@ -531,5 +531,4 @@ jobs:
           draft: true
           prerelease: false
           generate_release_notes: true
-          files: |
-            files: ${{ env.APK_PATH }}
+          files: ${{ env.APK_PATH }}
