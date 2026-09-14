@@ -74,7 +74,7 @@ jobs:
           NDK="$ANDROID_HOME/ndk/30.0.14904198"
 
           if [ ! -d "$NDK" ]; then
-            echo "ERROR: Required NDK was not installed."
+            echo "ERROR: Required Android NDK was not installed."
             exit 1
           fi
 
@@ -192,6 +192,9 @@ jobs:
 
       # =========================================================
       # Restore MuPDF ARM64 cache
+      #
+      # Cache changes when the MuPDF build script or MuPdfDocument
+      # Java source changes.
       # =========================================================
       - name: Restore MuPDF ARM64 cache
         id: mupdf-cache
@@ -200,7 +203,11 @@ jobs:
           path: |
             app/src/main/jniLibs/arm64-v8a/libMuPDF.so
             app/src/main/jniLibs/arm64-v8a/liblame.so
-          key: mupdf-1.28.3-ndk30-arm64-v2-${{ github.sha }}
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles(
+            'Builder/link_to_mupdf_1.28.3.sh',
+            'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java'
+          ) }}
+
 
       # =========================================================
       # Prepare MuPDF
@@ -214,8 +221,10 @@ jobs:
 
           if [ -f "$LIB_DIR/libMuPDF.so" ] &&
              [ -f "$LIB_DIR/liblame.so" ]; then
+
             echo "Cached MuPDF ARM64 libraries found."
             ls -lh "$LIB_DIR"
+
             exit 0
           fi
 
@@ -235,12 +244,17 @@ jobs:
             libgl-dev
 
           cd Builder
+
           chmod +x link_to_mupdf_1.28.3.sh
+
           ./link_to_mupdf_1.28.3.sh
 
 
       # =========================================================
-      # Save MuPDF cache
+      # Save MuPDF ARM64 cache
+      #
+      # Only save after a successful MuPDF preparation and only
+      # when the cache was not already restored.
       # =========================================================
       - name: Save MuPDF ARM64 cache
         if: success() && steps.mupdf-cache.outputs.cache-hit != 'true'
@@ -249,7 +263,11 @@ jobs:
           path: |
             app/src/main/jniLibs/arm64-v8a/libMuPDF.so
             app/src/main/jniLibs/arm64-v8a/liblame.so
-          key: mupdf-1.28.3-ndk30-arm64-v2-${{ github.sha }}
+          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles(
+            'Builder/link_to_mupdf_1.28.3.sh',
+            'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java'
+          ) }}
+
 
       # =========================================================
       # Verify native libraries
@@ -321,14 +339,22 @@ jobs:
 
           if [ -z "$APK_PATH" ]; then
             echo "ERROR: Pro ARM64 APK not found."
-            find app/build/outputs/apk -type f -name "*.apk" -print
+
+            echo
+            echo "Available APKs:"
+            find app/build/outputs/apk \
+              -type f \
+              -name "*.apk" \
+              -print
+
             exit 1
           fi
 
           VERSION=$(basename "$APK_PATH" \
             | sed -E 's/^Librera Pro-([0-9.]+)-arm64\.apk$/\1/')
 
-          if [ -z "$VERSION" ] || [ "$VERSION" = "$(basename "$APK_PATH")" ]; then
+          if [ -z "$VERSION" ] ||
+             [ "$VERSION" = "$(basename "$APK_PATH")" ]; then
             echo "ERROR: Could not determine app version."
             exit 1
           fi
@@ -342,7 +368,8 @@ jobs:
           echo "APP_VERSION=$VERSION" >> "$GITHUB_ENV"
           echo "APK_PATH=$OUTPUT" >> "$GITHUB_ENV"
 
-          echo "Prepared:"
+          echo
+          echo "Prepared APK:"
           ls -lh "$OUTPUT"
 
 
@@ -353,6 +380,12 @@ jobs:
         shell: bash
         run: |
           set -e
+
+          if [ ! -f "$APK_PATH" ]; then
+            echo "ERROR: APK does not exist:"
+            echo "$APK_PATH"
+            exit 1
+          fi
 
           BUILD_TOOLS=$(ls "$ANDROID_HOME/build-tools" \
             | sort -V \
@@ -377,13 +410,15 @@ jobs:
           echo "APK:"
           echo "$APK"
 
+          echo
+          echo "Detected ABI(s):"
+
           ABIS=$(
             unzip -Z1 "$APK" \
               | sed -nE 's#^lib/([^/]+)/.*#\1#p' \
               | sort -u
           )
 
-          echo "Detected ABI(s):"
           echo "$ABIS"
 
           if ! echo "$ABIS" | grep -qx "arm64-v8a"; then
@@ -409,6 +444,7 @@ jobs:
           while IFS= read -r -d '' SO; do
             SO_COUNT=$((SO_COUNT + 1))
 
+            echo
             echo "Checking:"
             echo "$SO"
 
@@ -441,6 +477,7 @@ jobs:
             exit 1
           }
 
+          echo
           echo "✓ ARM64-v8a only"
           echo "✓ All native ELF files are ARM64"
           echo "✓ libMuPDF.so present"
