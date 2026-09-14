@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       git-ref:
-      description: Git Ref (Optional)
-      required: false
-      type: string
+        description: Git Ref (Optional)
+        required: false
+        type: string
 
       dry-run:
-      description: Creates a draft release
-      required: false
-      type: boolean
-      default: false
+        description: Creates a draft release
+        required: false
+        type: boolean
+        default: false
 
   push:
     tags:
