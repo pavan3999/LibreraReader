@@ -98,6 +98,40 @@ public class TintUtil {
         return AppState.get().isDayNotInvert ? TintUtil.color : Color.LTGRAY;
     }
 
+    /**
+     * The colour an Ink mark is drawn in: white where it stands on a dark surface - the
+     * reader's bars, the head of a dialog - and black where it stands on the page. The surface
+     * is the first background painted under the mark; with none painted, the theme's own.
+     */
+    public static int inkMarkColor(View view) {
+        return isOnDarkSurface(view) ? Color.WHITE : Color.BLACK;
+    }
+
+    private static boolean isOnDarkSurface(View view) {
+        for (View v = view; v != null; v = v.getParent() instanceof View ? (View) v.getParent() : null) {
+            Integer painted = paintedColor(v.getBackground());
+            if (painted != null) {
+                return ColorUtils.calculateLuminance(painted) < 0.5;
+            }
+        }
+        return view != null && !isLightSurface(view.getContext(), android.R.attr.colorBackground);
+    }
+
+    /** The colour a background fills with, or null for one that fills nothing - a ring, a ripple. */
+    private static Integer paintedColor(Drawable background) {
+        if (background == null) {
+            return null;
+        }
+        Drawable current = background.getCurrent();
+        Integer color = null;
+        if (current instanceof ColorDrawable) {
+            color = ((ColorDrawable) current).getColor();
+        } else if (current instanceof GradientDrawable && ((GradientDrawable) current).getColor() != null) {
+            color = ((GradientDrawable) current).getColor().getDefaultColor();
+        }
+        return color == null || Color.alpha(color) == 0 ? null : color;
+    }
+
     static Random random = new Random();
 
     public static int randomColor() {
@@ -154,14 +188,24 @@ public class TintUtil {
     }
 
     public static void setBackgroundFillColor(View textView, int color) {
-        try {
-            GradientDrawable drawable = (GradientDrawable) textView.getBackground().getCurrent();
+        if (textView == null || textView.getBackground() == null) {
+            return;
+        }
+        Drawable background = textView.getBackground().getCurrent();
+        if (background instanceof GradientDrawable) {
+            GradientDrawable drawable = (GradientDrawable) background;
             drawable.setColor(color);
             drawable.setCornerRadius(RADIUS);
-        }catch (Exception e){
-            LOG.e(e);
+        } else if (background instanceof LayerDrawable) {
+            // A ripple keeps its shape in its layers: fill the content, leave the mask and the round alone.
+            LayerDrawable layers = (LayerDrawable) background.mutate();
+            for (int i = 0; i < layers.getNumberOfLayers(); i++) {
+                Drawable layer = layers.getDrawable(i);
+                if (layers.getId(i) != android.R.id.mask && layer instanceof GradientDrawable) {
+                    ((GradientDrawable) layer).setColor(color);
+                }
+            }
         }
-
     }
 
     /**

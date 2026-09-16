@@ -243,6 +243,9 @@ android {
 
     sourceSets {
         fdroid { assets.srcDirs = ['src/fdroid/assets', 'src/fdroid/assets/'] }
+        // code for both JVM and device tests, like the old footnote code to compare with
+        test.java.srcDirs += 'src/sharedTest/java'
+        androidTest.java.srcDirs += 'src/sharedTest/java'
     }
 
     packagingOptions {
@@ -309,7 +312,7 @@ dependencies {
     implementation(libs.guava)
 
     implementation('org.commonmark:commonmark:0.29.0')
-    implementation ('org.commonmark:commonmark-ext-gfm-tables:0.29.0')
+    implementation ('org.commonmark:commonmark-ext-gfm-tables:0.30.0')
 
 
 
@@ -336,7 +339,10 @@ dependencies {
 
 /** Testing **/
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.kxml2)
     androidTestImplementation(libs.runner)
+    androidTestImplementation(libs.androidx.junit)
 
 }
 
