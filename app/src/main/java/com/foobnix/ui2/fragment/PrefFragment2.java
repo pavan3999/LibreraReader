@@ -1128,6 +1128,7 @@ public class PrefFragment2 extends UIFragment {
                 of(getString(R.string.select_mode), AppState.READING_MODE_SELECT_MODE),//
                 of(AppState.get().nameVerticalMode, AppState.READING_MODE_SCROLL),//
                 of(AppState.get().nameHorizontalMode, AppState.READING_MODE_BOOK),//
+                of(getString(R.string.librerax), AppState.READING_MODE_LIBRERAX),//
                 of(AppState.get().nameMusicianMode, AppState.READING_MODE_MUSICIAN),//
                 of(getString(R.string.tag_manager), AppState.READING_MODE_TAG_MANAGER),//
                 of(getString(R.string.open_with), AppState.READING_MODE_OPEN_WITH)//
@@ -2981,16 +2982,16 @@ public class PrefFragment2 extends UIFragment {
             }
 
             View remove = row.findViewById(R.id.delete);
-            TintUtil.setRingColor(remove, rowColor);
             if (remove instanceof ImageView) {
                 TintUtil.setTintImageNoAlpha((ImageView) remove, rowColor);
             }
-            remove.setOnClickListener(v -> {
-                BookCSS.get().searchPathsJson = JsonDB.remove(BookCSS.get().searchPathsJson, path);
-                showSearchPaths();
-                saveChanges();
-                LOG.d("Save Changes", 3);
-            });
+            remove.setOnClickListener(v -> AlertDialogs.showDialog(getActivity(),
+                    getString(R.string.remove_library_folder) + "\n\n" + path, getString(R.string.remove), () -> {
+                        BookCSS.get().searchPathsJson = JsonDB.remove(BookCSS.get().searchPathsJson, path);
+                        showSearchPaths();
+                        saveChanges();
+                        LOG.d("Save Changes", 3);
+                    }));
 
             row.setOnClickListener(v -> onFolderConfigDialog());
             searchPaths.addView(row);

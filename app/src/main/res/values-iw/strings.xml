@@ -247,8 +247,8 @@
    <string name="___CONTEXT___MENU___SECTION___"></string>
    <string name="select_the_reading_mode">בחר את מצב הקריאה</string>
    <string name="convert_to">להמיר ל</string>
-   <string name="mode_vertical">מצב \"גלילה\"</string>
-   <string name="mode_horizontally">מצב \"ספר\"</string>
+   <string name="mode_vertical">אנכי</string>
+   <string name="mode_horizontally">לפי עמודים</string>
    <string name="mode_musician">מצב \"מוסיקאי\"</string>
    <string name="save">להציל</string>
    <string name="remember_choice">זכור בחירה</string>
@@ -340,7 +340,7 @@
    <string name="text_page">עמוד</string>
    <string name="page">עמוד</string>
    <string name="___INDEFINITE___SECTION___"></string>
-   <string name="choose_">בחר...</string>
+   <string name="choose_">בחר</string>
    <string name="crop_white_borders">חתוך שוליים לבנים</string>
    <string name="full_screen">מסך מלא</string>
    <string name="go">לעבור</string>
@@ -691,4 +691,6 @@
    <string name="text_and_background_color">צבע טקסט ורקע</string>
    <string name="library_folders">תיקיות הספרייה</string>
    <string name="watch">צפה</string>
+   <string name="librerax_not_installed">LibreraX אינו מותקן. הורידו והתקינו אותו ואז פתחו את הספר שוב.</string>
+   <string name="remove_library_folder">להסיר את התיקייה הזו מהספרייה? הקבצים שבה לא יימחקו.</string>
 </resources>
