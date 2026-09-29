@@ -126,7 +126,7 @@ jobs:
 
           mkdir -p "$HOME/.gradle"
 
-          cat >> "$HOME/.gradle/gradle.properties" <<'EOF'
+          cat >> "$HOME/.gradle/gradle.properties" <<EOF
           librera_ndk_dir=$ANDROID_NDK_HOME
           librera_fdroid_ndk_dir=$ANDROID_NDK_HOME
 
@@ -172,6 +172,9 @@ jobs:
           pro_admobFullId=
           pro_admobRewardId=
           EOF
+
+          echo "Configured NDK:"
+          grep '^librera_ndk_dir=' "$HOME/.gradle/gradle.properties"
 
 
       # =========================================================
