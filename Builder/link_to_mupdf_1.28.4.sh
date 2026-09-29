@@ -57,10 +57,7 @@ mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 rm -r $LIBS
 mkdir $LIBS
 
-ln -s $MUPDF_JAVA/libs/armeabi-v7a $LIBS
 ln -s $MUPDF_JAVA/libs/arm64-v8a $LIBS
-ln -s $MUPDF_JAVA/libs/x86 $LIBS
-ln -s $MUPDF_JAVA/libs/x86_64 $LIBS
 
 if [ "$1" == "copy" ]; then
 
@@ -139,10 +136,7 @@ if [ "$1" == "clean_ndk" ]; then
   "$NDK" clean
 fi
 
-"$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=armeabi-v7a APP_PLATFORM=android-24 &
-"$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a   APP_PLATFORM=android-24 &
-"$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86         APP_PLATFORM=android-24 &
-"$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=x86_64      APP_PLATFORM=android-24
+"$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a APP_PLATFORM=android-24
 wait
 echo "=================="
 echo "NDK:" "$NDK"
