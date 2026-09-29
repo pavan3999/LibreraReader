@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Конвертирайте документ онлайн</string>
    <string name="book_covers">Корици на книги</string>
    <string name="cover_image_size">Размер на миниатюрата</string>
+   <string name="cover_radius">Заобляне на корицата</string>
    <string name="column_count">Колони</string>
    <string name="show_book_covers">Обложки за дисплейни книги</string>
    <string name="enable_effect_of_the_book_cover">Макетни корици за печат на книги</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Няма серия</string>
    <string name="no_genre">Няма жанр</string>
    <string name="no_language">Няма език</string>
+   <string name="no_date">Без дата</string>
    <string name="without_series">N / A</string>
    <string name="folders">Папка</string>
    <string name="recent">Скорошен</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Предупреждение: този документ има незапазени промени</string>
    <string name="bold_headings">Удебелени заглавия</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Гледайте това кратко видео, за да изключите всички реклами за 1 час</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Гледайте това кратко видео, за да изключите всички реклами за 2 часа</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Гледайте това кратко видео, за да изключите всички реклами за 3 часа</string>
    <string name="the_book_is_complete">Книгата е завършена.</string>
    <string name="time">Време</string>
    <string name="date_added">Дата на добавяне</string>

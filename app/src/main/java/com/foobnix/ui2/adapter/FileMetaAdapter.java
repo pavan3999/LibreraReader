@@ -819,6 +819,12 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
 
         bindItemClickAndLongClickListeners(holder.parent, fileMeta);
 
+        // The cover fills the corners of its card, so the card is cut to the cover's round:
+        // with a round of its own it would clip the cover to that instead.
+        if (holder.parent instanceof CardView) {
+            ((CardView) holder.parent).setRadius(TintUtil.coverRadius());
+        }
+
         if (adapterType == ADAPTER_GRID || adapterType == ADAPTER_COVERS) {
             if (holder.path != null) {
                 holder.path.setVisibility(View.GONE);
@@ -833,6 +839,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             }
 
             IMG.updateImageSizeBig(holder.imageParent, sizeDP);
+            TintUtil.roundCover(holder.imageParent);
 
             LayoutParams lp = holder.image.getLayoutParams();
 
@@ -862,9 +869,7 @@ public class FileMetaAdapter extends AppRecycleAdapter<FileMeta, RecyclerView.Vi
             if (holder.imageParent instanceof CardView) {
                 boolean cardShows = AppState.get().isBorderAndShadow &&
                         AppState.get().appTheme != AppState.THEME_DARK_OLED;
-                ((CardView) holder.imageParent).setRadius(cardShows ? 0 :
-                        holder.imageParent.getResources()
-                                          .getDimension(R.dimen.cover_radius_small));
+                ((CardView) holder.imageParent).setRadius(cardShows ? 0 : TintUtil.coverRadius());
             }
 
             LayoutParams parentLp = IMG.updateImageSizeSmall(holder.imageParent);

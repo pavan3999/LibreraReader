@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Prevod dokumentov online</string>
    <string name="book_covers">Obálky kníh</string>
    <string name="cover_image_size">Veľkosť obálky</string>
+   <string name="cover_radius">Zaoblenie obálky</string>
    <string name="column_count">Stĺpce</string>
    <string name="show_book_covers">Zobraziť obálky kníh</string>
    <string name="enable_effect_of_the_book_cover">Efekt chrbátu knihy</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Žiadna séria</string>
    <string name="no_genre">Žiadny žáner</string>
    <string name="no_language">Žiadny jazyk</string>
+   <string name="no_date">Bez dátumu</string>
    <string name="without_series">Nedostupné</string>
    <string name="folders">Priečinky</string>
    <string name="recent">Nedávne</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Upozornenie: tento dokument obsahuje neuložené zmeny</string>
    <string name="bold_headings">Tučné nadpisy</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Pozrite si toto krátke video a na 1 hodinu vypnete všetky reklamy.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Pozrite si toto krátke video a na 2 hodinu vypnete všetky reklamy.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Pozrite si toto krátke video a na 3 hodiny vypnete všetky reklamy.</string>
    <string name="the_book_is_complete">Kniha je kompletná.</string>
    <string name="time">Čas</string>
    <string name="date_added">Dátum pridania</string>

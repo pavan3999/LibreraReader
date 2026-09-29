@@ -39,6 +39,7 @@
    <string name="document_converter_online_">दस्तावेज़ कनवर्टर (ऑनलाइन)</string>
    <string name="book_covers">बुक कवर</string>
    <string name="cover_image_size">कवर छवि का आकार</string>
+   <string name="cover_radius">कवर का कोना गोलाई</string>
    <string name="column_count">स्तंभ गिनती</string>
    <string name="show_book_covers">पुस्तक कवर दिखाएं</string>
    <string name="enable_effect_of_the_book_cover">पुस्तक कवर के प्रभाव को सक्षम</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">कोई सीरी नहीं</string>
    <string name="no_genre">कोई शैली नहीं</string>
    <string name="no_language">कोई भाषा नहीं</string>
+   <string name="no_date">कोई तारीख नहीं</string>
    <string name="without_series">श्रृंखला के बिना</string>
    <string name="folders">फ़ोल्डर</string>
    <string name="recent">हाल का</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">चेतावनी: इस दस्तावेज़ में सहेजे नहीं गए परिवर्तन हैं</string>
    <string name="bold_headings">बोल्ड हेडिंग्स</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">एक घंटे के लिए सभी विज्ञापन बंद करने के लिए यह छोटा वीडियो देखें।</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">दो घंटे के लिए सभी विज्ञापन बंद करने के लिए यह छोटा वीडियो देखें।</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">तीन घंटे के लिए सभी विज्ञापन बंद करने के लिए यह छोटा वीडियो देखें।</string>
    <string name="the_book_is_complete">पुस्तक पूर्ण हो गई है।</string>
    <string name="time">समय</string>
    <string name="date_added">तिथि जोड़ी</string>

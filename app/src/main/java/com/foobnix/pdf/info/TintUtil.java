@@ -28,6 +28,8 @@ import android.util.TypedValue;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.ImageViewCompat;
 
+import androidx.cardview.widget.CardView;
+
 import com.foobnix.android.utils.Dips;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.model.AppState;
@@ -42,11 +44,15 @@ public class TintUtil {
     public static final int SWATCH_RADIUS = Dips.dpToPx(6);
     public static final int SECTION_RADIUS = Dips.dpToPx(8);
     public static final int BADGE_RADIUS = Dips.dpToPx(20);
+    /** The mark a sort menu puts on the sort the list is in. */
+    public static final int SORT_CURRENT_ICON = R.drawable.glyphicons_194_circle_empty_check;
+    public static final int COVER_RADIUS_MAX = 4;
+    public static final int COVER_RADIUS_STEP_DP = 3;
     private static final int SWATCH_BORDER = Color.parseColor("#55888888");
     public static int itAlpha = 245;
     public static int colorSecondTab = Color.parseColor("#ddffffff");// Color.parseColor("#9fd8bc");
     public static int cloudSyncColor = Color.parseColor("#66bb6a");// Color.parseColor("#9fd8bc");
-    public static int color = Color.parseColor(AppState.STYLE_COLORS.get(0));
+    public static int color = Color.parseColor(AppState.STYLE_COLORS.get(AppState.DEFAULT_STYLE_COLOR));
     private static List<Drawable> drawables = new ArrayList<Drawable>();
     private static List<GradientDrawable> drawableFill = new ArrayList<GradientDrawable>();
     private static List<View> drawables1 = new ArrayList<View>();
@@ -208,6 +214,21 @@ public class TintUtil {
         }
     }
 
+    /** The round every book cover is cut to, from the cover radius the user picked. */
+    public static int coverRadius() {
+        int level = Math.max(0, Math.min(COVER_RADIUS_MAX, AppState.get().coverRadius));
+        return Dips.dpToPx(level * COVER_RADIUS_STEP_DP);
+    }
+
+    /** Cuts a book cover to the round the user picked for covers. */
+    public static void roundCover(View view) {
+        if (view instanceof CardView) {
+            ((CardView) view).setRadius(coverRadius());
+        } else {
+            roundCorners(view, coverRadius());
+        }
+    }
+
     /**
      * Cuts a view to a round without wrapping it in a card - a cover is sized by the adapter
      * that shows it, and a card around it would take that sizing away from the image.
@@ -337,7 +358,10 @@ public class TintUtil {
     }
 
     public static void setBackgroundFillColorBottomRight(View textView, int color) {
-        GradientDrawable drawable = (GradientDrawable) textView.getBackground().getCurrent();
+        GradientDrawable drawable = gradientBackground(textView);
+        if (drawable == null) {
+            return;
+        }
         drawable.setColor(color);
         drawable.setCornerRadii(new float[]{0, 0, 0, 0, RADIUS * 2, RADIUS * 2, 0, 0});
     }
@@ -467,14 +491,32 @@ public class TintUtil {
         }
     }
 
+    /**
+     * The shape a view is drawn on, or null where its background is something else - a ripple
+     * put there in place of the shape the view was laid out with.
+     */
+    private static GradientDrawable gradientBackground(View view) {
+        if (view == null || view.getBackground() == null) {
+            return null;
+        }
+        Drawable background = view.getBackground().getCurrent();
+        return background instanceof GradientDrawable ? (GradientDrawable) background : null;
+    }
+
     public static void setStrokeColor(View textView, int color) {
-        GradientDrawable drawable = (GradientDrawable) textView.getBackground().getCurrent();
+        GradientDrawable drawable = gradientBackground(textView);
+        if (drawable == null) {
+            return;
+        }
         drawable.setStroke(STROKE, color);
         drawable.setCornerRadius(RADIUS);
     }
 
     public static GradientDrawable setStrokeColorWithDash(View textView, int color) {
-        GradientDrawable drawable = (GradientDrawable) textView.getBackground().getCurrent();
+        GradientDrawable drawable = gradientBackground(textView);
+        if (drawable == null) {
+            return null;
+        }
         drawable.setStroke(Dips.DP_2, color,Dips.DP_6,Dips.DP_6);
         drawable.setCornerRadius(RADIUS);
         return drawable;

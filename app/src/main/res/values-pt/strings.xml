@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Conversor de documentos (online)</string>
    <string name="book_covers">Capas de livros</string>
    <string name="cover_image_size">Tamanho da capa</string>
+   <string name="cover_radius">Arredondamento da capa</string>
    <string name="column_count">Número de colunas</string>
    <string name="show_book_covers">Mostrar capas de livros</string>
    <string name="enable_effect_of_the_book_cover">Efeito da capa de livro impresso</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Sem série</string>
    <string name="no_genre">Nenhum gênero</string>
    <string name="no_language">Sem idioma</string>
+   <string name="no_date">Sem data</string>
    <string name="without_series">Sem série</string>
    <string name="folders">Pastas</string>
    <string name="recent">Recentes</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Aviso: este documento contém alterações não salvas.</string>
    <string name="bold_headings">Títulos em negrito</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Assista a este breve vídeo para desativar todos os anúncios por 1 hora.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Assista a este breve vídeo para desativar todos os anúncios por 2 horas.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Assista a este breve vídeo para desativar todos os anúncios por 3 horas.</string>
    <string name="the_book_is_complete">O livro está completo.</string>
    <string name="time">Tempo</string>
    <string name="date_added">Data adicionada</string>

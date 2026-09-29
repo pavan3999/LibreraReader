@@ -39,6 +39,7 @@
    <string name="document_converter_online_">文檔格式線上轉換</string>
    <string name="book_covers">書籍封面</string>
    <string name="cover_image_size">封面大小</string>
+   <string name="cover_radius">封面圓角</string>
    <string name="column_count">列數</string>
    <string name="show_book_covers">顯示封面</string>
    <string name="enable_effect_of_the_book_cover">仿真封面</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">無叢書</string>
    <string name="no_genre">無流派</string>
    <string name="no_language">無語言</string>
+   <string name="no_date">無日期</string>
    <string name="without_series">無叢書</string>
    <string name="folders">檔夾</string>
    <string name="recent">最近</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">警告：此文件有未儲存的更改</string>
    <string name="bold_headings">粗體標題</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">觀看此短視頻，即可在 1 小時內關閉所有廣告。</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">觀看此短視頻，即可在 2 小時內關閉所有廣告。</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">觀看此短視頻，即可在 3 小時內關閉所有廣告。</string>
    <string name="the_book_is_complete">這本書已經完成了。</string>
    <string name="time">時間</string>
    <string name="date_added">新增日期</string>

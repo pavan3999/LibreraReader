@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Performuoti dokumentą (internete)</string>
    <string name="book_covers">Knygų viršeliai</string>
    <string name="cover_image_size">Knygos viršelio atvaizdo dydis</string>
+   <string name="cover_radius">Viršelio kampų apvalumas</string>
    <string name="column_count">Stulpelių skaičius</string>
    <string name="show_book_covers">Rodyti knygų viršelius</string>
    <string name="enable_effect_of_the_book_cover">Knygos viršelio efektas</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Nėra serijos</string>
    <string name="no_genre">Nėra žanro</string>
    <string name="no_language">Nėra kalbos</string>
+   <string name="no_date">Be datos</string>
    <string name="without_series">Be serijos</string>
    <string name="folders">Aplankai</string>
    <string name="recent">Naujausi</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Įspėjimas: šiame dokumente yra neišsaugotų pakeitimų</string>
    <string name="bold_headings">Paryškintos antraštės</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Peržiūrėkite šį trumpą vaizdo įrašą, kad 1 valandai išjungtumėte visas reklamas</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Peržiūrėkite šį trumpą vaizdo įrašą, kad 2 valandoms išjungtumėte visas reklamas</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Peržiūrėkite šį trumpą vaizdo įrašą, kad 3 valandoms išjungtumėte visas reklamas</string>
    <string name="the_book_is_complete">Knyga baigta.</string>
    <string name="time">Laikas</string>
    <string name="date_added">Pridėjimo data</string>

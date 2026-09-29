@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Құжатты онлайн түрлендіру</string>
    <string name="book_covers">Кітап қаптамалары</string>
    <string name="cover_image_size">Нобай өлшемі</string>
+   <string name="cover_radius">Қаптама бұрыштарының дөңгелектігі</string>
    <string name="column_count">Бағандар</string>
    <string name="show_book_covers">Кітап қаптамаларын көрсетіңіз</string>
    <string name="enable_effect_of_the_book_cover">Мұқабаларды басып шығаруға арналған қақпақ</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Серия жоқ</string>
    <string name="no_genre">Жанр жоқ</string>
    <string name="no_language">Тіл жоқ</string>
+   <string name="no_date">Күні жоқ</string>
    <string name="without_series">N / A</string>
    <string name="folders">Қалта</string>
    <string name="recent">Жақында</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Ескерту: бұл құжатта сақталмаған өзгерістер бар</string>
    <string name="bold_headings">Қалың шрифтпен жазылған тақырыптар</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Барлық жарнамаларды 1 сағатқа өшіру үшін осы қысқа бейнені көріңіз</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Барлық жарнамаларды 2 сағатқа өшіру үшін осы қысқа бейнені көріңіз</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Барлық жарнамаларды 3 сағатқа өшіру үшін осы қысқа бейнені көріңіз</string>
    <string name="the_book_is_complete">Кітап толықтай дайын.</string>
    <string name="time">Уақыт</string>
    <string name="date_added">Қосылған күні</string>

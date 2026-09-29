@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Converter documento en liña</string>
    <string name="book_covers">Portadas</string>
    <string name="cover_image_size">Tamaño das miniaturas</string>
+   <string name="cover_radius">Raio da portada</string>
    <string name="column_count">Columnas</string>
    <string name="show_book_covers">Amosar portadas</string>
    <string name="enable_effect_of_the_book_cover">Efecto de libro impreso</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Sen serie</string>
    <string name="no_genre">Sen xénero</string>
    <string name="no_language">Sen idioma</string>
+   <string name="no_date">Sen data</string>
    <string name="without_series">N/D</string>
    <string name="folders">Cartafol</string>
    <string name="recent">Recentes</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Aviso: Este documento ten cambios sen gardar</string>
    <string name="bold_headings">Encabezados en negriña</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Mira este vídeo curto para desactivar tódolos anuncios durante 1 hora</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Mira este vídeo curto para desactivar tódolos anuncios durante 2 horas</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Mira este vídeo curto para desactivar tódolos anuncios durante 3 horas</string>
    <string name="the_book_is_complete">O libro está completo.</string>
    <string name="time">Hora</string>
    <string name="date_added">Data de engadido</string>

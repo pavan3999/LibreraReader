@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Dokumente online konvertieren</string>
    <string name="book_covers">Titelbilder</string>
    <string name="cover_image_size">Titelbildgröße</string>
+   <string name="cover_radius">Eckenradius der Titelbilder</string>
    <string name="column_count">Anzahl der Spalten</string>
    <string name="show_book_covers">Titelbilder anzeigen</string>
    <string name="enable_effect_of_the_book_cover">Titelbildeffekt aktivieren</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Keine Reihe</string>
    <string name="no_genre">Kein Genre</string>
    <string name="no_language">Keine Sprache</string>
+   <string name="no_date">Kein Datum</string>
    <string name="without_series">N/A</string>
    <string name="folders">Ordner</string>
    <string name="recent">Verlauf</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Warnung: Dieses Dokument enthält ungespeicherte Änderungen</string>
    <string name="bold_headings">Fettgedruckte Überschriften</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Sehen Sie sich dieses kurze Video an, um alle Werbeanzeigen für 1 Stunde auszuschalten.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Sehen Sie sich dieses kurze Video an, um alle Werbeanzeigen für 2 Stunden auszuschalten.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Sehen Sie sich dieses kurze Video an, um alle Werbeanzeigen für 3 Stunden auszuschalten.</string>
    <string name="the_book_is_complete">Das Buch ist fertig.</string>
    <string name="time">Zeit</string>
    <string name="date_added">Datum hinzugefügt</string>

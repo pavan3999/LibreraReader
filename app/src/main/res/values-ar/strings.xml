@@ -39,6 +39,7 @@
    <string name="document_converter_online_">تحويل المستندات (عبر الإنترنت)</string>
    <string name="book_covers">أغلفة الكتب</string>
    <string name="cover_image_size">حجم صورة الغلاف</string>
+   <string name="cover_radius">انحناء زوايا الغلاف</string>
    <string name="column_count">عدد الأعمدة</string>
    <string name="show_book_covers">عرض أغلفة الكتب</string>
    <string name="enable_effect_of_the_book_cover">تمكين تأثير غلاف الكتاب</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">لا دوري الدرجة الاولى الايطالي</string>
    <string name="no_genre">لا يوجد نوع</string>
    <string name="no_language">لا لغة</string>
+   <string name="no_date">بدون تاريخ</string>
    <string name="without_series">بدون سلسلة</string>
    <string name="folders">المجلدات</string>
    <string name="recent">السجل</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">تحذير: هذا المستند يحتوي على تغييرات غير محفوظة</string>
    <string name="bold_headings">عناوين بارزة</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">شاهد هذا الفيديو القصير لإيقاف جميع الإعلانات لمدة ساعة واحدة</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">شاهد هذا الفيديو القصير لإيقاف جميع الإعلانات لمدة ساعتين</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">شاهد هذا الفيديو القصير لإيقاف جميع الإعلانات لمدة 3 ساعات</string>
    <string name="the_book_is_complete">الكتاب مكتمل.</string>
    <string name="time">وقت</string>
    <string name="date_added">تاريخ الإضافة</string>

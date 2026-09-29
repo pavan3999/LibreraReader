@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Μετατροπή εγγράφου σε απευθείας σύνδεση</string>
    <string name="book_covers">Εξώφυλλα βιβλίων</string>
    <string name="cover_image_size">Μέγεθος μικρογραφίας</string>
+   <string name="cover_radius">Στρογγύλεμα εξωφύλλου</string>
    <string name="column_count">Στήλες</string>
    <string name="show_book_covers">Εξώφυλλα βιβλίων</string>
    <string name="enable_effect_of_the_book_cover">Πλαστά εξώφυλλα βιβλίων</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Καμία σειρά</string>
    <string name="no_genre">Κανένα είδος</string>
    <string name="no_language">Καμία γλώσσα</string>
+   <string name="no_date">Χωρίς ημερομηνία</string>
    <string name="without_series">Α / α</string>
    <string name="folders">Ντοσιέ</string>
    <string name="recent">Πρόσφατος</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Προειδοποίηση: αυτό το έγγραφο έχει μη αποθηκευμένες αλλαγές</string>
    <string name="bold_headings">Έντονες επικεφαλίδες</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Παρακολουθήστε αυτό το σύντομο βίντεο για να απενεργοποιήσετε όλες τις διαφημίσεις για 1 ώρα</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Παρακολουθήστε αυτό το σύντομο βίντεο για να απενεργοποιήσετε όλες τις διαφημίσεις για 2 ώρες</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Παρακολουθήστε αυτό το σύντομο βίντεο για να απενεργοποιήσετε όλες τις διαφημίσεις για 3 ώρες</string>
    <string name="the_book_is_complete">Το βιβλίο είναι ολοκληρωμένο.</string>
    <string name="time">Φορά</string>
    <string name="date_added">Ημερομηνία προσθήκης</string>

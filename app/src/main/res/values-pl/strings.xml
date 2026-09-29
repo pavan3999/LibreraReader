@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Konwerter dokumentów (online)</string>
    <string name="book_covers">Okładki książek</string>
    <string name="cover_image_size">Rozmiar okładki</string>
+   <string name="cover_radius">Zaokrąglenie okładki</string>
    <string name="column_count">Liczba kolumn</string>
    <string name="show_book_covers">Pokaż okładki książek</string>
    <string name="enable_effect_of_the_book_cover">Włącz efekt okładki</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Brak serii</string>
    <string name="no_genre">Brak gatunku</string>
    <string name="no_language">Bez języka</string>
+   <string name="no_date">Brak daty</string>
    <string name="without_series">Bez serii</string>
    <string name="folders">Katalogi</string>
    <string name="recent">Ostatnie</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Ostrzeżenie: ten dokument zawiera niezapisane zmiany</string>
    <string name="bold_headings">Pogrubione nagłówki</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Obejrzyj ten krótki film, aby wyłączyć wszystkie reklamy na 1 godzinę</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Obejrzyj ten krótki film, aby wyłączyć wszystkie reklamy na 2 godziny</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Obejrzyj ten krótki film, aby wyłączyć wszystkie reklamy na 3 godziny</string>
    <string name="the_book_is_complete">Książka jest ukończona.</string>
    <string name="time">Czas</string>
    <string name="date_added">Data dodania</string>

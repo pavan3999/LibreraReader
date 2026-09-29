@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Chuyển đổi tài liệu (trực tuyến)</string>
    <string name="book_covers">Bao gồm sách</string>
    <string name="cover_image_size">Kích thước ảnh bìa</string>
+   <string name="cover_radius">Bo góc bìa sách</string>
    <string name="column_count">Số cột</string>
    <string name="show_book_covers">Hiển thị bìa sách</string>
    <string name="enable_effect_of_the_book_cover">Kích hoạt tính năng tác dụng của bìa sách</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Không có serie</string>
    <string name="no_genre">Không có thể loại</string>
    <string name="no_language">Không ngôn ngữ</string>
+   <string name="no_date">Không có ngày</string>
    <string name="without_series">Không có hàng loạt</string>
    <string name="folders">Thư mục</string>
    <string name="recent">Mới đây</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Cảnh báo: tài liệu này có những thay đổi chưa được lưu</string>
    <string name="bold_headings">Tiêu đề in đậm</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Hãy xem video ngắn này để tắt tất cả quảng cáo trong 1 giờ.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Hãy xem video ngắn này để tắt tất cả quảng cáo trong 2 giờ.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Hãy xem video ngắn này để tắt tất cả quảng cáo trong 3 giờ.</string>
    <string name="the_book_is_complete">Cuốn sách đã hoàn thành.</string>
    <string name="time">Thời gian</string>
    <string name="date_added">Ngày thêm</string>

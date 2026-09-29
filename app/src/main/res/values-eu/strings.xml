@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Bihurtu dokumentuak (linean)</string>
    <string name="book_covers">Liburuen azalak</string>
    <string name="cover_image_size">Azaleko irudiaren tamaina</string>
+   <string name="cover_radius">Azalaren erradioa</string>
    <string name="column_count">Zutabe kopurua</string>
    <string name="show_book_covers">Erakutsi liburuen azalak</string>
    <string name="enable_effect_of_the_book_cover">Gaitu liburuen azalen efektuak</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Sailik gabe</string>
    <string name="no_genre">Generorik gabe</string>
    <string name="no_language">Hizkuntzarik gabe</string>
+   <string name="no_date">Datarik gabe</string>
    <string name="without_series">Sailik gabe</string>
    <string name="folders">Karpetak</string>
    <string name="recent">Ikusi berria</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Abisua: dokumentu honek gorde gabeko aldaketak ditu</string>
    <string name="bold_headings">Izenburu lodiak</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Ikusi bideo labur hau iragarki guztiak ordubetez desaktibatzeko</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Ikusi bideo labur hau iragarki guztiak 2 orduz desaktibatzeko</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Ikusi bideo labur hau iragarki guztiak 3 orduz desaktibatzeko</string>
    <string name="the_book_is_complete">Liburua osatuta dago.</string>
    <string name="time">Denbora</string>
    <string name="date_added">Gehitze data</string>

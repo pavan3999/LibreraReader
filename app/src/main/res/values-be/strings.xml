@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Канвертаваць дакумент онлайн</string>
    <string name="book_covers">Вокладкі кніг</string>
    <string name="cover_image_size">Памер мініяцюры</string>
+   <string name="cover_radius">Акругленне вокладкі</string>
    <string name="column_count">Слупкі</string>
    <string name="show_book_covers">Паказваць вокладкі кніг</string>
    <string name="enable_effect_of_the_book_cover">Імітацыя вокладак кніг</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Серыі няма</string>
    <string name="no_genre">Ніякага жанру</string>
    <string name="no_language">Няма мовы</string>
+   <string name="no_date">Без даты</string>
    <string name="without_series">Н/д</string>
    <string name="folders">Папка</string>
    <string name="recent">Нядаўні</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Папярэджанне: у гэтым дакуменце ёсць незахаваныя змены</string>
    <string name="bold_headings">Тлустыя загалоўкі</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Паглядзіце гэта кароткае відэа, каб адключыць усю рэкламу на 1 гадзіну</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Паглядзіце гэта кароткае відэа, каб адключыць усю рэкламу на 2 гадзіны</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Паглядзіце гэта кароткае відэа, каб адключыць усю рэкламу на 3 гадзіны</string>
    <string name="the_book_is_complete">Кніга завершана.</string>
    <string name="time">Час</string>
    <string name="date_added">Дата дадання</string>

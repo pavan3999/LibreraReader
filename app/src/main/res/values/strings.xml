@@ -40,6 +40,7 @@
    <string name="document_converter_online_">Convert Document Online</string>
    <string name="book_covers">Book Covers</string>
    <string name="cover_image_size">Thumbnail size</string>
+   <string name="cover_radius">Cover radius</string>
    <string name="column_count">Columns</string>
    <string name="show_book_covers">Display book covers</string>
    <string name="enable_effect_of_the_book_cover">Mock print book covers</string>
@@ -175,6 +176,7 @@
    <string name="no_serie">No series</string>
    <string name="no_genre">No genre</string>
    <string name="no_language">No language</string>
+   <string name="no_date">No date</string>
    <string name="without_series">N/A</string>
    <string name="folders">Folder</string>
    <string name="recent">Recent</string>
@@ -676,7 +678,7 @@
    <string name="bold_headings">Bold Headings</string>
    <string name="watch">Watch</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Watch this short video to turn off all ads for 1 hour</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Watch this short video to turn off all ads for 2 hours</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Watch this short video to turn off all ads for 3 hours</string>
    <string name="the_book_is_complete">The book is complete.</string>
    <string name="time">Time</string>
    <string name="date_added">Date added</string>

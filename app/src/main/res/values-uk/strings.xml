@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Онлайн-конвертер файлів</string>
    <string name="book_covers">Обкладинки книжок</string>
    <string name="cover_image_size">Розмір обкладинок</string>
+   <string name="cover_radius">Заокруглення обкладинки</string>
    <string name="column_count">Кількість стовпців</string>
    <string name="show_book_covers">Показувати обкладинки книжок</string>
    <string name="enable_effect_of_the_book_cover">Додати ефект палітурки</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Без серії</string>
    <string name="no_genre">Без жанру</string>
    <string name="no_language">Немає мови</string>
+   <string name="no_date">Без дати</string>
    <string name="without_series">Без серії</string>
    <string name="folders">Теки</string>
    <string name="recent">Недавні</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Попередження: у цьому документі є незбережені зміни</string>
    <string name="bold_headings">Жирний шрифт заголовків</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Перегляньте це коротке відео, щоб вимкнути всю рекламу на 1 годину</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Перегляньте це коротке відео, щоб вимкнути всю рекламу на 2 години</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Перегляньте це коротке відео, щоб вимкнути всю рекламу на 3 години</string>
    <string name="the_book_is_complete">Книга завершена.</string>
    <string name="time">Час</string>
    <string name="date_added">Дата додавання</string>

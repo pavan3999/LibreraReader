@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Doiciméad a thiontú ar líne</string>
    <string name="book_covers">Clúdaigh leabhar</string>
    <string name="cover_image_size">Méid mionsamhlacha</string>
+   <string name="cover_radius">Cruinneas choirnéil an chlúdaigh</string>
    <string name="column_count">Colúin</string>
    <string name="show_book_covers">Clúdaigh leabhar taispeána</string>
    <string name="enable_effect_of_the_book_cover">Clúdaigh bréige leabhar priontála</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Gan aon tsraith</string>
    <string name="no_genre">Aon seánra</string>
    <string name="no_language">Aon teanga</string>
+   <string name="no_date">Gan dáta</string>
    <string name="without_series">N / A</string>
    <string name="folders">Fillteán</string>
    <string name="recent">Le déanaí</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Rabhadh: tá athruithe neamhshábháilte sa cháipéis seo</string>
    <string name="bold_headings">Ceannteidil i gcló trom</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Féach ar an bhfíseán gearr seo chun na fógraí go léir a mhúchadh ar feadh uair an chloig</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Féach ar an bhfíseán gearr seo chun na fógraí go léir a mhúchadh ar feadh 2 uair an chloig</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Féach ar an bhfíseán gearr seo chun na fógraí go léir a mhúchadh ar feadh 3 huaire an chloig</string>
    <string name="the_book_is_complete">Tá an leabhar críochnaithe.</string>
    <string name="time">Am</string>
    <string name="date_added">Dáta curtha leis</string>

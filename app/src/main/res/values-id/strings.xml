@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Konverter dokumen (online)</string>
    <string name="book_covers">Sampul buku</string>
    <string name="cover_image_size">Ukuran gambar sampul</string>
+   <string name="cover_radius">Radius sampul</string>
    <string name="column_count">Hitungan kolom</string>
    <string name="show_book_covers">Tampilkan sampul buku</string>
    <string name="enable_effect_of_the_book_cover">Aktifkan efek sampul buku</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Tidak ada serie</string>
    <string name="no_genre">Tidak ada genre</string>
    <string name="no_language">Tidak ada bahasa</string>
+   <string name="no_date">Tanpa tanggal</string>
    <string name="without_series">Tanpa seri</string>
    <string name="folders">Map</string>
    <string name="recent">Baru</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Peringatan: dokumen ini memiliki perubahan yang belum disimpan</string>
    <string name="bold_headings">Judul tebal</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Tonton video singkat ini untuk menonaktifkan semua iklan selama 1 jam.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Tonton video singkat ini untuk menonaktifkan semua iklan selama 2 jam.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Tonton video singkat ini untuk menonaktifkan semua iklan selama 3 jam.</string>
    <string name="the_book_is_complete">Buku ini sudah selesai.</string>
    <string name="time">Waktu</string>
    <string name="date_added">Tanggal ditambahkan</string>

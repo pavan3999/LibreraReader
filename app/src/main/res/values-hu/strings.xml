@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Dokumentum konvertálása online</string>
    <string name="book_covers">Könyvborítók</string>
    <string name="cover_image_size">Miniatűr mérete</string>
+   <string name="cover_radius">Borító lekerekítése</string>
    <string name="column_count">Oszlopok</string>
    <string name="show_book_covers">Könyvborítók megjelenítése</string>
    <string name="enable_effect_of_the_book_cover">Valósághű borítók nyomtatása</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Nincsenek sorozatok</string>
    <string name="no_genre">Nincs műfaj</string>
    <string name="no_language">Nincs nyelv</string>
+   <string name="no_date">Nincs dátum</string>
    <string name="without_series">N/A</string>
    <string name="folders">Mappa</string>
    <string name="recent">Legutóbbi</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Figyelmeztetés: ez a dokumentum nem mentett módosításokat tartalmaz</string>
    <string name="bold_headings">Félkövér címsorok</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Nézd meg ezt a rövid videót, hogy 1 órára kikapcsolhasd az összes reklámot</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Nézd meg ezt a rövid videót, hogy 2 órára kikapcsolhasd az összes reklámot</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Nézd meg ezt a rövid videót, hogy 3 órára kikapcsolhasd az összes reklámot</string>
    <string name="the_book_is_complete">A könyv teljes.</string>
    <string name="time">Idő</string>
    <string name="date_added">Hozzáadott dátum</string>

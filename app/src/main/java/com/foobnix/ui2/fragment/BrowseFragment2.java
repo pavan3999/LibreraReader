@@ -181,6 +181,8 @@ import java.util.Map;
             Collections.sort(items, FileMetaComparators.BY_DATE);
         } else if (AppState.get().sortByBrowse == AppState.BR_SORT_BY_SIZE) {
             Collections.sort(items, FileMetaComparators.BY_SIZE);
+        } else if (AppState.get().sortByBrowse == AppState.BR_SORT_BY_YEAR) {
+            Collections.sort(items, FileMetaComparators.BR_BY_YEAR);
         } else if (AppState.get().sortByBrowse == AppState.BR_SORT_BY_NUMBER) {
             Collections.sort(items, FileMetaComparators.BR_BY_NUMBER1);
         } else if (AppState.get().sortByBrowse == AppState.BR_SORT_BY_PAGES) {
@@ -225,7 +227,7 @@ import java.util.Map;
         GradientDrawable face = new GradientDrawable();
         face.setCornerRadius(Dips.DP_50);
         face.setColor(TintUtil.color);
-        face.setAlpha(SlidingTabLayout.FLOATING_ALPHA);
+        face.setAlpha(AppsConfig.APP_TRANSPARENCY);
 
         GradientDrawable mask = new GradientDrawable();
         mask.setCornerRadius(Dips.DP_50);
@@ -293,38 +295,18 @@ import java.util.Map;
         Views.visible(layoutOnGrant, !Android6.canWrite(getContext()));
         layoutOnGrant.setOnClickListener(v -> Android6.checkPermissions(getActivity(),false));
 
-        sortOrder.setOnClickListener(new OnClickListener() {
-
-            @Override public void onClick(View v) {
-                AppState.get().sortByReverse = !AppState.get().sortByReverse;
-                onSort.setImageResource(AppState.get().sortByReverse ? R.drawable.glyphicons_477_sort_attributes_alt :
-                        R.drawable.glyphicons_476_sort_attributes);
-                sortOrder.setImageResource(AppState.get().sortByReverse ? R.drawable.glyphicons_222_chevron_up :
-                        R.drawable.glyphicons_221_chevron_down);
-
-                populate();
-
-            }
-        });
-
-        sortOrder.setOnLongClickListener(new OnLongClickListener() {
-
-            @Override public boolean onLongClick(View v) {
-                AppState.get().isVisibleSorting = !AppState.get().isVisibleSorting;
-                sortOrder.setVisibility(TxtUtils.visibleIf(AppState.get().isVisibleSorting));
-                return true;
-            }
-        });
-
+        // The sort button says which way round the list runs; a long press turns it round.
         onSort.setOnLongClickListener(new OnLongClickListener() {
 
             @Override public boolean onLongClick(View v) {
-                AppState.get().isVisibleSorting = !AppState.get().isVisibleSorting;
-                sortOrder.setVisibility(TxtUtils.visibleIf(AppState.get().isVisibleSorting));
+                AppState.get().sortByReverse = !AppState.get().sortByReverse;
+                onSort.setImageResource(AppState.get().sortByReverse ? R.drawable.glyphicons_477_sort_attributes_alt :
+                        R.drawable.glyphicons_476_sort_attributes);
+                populate();
                 return true;
             }
         });
-        sortOrder.setVisibility(TxtUtils.visibleIf(AppState.get().isVisibleSorting));
+        sortOrder.setVisibility(View.GONE);
 
         openAsBook.setOnClickListener(new OnClickListener() {
 
@@ -343,10 +325,7 @@ import java.util.Map;
 
         onSort.setImageResource(AppState.get().sortByReverse ? R.drawable.glyphicons_477_sort_attributes_alt :
                 R.drawable.glyphicons_476_sort_attributes);
-        sortOrder.setImageResource(AppState.get().sortByReverse ? R.drawable.glyphicons_222_chevron_up :
-                R.drawable.glyphicons_221_chevron_down);
 
-        sortOrder.setContentDescription(getString(R.string.ascending) + " " + getString(R.string.descending));
         onSort.setContentDescription(getString(R.string.cd_sort_results));
 
         onAction = view.findViewById(R.id.onAction);
@@ -731,9 +710,10 @@ import java.util.Map;
             @Override public void onClick(View v) {
 
                 List<String> names = Arrays.asList(//
-                        getActivity().getString(R.string.by_file_name), //
                         getActivity().getString(R.string.by_date), //
+                        getActivity().getString(R.string.publication_date), //
                         getActivity().getString(R.string.by_size), //
+                        getActivity().getString(R.string.by_file_name), //
                         getActivity().getString(R.string.by_title), //
                         getActivity().getString(R.string.by_author), //
                         getActivity().getString(R.string.by_number_in_serie), //
@@ -742,9 +722,10 @@ import java.util.Map;
                                                   );//
 
                 final List<Integer> ids = Arrays.asList(//
-                        AppState.BR_SORT_BY_PATH, //
                         AppState.BR_SORT_BY_DATE, //
+                        AppState.BR_SORT_BY_YEAR, //
                         AppState.BR_SORT_BY_SIZE, //
+                        AppState.BR_SORT_BY_PATH, //
                         AppState.BR_SORT_BY_TITLE, //
                         AppState.BR_SORT_BY_AUTHOR, //
                         AppState.BR_SORT_BY_NUMBER, //
@@ -758,6 +739,7 @@ import java.util.Map;
                     final int j = i;
                     menu.getMenu()
                         .add(name)
+                        .setIconSmall(AppState.get().sortByBrowse == ids.get(j) ? TintUtil.SORT_CURRENT_ICON : 0)
                         .setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
                             @Override public boolean onMenuItemClick(MenuItem item) {
@@ -1556,7 +1538,6 @@ import java.util.Map;
     @Override public void notifyFragment() {
         if (searchAdapter != null) {
             searchAdapter.notifyDataSetChanged();
-            sortOrder.setVisibility(TxtUtils.visibleIf(AppState.get().isVisibleSorting));
         }
 
     }

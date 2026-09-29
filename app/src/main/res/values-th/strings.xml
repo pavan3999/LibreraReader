@@ -39,6 +39,7 @@
    <string name="document_converter_online_">ตัวแปลงเอกสาร (ออนไลน์)</string>
    <string name="book_covers">ปกหนังสือ</string>
    <string name="cover_image_size">ขนาดภาพปก</string>
+   <string name="cover_radius">ความโค้งมุมปก</string>
    <string name="column_count">จำนวนคอลัมน์</string>
    <string name="show_book_covers">แสดงปกหนังสือ</string>
    <string name="enable_effect_of_the_book_cover">เปิดใช้งานภาพปกหนังสือ</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">ไม่มีซีรี่ส์</string>
    <string name="no_genre">ไม่มีประเภท</string>
    <string name="no_language">ไม่มีภาษา</string>
+   <string name="no_date">ไม่มีวันที่</string>
    <string name="without_series">ไม่มีซีรีย์</string>
    <string name="folders">โฟลเดอร์</string>
    <string name="recent">เมื่อเร็วๆนี้</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">คำเตือน: เอกสารนี้มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก</string>
    <string name="bold_headings">หัวข้อตัวหนา</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">ดูวิดีโอสั้นนี้เพื่อปิดโฆษณาทั้งหมดเป็นเวลา 1 ชั่วโมง</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">ดูวิดีโอสั้นนี้เพื่อปิดโฆษณาทั้งหมดเป็นเวลา 2 ชั่วโมง</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">ดูวิดีโอสั้นนี้เพื่อปิดโฆษณาทั้งหมดเป็นเวลา 3 ชั่วโมง</string>
    <string name="the_book_is_complete">หนังสือเล่มนี้เขียนเสร็จสมบูรณ์แล้ว</string>
    <string name="time">เวลา</string>
    <string name="date_added">วันที่เพิ่ม</string>

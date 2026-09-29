@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Converteer document online</string>
    <string name="book_covers">Boekomslagen</string>
    <string name="cover_image_size">Boekomslag afbeelding grootte</string>
+   <string name="cover_radius">Afronding omslag</string>
    <string name="column_count">Aantal kolommen</string>
    <string name="show_book_covers">Toon boekomslag</string>
    <string name="enable_effect_of_the_book_cover">Boots gedrukte boekomslagen na</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Geen serie</string>
    <string name="no_genre">Geen genre</string>
    <string name="no_language">Geen taal</string>
+   <string name="no_date">Geen datum</string>
    <string name="without_series">Zonder serie</string>
    <string name="folders">Mappen</string>
    <string name="recent">Recent</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Waarschuwing: dit document bevat niet-opgeslagen wijzigingen</string>
    <string name="bold_headings">Vetgedrukte koppen</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Bekijk dit korte filmpje om alle advertenties 1 uur lang uit te schakelen.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Bekijk dit korte filmpje om alle advertenties 2 uur lang uit te schakelen.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Bekijk dit korte filmpje om alle advertenties 3 uur lang uit te schakelen.</string>
    <string name="the_book_is_complete">Het boek is af.</string>
    <string name="time">Tijd</string>
    <string name="date_added">Datum toegevoegd</string>

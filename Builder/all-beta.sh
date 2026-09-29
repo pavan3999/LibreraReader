@@ -26,29 +26,68 @@ echo "Translations OK: $EN_LINES lines"
 if [ "$(uname)" == "Darwin" ]; then
   export JAVA_HOME=`/usr/libexec/java_home -v 24`
 else
-  export JAVA_HOME=/home/dev/.local/share/JetBrains/Toolbox/apps/android-studio/jbr
+  # librera_java_home in the global ~/.gradle/gradle.properties, else the JDK of Android Studio
+  LIBRERA_JAVA_HOME=$(sed -n 's/^librera_java_home=//p' "${GRADLE_USER_HOME:-$HOME/.gradle}/gradle.properties" | tail -n 1)
+  export JAVA_HOME="${LIBRERA_JAVA_HOME:-$HOME/.local/share/JetBrains/Toolbox/apps/android-studio/jbr}"
 fi
 
 
-./link_to_mupdf_1.28.3.sh
+# The betas of every MuPDF: ./all-beta.sh, or ./all-beta.sh 1.28.5 for one of them. The version
+# goes into the names of the APKs and the bundles (-Pmupdf), so the betas sit side by side.
+MUPDF_VERSIONS=("$@")
+if [ ${#MUPDF_VERSIONS[@]} -eq 0 ]; then
+  MUPDF_VERSIONS=(1.28.4 1.28.5)
+fi
+for MUPDF in "${MUPDF_VERSIONS[@]}"; do
+  if [ ! -f "./link_to_mupdf_$MUPDF.sh" ]; then
+    echo "ERROR: no MuPDF [$MUPDF], one of:" $(ls link_to_mupdf_*.sh | sed 's/link_to_mupdf_//; s/\.sh//')
+    exit 1
+  fi
+done
+echo "MuPDF: ${MUPDF_VERSIONS[*]}"
 
 cd ../
 
-./gradlew clean incVersion
-./gradlew assembleProRelease
-./gradlew assembleLibreraRelease
-./gradlew assembleFdroidRelease
+# One gradle run at a time, and nothing is built until the raised version is on disk.
+CODE_BEFORE=$(sed -n 's/^appCodeNumber=//p' app/gradle.properties | tr -d ' \r')
 
-####################################
+./gradlew clean || exit 1
+./gradlew incVersion || exit 1
+./gradlew updateFDroid || exit 1
 
-./gradlew copyApks -Pbeta
+CODE_AFTER=$(sed -n 's/^appCodeNumber=//p' app/gradle.properties | tr -d ' \r')
+if [ -z "$CODE_AFTER" ] || [ "$CODE_AFTER" = "$CODE_BEFORE" ]; then
+  echo "ERROR: incVersion left appCodeNumber at $CODE_BEFORE"
+  exit 1
+fi
+echo "Version raised: $CODE_BEFORE -> $CODE_AFTER"
+
+# One pass per MuPDF, the version is only raised once: every beta is of the same Librera
+for MUPDF in "${MUPDF_VERSIONS[@]}"; do
+  echo "=================="
+  echo "MuPDF: $MUPDF"
+  echo "=================="
+
+  ./Builder/link_to_mupdf_$MUPDF.sh || exit 1
+
+  # the native library of the MuPDF before must not end up in these APKs
+  ./gradlew clean || exit 1
+
+  ./gradlew assembleProRelease -Pmupdf=$MUPDF || exit 1
+  #./gradlew assembleLibreraRelease -Pmupdf=$MUPDF
+  ./gradlew assembleFdroidRelease -Pmupdf=$MUPDF || exit 1
+
+  ####################################
+
+  ./gradlew copyApks -Pbeta -Pmupdf=$MUPDF || exit 1
+done
 ./gradlew -stop
 
 ####################################
 
 
-#rm /Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/testing/*-x86*
-#rm /Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/testing/*-arm.apk
+#rm "$BUILDS_DIR"/*-x86*
+#rm "$BUILDS_DIR"/*-arm.apk
 
 cd Builder
 ./remove_all.sh

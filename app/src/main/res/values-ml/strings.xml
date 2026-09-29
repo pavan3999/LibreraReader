@@ -39,6 +39,7 @@
    <string name="document_converter_online_">പ്രമാണം ഓൺ‌ലൈനായി പരിവർത്തനം ചെയ്യുക</string>
    <string name="book_covers">പുസ്തക കവറുകൾ</string>
    <string name="cover_image_size">ലഘുചിത്ര വലുപ്പം</string>
+   <string name="cover_radius">കവറിന്റെ കോൺ വളവ്</string>
    <string name="column_count">നിരകൾ</string>
    <string name="show_book_covers">പുസ്തക കവറുകൾ പ്രദർശിപ്പിക്കുക</string>
    <string name="enable_effect_of_the_book_cover">മോക്ക് പ്രിന്റ് ബുക്ക് കവറുകൾ</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">സീരീസ് ഇല്ല</string>
    <string name="no_genre">ഒരു വിഭാഗവുമില്ല</string>
    <string name="no_language">ഭാഷയില്ല</string>
+   <string name="no_date">തീയതി ഇല്ല</string>
    <string name="without_series">N / a</string>
    <string name="folders">ഫോൾഡർ</string>
    <string name="recent">സമീപകാലത്ത്</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">മുന്നറിയിപ്പ്: ഈ പ്രമാണത്തിൽ സംരക്ഷിക്കാത്ത മാറ്റങ്ങളുണ്ട്.</string>
    <string name="bold_headings">ബോൾഡ് തലക്കെട്ടുകൾ</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">ഒരു മണിക്കൂർ നേരത്തേക്ക് എല്ലാ പരസ്യങ്ങളും ഓഫാക്കാൻ ഈ ചെറിയ വീഡിയോ കാണുക.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">എല്ലാ പരസ്യങ്ങളും 2 മണിക്കൂർ ഓഫാക്കാൻ ഈ ചെറിയ വീഡിയോ കാണുക.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">എല്ലാ പരസ്യങ്ങളും 3 മണിക്കൂർ ഓഫാക്കാൻ ഈ ചെറിയ വീഡിയോ കാണുക.</string>
    <string name="the_book_is_complete">പുസ്തകം പൂർത്തിയായി.</string>
    <string name="time">സമയം</string>
    <string name="date_added">ചേർത്ത തീയതി</string>

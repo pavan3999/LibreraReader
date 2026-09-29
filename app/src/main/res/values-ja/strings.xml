@@ -39,6 +39,7 @@
    <string name="document_converter_online_">文書変換 (オンライン)</string>
    <string name="book_covers">ブックカバー</string>
    <string name="cover_image_size">カバー画像サイズ</string>
+   <string name="cover_radius">カバーの角の丸み</string>
    <string name="column_count">列数</string>
    <string name="show_book_covers">ブックカバーを表示する</string>
    <string name="enable_effect_of_the_book_cover">ブックカバーの効果を有効にする</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">シリーズなし</string>
    <string name="no_genre">ジャンルなし</string>
    <string name="no_language">言語なし</string>
+   <string name="no_date">日付なし</string>
    <string name="without_series">シリーズなし</string>
    <string name="folders">フォルダ</string>
    <string name="recent">最近開いたファイル</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">警告: このドキュメントには保存されていない変更があります</string>
    <string name="bold_headings">太字の見出し</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">この短いビデオを見ると、1時間すべての広告がオフになります</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">この短いビデオを見て、2時間すべての広告をオフにしてください</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">この短いビデオを見て、3時間すべての広告をオフにしてください</string>
    <string name="the_book_is_complete">本は完成しました。</string>
    <string name="time">時間</string>
    <string name="date_added">追加日</string>

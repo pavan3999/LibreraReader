@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Convertor per rete</string>
    <string name="book_covers">Operimenti librorum</string>
    <string name="cover_image_size">Dimensionis operimentorum</string>
+   <string name="cover_radius">Radius operimenti</string>
    <string name="column_count">Quantitas columnarum</string>
    <string name="show_book_covers">Ostendere operimenta librarum</string>
    <string name="enable_effect_of_the_book_cover">Dare sinceroritatem ad involucris</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Nulla catena</string>
    <string name="no_genre">Nullum generis</string>
    <string name="no_language">Nec lingua</string>
+   <string name="no_date">Sine dato</string>
    <string name="without_series">Foras catena</string>
    <string name="folders">Coopercula</string>
    <string name="recent">Recentissimi</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Monitum: hoc documentum mutationes non servatas habet.</string>
    <string name="bold_headings">Tituli crassi</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Hoc breve video specta ut omnes inscriptiones per horam unam excludas.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Hoc breve video specta ut omnes inscriptiones per duas horas excludas.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Hoc breve video specta ut omnes inscriptiones per tres horas excludas.</string>
    <string name="the_book_is_complete">Liber completus est.</string>
    <string name="time">Tempus</string>
    <string name="date_added">Dies addita</string>

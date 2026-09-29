@@ -39,6 +39,7 @@
    <string name="document_converter_online_">Belge dönüştürücü (çevrimiçi)</string>
    <string name="book_covers">Kitap kapakları</string>
    <string name="cover_image_size">Kapak Resmi Boyutu</string>
+   <string name="cover_radius">Kapak köşe yuvarlaklığı</string>
    <string name="column_count">Sütun sayısı</string>
    <string name="show_book_covers">Kitap kapaklarını göster</string>
    <string name="enable_effect_of_the_book_cover">Kitap kapağı etkisini etkinleştir</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">Dizi yok</string>
    <string name="no_genre">Tür yok</string>
    <string name="no_language">Dil yok</string>
+   <string name="no_date">Tarih yok</string>
    <string name="without_series">Dizisiz</string>
    <string name="folders">Klasör</string>
    <string name="recent">Son</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">Uyarı: bu belgede kaydedilmemiş değişiklikler var</string>
    <string name="bold_headings">Kalın başlıklar</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">Bu kısa videoyu izleyerek 1 saat boyunca tüm reklamları kapatabilirsiniz.</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">Bu kısa videoyu izleyerek 2 saat boyunca tüm reklamları kapatabilirsiniz.</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">Bu kısa videoyu izleyerek 3 saat boyunca tüm reklamları kapatabilirsiniz.</string>
    <string name="the_book_is_complete">Kitap tamamlandı.</string>
    <string name="time">Zaman</string>
    <string name="date_added">Eklenme tarihi</string>

@@ -39,6 +39,7 @@
    <string name="document_converter_online_">تبدیل سند (آنلاین)</string>
    <string name="book_covers">کتاب پوشش می دهد</string>
    <string name="cover_image_size">اندازه تصویر جلد</string>
+   <string name="cover_radius">گردی گوشه‌های جلد</string>
    <string name="column_count">تعداد ستون</string>
    <string name="show_book_covers">نمایش جلد کتاب</string>
    <string name="enable_effect_of_the_book_cover">فعال کردن اثر از جلد کتاب</string>
@@ -174,6 +175,7 @@
    <string name="no_serie">هیچ سریالی وجود ندارد</string>
    <string name="no_genre">هیچ ژانر نیست</string>
    <string name="no_language">بدون زبان</string>
+   <string name="no_date">بدون تاریخ</string>
    <string name="without_series">بدون سری</string>
    <string name="folders">پوشه</string>
    <string name="recent">اخیر</string>
@@ -674,7 +676,7 @@
    <string name="warning_this_document_has_unsaved_changes">هشدار: این سند تغییرات ذخیره نشده‌ای دارد</string>
    <string name="bold_headings">عنوان‌های پررنگ</string>
    <string name="watch_this_short_video_to_turn_off_all_ads_for_1_hour">برای خاموش کردن تمام تبلیغات به مدت ۱ ساعت، این ویدیوی کوتاه را تماشا کنید</string>
-   <string name="watch_this_short_video_to_turn_off_all_ads_for_2_hour">برای غیرفعال کردن تمام تبلیغات به مدت ۲ ساعت، این ویدیوی کوتاه را تماشا کنید</string>
+   <string name="watch_this_short_video_to_turn_off_all_ads_for_3_hour">برای غیرفعال کردن تمام تبلیغات به مدت ۳ ساعت، این ویدیوی کوتاه را تماشا کنید</string>
    <string name="the_book_is_complete">کتاب کامل است.</string>
    <string name="time">زمان</string>
    <string name="date_added">تاریخ اضافه شد</string>

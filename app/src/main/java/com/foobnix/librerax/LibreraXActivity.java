@@ -10,7 +10,9 @@ import android.os.Bundle;
 import com.foobnix.android.utils.LOG;
 import com.foobnix.android.utils.TxtUtils;
 import com.foobnix.model.AppBook;
+import com.foobnix.model.AppBookmark;
 import com.foobnix.model.AppState;
+import com.foobnix.pdf.info.BookmarksData;
 import com.foobnix.pdf.info.ExtUtils;
 import com.foobnix.pdf.info.R;
 import com.foobnix.pdf.search.activity.msg.NotifyAllFragments;
@@ -19,14 +21,11 @@ import com.foobnix.ui2.MyContextWrapper;
 
 import org.ebookdroid.common.settings.books.SharedBooks;
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 
-/**
- * Opens a book in LibreraX and waits for it to be closed there: the place it was closed at
- * is saved as the book's progress, the same as a book closed in Librera's own reader.
- * Nothing is shown unless LibreraX is missing, then the popup to download it.
- */
 public class LibreraXActivity extends Activity {
 
     private static final int REQUEST_READ = 1;
@@ -36,7 +35,6 @@ public class LibreraXActivity extends Activity {
     private boolean started;
 
     @Override protected void attachBaseContext(Context context) {
-        // the language chosen in the app, not the system one
         super.attachBaseContext(MyContextWrapper.wrap(context));
     }
 
@@ -85,6 +83,9 @@ public class LibreraXActivity extends Activity {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.putExtra(LibreraX.EXTRA_PERCENT, percent);
         intent.putExtra(LibreraX.EXTRA_PAGE_TEXT, pageText);
+        if (path != null) {
+            intent.putExtra(LibreraX.EXTRA_BOOKMARKS, bookmarksJson(path));
+        }
         LOG.d("LibreraX-open", path, percent, pageText);
 
         try {
@@ -120,6 +121,42 @@ public class LibreraXActivity extends Activity {
                          data.getStringExtra(LibreraX.EXTRA_PAGE_TEXT));
         }
         finish();
+    }
+
+    // kept small enough for an intent
+    private static final int BOOKMARKS_MAX = 1000;
+    private static final int BOOKMARK_TEXT_MAX = 500;
+
+    private String bookmarksJson(String path) {
+        final JSONArray array = new JSONArray();
+        try {
+            final String quick = getString(R.string.fast_bookmark);
+            for (AppBookmark bookmark : BookmarksData.get().getBookmarksByBook(path)) {
+                if (array.length() >= BOOKMARKS_MAX) {
+                    break;
+                }
+                // a quick bookmark's text is a label, not words of the page
+                String find = bookmark.pt;
+                if (TxtUtils.isEmpty(find) && !quick.equals(bookmark.text)) {
+                    find = bookmark.text;
+                }
+                array.put(new JSONObject()
+                        .put("text", cut(bookmark.text))
+                        .put("p", (double) bookmark.p)
+                        .put("pt", cut(find))
+                        .put("t", bookmark.t));
+            }
+        } catch (Exception e) {
+            LOG.e(e);
+        }
+        return array.toString();
+    }
+
+    private static String cut(String text) {
+        if (text == null) {
+            return "";
+        }
+        return text.length() > BOOKMARK_TEXT_MAX ? text.substring(0, BOOKMARK_TEXT_MAX) : text;
     }
 
     private static void saveProgress(String path, float percent, String pageText) {

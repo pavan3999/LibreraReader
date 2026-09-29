@@ -7,8 +7,8 @@ def taskName = getGradle().getStartParameter().getTaskRequests().toString()
 
 
 ext {
-    FDroidCodeNumber = 7306
-    FDroidVersionNumber = "9.6.17"
+    FDroidCodeNumber = 7378
+    FDroidVersionNumber = "9.6.34"
 }
 
 
@@ -26,8 +26,13 @@ ext {
         versionNumber = FDroidVersionNumber
     }
 
+    // The MuPDF the native library was built from, when the build script says (-Pmupdf=1.28.5):
+    // it goes into the names of the APKs, bundles and mappings, so builds of both can sit side by side
+    mupdfVersion = project.findProperty("mupdf")
+    mupdfSuffix = mupdfVersion ? "-mupdf" + mupdfVersion : ""
+
     println ""
-    println "Version: [" + versionNumber + " - " + codeNumber + "]"
+    println "Version: [" + versionNumber + " - " + codeNumber + "]" + (mupdfVersion ? " MuPDF " + mupdfVersion : "")
 }
 
 android {
@@ -363,10 +368,10 @@ androidComponents {
             if (abi != null) {
                 def abiName = abi.replace("arm64-v8a", "arm64").replace("armeabi-v7a", "arm")
                 output.versionCode.set(abiCodes.get(abi, 0) + codeNumber)
-                output.outputFileName.set("Librera ${flavor}-${versionNumber}-${abiName}.apk")
+                output.outputFileName.set("Librera ${flavor}-${versionNumber}${mupdfSuffix}-${abiName}.apk")
             } else {
                 output.versionCode.set(codeNumber)
-                output.outputFileName.set("Librera ${flavor}-${versionNumber}-uni.apk")
+                output.outputFileName.set("Librera ${flavor}-${versionNumber}${mupdfSuffix}-uni.apk")
             }
         }
     }
@@ -376,32 +381,50 @@ tasks.register("copyApks") {
     if (project.hasProperty('beta') || project.hasProperty("release")) {
         println "My Task: [copy apks]"
 
-        //delete fileTree("/home/dev/Dropbox/FREE_PDF_APK/testing").include("*.apk")
-        //delete fileTree("/home/dev/Nextcloud/LibreraBeta").include("*.apk")
-        delete fileTree("/Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/testing").include("*.apk", "*.aab", "*-mapping.txt")
+        // Where the builds go: librera_builds_dir in the global ~/.gradle/gradle.properties
+        def buildsDir = project.findProperty("librera_builds_dir")
+        if (!buildsDir) {
+            throw new GradleException("librera_builds_dir is not set in ~/.gradle/gradle.properties")
+        }
 
-        delete fileTree("/Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/$versionNumber").include("*.apk", "*.aab", "*-mapping.txt")
-        //delete fileTree("/home/dev/Dropbox/FREE_PDF_APK/testing/$versionNumber").include("*.apk")
+        // Only the builds of the same MuPDF are replaced: the builds of the other one, of the same
+        // Librera, stay next to them (the beta script makes one pass per MuPDF)
+        def own = mupdfSuffix ? "*${mupdfSuffix}*" : "*"
+
+        delete fileTree(buildsDir).include("${own}.apk", "${own}.aab", "${own}-mapping.txt")
+
+        // Second destination of the betas, the folder the testers read: librera_beta_dir in the
+        // global ~/.gradle/gradle.properties. Unset, a beta only goes to buildsDir.
+        def betaDir = project.hasProperty("beta") ? project.findProperty("librera_beta_dir") : null
+        if (betaDir) {
+            // Only our own builds: the folder holds the APKs of other projects as well
+            delete fileTree(betaDir).include("Librera ${own}.apk", "Librera ${own}.aab")
+        }
+
+        // The version's own folder is emptied only when a release is about to be copied into it
+        if (project.hasProperty("release")) {
+            delete fileTree("$buildsDir/$versionNumber").include("${own}.apk", "${own}.aab", "${own}-mapping.txt")
+        }
 
         android.productFlavors.each { productFlavor ->
             {
                 def flavor = productFlavor.name
-                def appName = "Librera ${flavor.capitalize()}-${flavor == 'fdroid' ? FDroidVersionNumber : versionNumber}"
+                def appName = "Librera ${flavor.capitalize()}-${flavor == 'fdroid' ? FDroidVersionNumber : versionNumber}${mupdfSuffix}"
 
                 //println "====  " + variant.buildType.name + " " +  flavor
 
                 def list = []
 
                 if (project.hasProperty("beta")) {
-                    //list.add("/home/dev/Nextcloud/LibreraBeta")
-                    list.add("/Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/testing")
-                    //list.add("/home/dev/Dropbox/FREE_PDF_APK/testing")
+                    list.add(buildsDir)
+                    if (betaDir) {
+                        list.add(betaDir)
+                    }
                 }
 
 
                 if (project.hasProperty("release")) {
-                    //list.add("/home/dev/Dropbox/FREE_PDF_APK/testing/$versionNumber")
-                    list.add("/Users/ivanivanenko/Library/CloudStorage/Dropbox/FREE_PDF_APK/testing/$versionNumber")
+                    list.add("$buildsDir/$versionNumber")
                 }
                 list.each { dest ->
 
@@ -437,9 +460,6 @@ tasks.register("copyApks") {
                 }
             }
         }
-
-        //File file = new File('/home/data/Dropbox/FREE_PDF_APK/testing/version.txt')
-        //file.write versionNumber
     }
 }
 
@@ -452,7 +472,7 @@ tasks.register("incVersion") {
 
         File propsFile = new File(progejectDir, 'gradle.properties')
 
-        props.load(propsFile.newDataInputStream())
+        propsFile.withInputStream { props.load(it) }
 
         int appCodeNumber = Integer.parseInt(props.getProperty('appCodeNumber'))
         appCodeNumber += 4
@@ -463,8 +483,34 @@ tasks.register("incVersion") {
         props.setProperty('appCodeNumber', "" + appCodeNumber)
         props.setProperty('appVersionNumberIndex', "" + appVersionNumberIndex)
 
-        props.store(propsFile.newWriter(), null)
+        // Closed before the task ends, so the next gradle run reads the whole file.
+        propsFile.withWriter { props.store(it, null) }
 
         println "My Task: [incVersion]"
+    }
+}
+
+tasks.register("updateFDroid") {
+    File projectDir = layout.projectDirectory.getAsFile()
+    doLast {
+        Properties props = new Properties()
+        File propsFile = new File(projectDir, 'gradle.properties')
+        propsFile.withInputStream { props.load(it) }
+
+        String code = props.getProperty('appCodeNumber')
+        String version = props.getProperty('appVersionNumberBase') + "." + props.getProperty('appVersionNumberIndex')
+
+        // Written into build.gradle itself, so F-Droid's own build of the source carries it.
+        File buildFile = new File(projectDir, 'build.gradle')
+        String text = buildFile.getText('UTF-8')
+                .replaceFirst(/FDroidCodeNumber = \d+/, "FDroidCodeNumber = " + code)
+                .replaceFirst(/FDroidVersionNumber = "[^"]*"/, "FDroidVersionNumber = \"" + version + "\"")
+
+        if (!text.contains("FDroidCodeNumber = " + code) || !text.contains("FDroidVersionNumber = \"" + version + "\"")) {
+            throw new GradleException("updateFDroid: FDroidCodeNumber/FDroidVersionNumber not found in build.gradle")
+        }
+        buildFile.setText(text, 'UTF-8')
+
+        println "My Task: [updateFDroid] " + version + " - " + code
     }
 }
