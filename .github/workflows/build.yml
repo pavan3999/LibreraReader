@@ -273,6 +273,32 @@ jobs:
             app/src/main/jniLibs/arm64-v8a/liblame.so
           key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.5.sh', 'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java') }}
 
+      - name: Copy MuPDF ARM64 libraries
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          SRC="Builder/mupdf-1.28.5/platform/librera/libs/arm64-v8a"
+          DEST="app/src/main/jniLibs/arm64-v8a"
+
+          echo "=== Built native libraries ==="
+          ls -lah "$SRC"
+
+          test -f "$SRC/libmupdf.so"
+          test -f "$SRC/liblame.so"
+
+          mkdir -p "$DEST"
+
+          # Preserve the filename expected by the existing workflow.
+          cp -p "$SRC/libmupdf.so" "$DEST/libMuPDF.so"
+          cp -p "$SRC/liblame.so" "$DEST/liblame.so"
+
+          echo "=== Verify final libraries ==="
+          ls -lah "$DEST"
+          test -s "$DEST/libMuPDF.so"
+          test -s "$DEST/liblame.so"
+
+          file "$DEST/libMuPDF.so" "$DEST/liblame.so"
 
       # =========================================================
       # Verify native libraries
