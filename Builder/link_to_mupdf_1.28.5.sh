@@ -23,7 +23,7 @@ mkdir -p $MUPDF_JAVA/jni
 
 SRC=jni/~mupdf-$VERSION_TAG
 DEST=$MUPDF_ROOT/source
-LIBS=$BUILD_DIR/../app/src/main/jniLibs
+LIBS="$BUILD_DIR/../app/src/main/jniLibs"
 
 echo "MUPDF :" $VERSION_TAG
 echo "================== "
@@ -54,10 +54,11 @@ cp -Rp jni $MUPDF_JAVA/jni
 mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 
 
-rm -r $LIBS
-mkdir $LIBS
+rm -rf "$LIBS"
+mkdir -p "$LIBS"
 
-ln -s $MUPDF_JAVA/libs/arm64-v8a $LIBS
+# Expose the NDK output at the exact Android Gradle jniLibs path.
+ln -s "$MUPDF_JAVA/libs/arm64-v8a" "$LIBS/arm64-v8a"
 
 # The second target, the flavours without MuPDF (the JS ones): the same libraries but libmupdf.so,
 # in libs-nomupdf, which is filled from libs once the build below is done
@@ -146,7 +147,17 @@ if [ "$1" == "clean_ndk" ]; then
 fi
 
 "$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a APP_PLATFORM=android-24
-wait
+
+echo "=== MuPDF ARM64 output ==="
+ls -lah "$MUPDF_JAVA/libs/arm64-v8a"
+
+if ! find "$MUPDF_JAVA/libs/arm64-v8a" -maxdepth 1 -type f -name '*.so' -print -quit | grep -q .; then
+  echo "ERROR: NDK produced no ARM64 shared libraries."
+  exit 1
+fi
+
+echo "=== App ARM64 library path ==="
+ls -lah "$LIBS/arm64-v8a"
 
 # libs-nomupdf: every library of libs but libmupdf.so - the very same files, so a DjVu, a .doc,
 # a .mobi or a comic is read by the same binary in both targets
