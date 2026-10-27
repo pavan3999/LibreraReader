@@ -244,6 +244,7 @@
    <string name="allow">İzin ver</string>
    <string name="storage">Depolama</string>
    <string name="add_all_books_with_permission">Kitapların kitaplığınıza otomatik olarak eklenmesi için lütfen uygulamanın İndirilenler klasörünüzü taramasına izin verin.</string>
+   <string name="allow_access_to_see_files">Bu klasördeki kitapları görmek için tüm dosyalara erişime izin verin. İzin olmadan yalnızca klasörleri gösterilir.</string>
    <string name="save_settings_in_librera_folder">Ayarları ve okuma ilerlemesini Librera klasörüne kaydet.</string>
    <string name="regrant_folder_title">Klasöre yeniden erişim izni ver</string>
    <string name="regrant_folder_msg">Uygulama artık %1$s klasörünü okuyamıyor: Android, uygulama yeniden yüklendiğinde klasör erişimini kaldırır. Sonraki ekranda klasörü yeniden seçin.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Büyük harf göster</string>
    <string name="size">Boyut</string>
    <string name="quick_bookmark_by_the_headset">Kulaklıkla hızlı yer imi</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">TTS düğmelerini sayfanın altında göster</string>
    <string name="slider_scale">Kaymak ölçeği</string>
    <string name="chapter_format">Bölüm formatı</string>
    <string name="play_a_music_file">Bir müzik dosyası çal</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Kitaplar bu klasörlerde ve alt klasörlerinde aranır.</string>
    <string name="add_folder_hint">Bir klasör seçin</string>
    <string name="add_storage_hint">SD kart veya USB sürücü</string>
+   <string name="folder_no_access">Erişim yok · yeniden izin vermek için dokunun</string>
    <string name="watch">İzle</string>
    <string name="librerax_not_installed">LibreraX yüklü değil. İndirip yükleyin, ardından kitabı yeniden açın.</string>
    <string name="remove_library_folder">Bu klasör kitaplıktan kaldırılsın mı? İçindeki dosyalar silinmez.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Temel stil sayfasını uygula (foliate-js)</string>
    <string name="pdf_engine">PDF motoru</string>
    <string name="msg_pdf_engine_unavailable">Bu sürüm PDFium kitaplıklarını içermiyor.</string>
+   <string name="book_open_failed">Bu kitap açılamadı.</string>
+   <string name="book_open_crashed">Uygulama, bu kitap son açılırken beklenmedik şekilde kapandı.</string>
+   <string name="try_librerax">LibreraX ile açmayı deneyin.</string>
+   <string name="get_librerax">LibreraX bunu açabilir. Buradan indirin:</string>
+   <string name="open_in_librerax">LibreraX ile aç</string>
+   <string name="try_again">Tekrar dene</string>
+   <string name="export_to_librerax">LibreraX\'e aktar</string>
+   <string name="update_librerax">Librera\'dan içe aktarmak için LibreraX\'i en son sürüme güncelleyin.</string>
+   <string name="reading_progress">Okuma ilerlemesi</string>
 </resources>

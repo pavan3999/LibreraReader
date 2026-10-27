@@ -1,5 +1,12 @@
 package com.foobnix.pdf.info.wrapper;
 
+import android.content.pm.ApplicationInfo;
+import android.widget.TextView;
+import org.ebookdroid.droids.foliate.codec.FoliateDocument;
+import org.ebookdroid.droids.pdfium.codec.PdfiumDocument;
+import org.ebookdroid.droids.djvu.codec.DjvuDocument;
+import org.ebookdroid.droids.comic.codec.ComicDocument;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -78,6 +85,9 @@ import org.ebookdroid.common.settings.books.SharedBooks;
 import org.ebookdroid.core.codec.Annotation;
 import org.ebookdroid.ui.viewer.VerticalViewActivity;
 import org.ebookdroid.core.codec.CodecDocument;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import org.ebookdroid.core.codec.PageLink;
 
 import java.io.File;
@@ -747,6 +757,37 @@ public abstract class DocumentController {
         return MyMath.percent(getCurentPageFirst1(), getPageCount());
     }
 
+    /**
+     * In a debuggable build, the reading mode's name in the bottom bar is followed by the engine
+     * that lays the book out - [MuPDF], [foliate-js], [PDFium] - to tell at a glance which one is
+     * at work, as the engine asked for can fall back to MuPDF. Once the book is open, and again
+     * on every update, so the name is kept whatever rewrote it meanwhile.
+     */
+    public static void showEngineInDebug(TextView modeName, DocumentController dc) {
+        if (modeName == null || dc == null || dc.getActivity() == null
+                || (dc.getActivity().getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) == 0) {
+            return;
+        }
+        CodecDocument doc = dc.getCodecDocument();
+        if (doc == null) {
+            return;
+        }
+        String engine;
+        if (doc instanceof FoliateDocument) {
+            engine = "foliate-js";
+        } else if (doc instanceof PdfiumDocument) {
+            engine = "PDFium";
+        } else if (doc instanceof DjvuDocument) {
+            engine = "DjVu";
+        } else if (doc instanceof ComicDocument) {
+            engine = "Comic";
+        } else {
+            engine = "MuPDF";
+        }
+        String text = modeName.getText().toString().replaceAll(" \\[[^\\]]*\\]$", "");
+        modeName.setText(text + " [" + engine + "]");
+    }
+
     public CodecDocument getCodecDocument() {
         return null;
     }
@@ -906,7 +947,7 @@ public abstract class DocumentController {
         try {
             if (TTSEngine.get().isPlaying()) {
 
-                AppBook bs = SettingsManager.getBookSettings(getCurrentBook().getPath());
+                AppBook bs = SettingsManager.refreshBookSettings(getCurrentBook().getPath());
 
                 if (getCurrentBook().getPath().equals(AppSP.get().lastBookPath)) {
                     onGoToPage(bs.getCurrentPage(getPageCount()).viewIndex + 1);
@@ -949,11 +990,17 @@ public abstract class DocumentController {
             AppBook bs = SettingsManager.getBookSettings();
             bs.updateFromAppState();
             if (bs.pt == null && bs.getCurrentPage(getPageCount()).viewIndex + 1 == getCurentPageFirst1()) {
-                bs.pt = getBookmarkText();
-                // The exact place, when the engine can name one. It is written beside the
-                // percentage and the page text, never instead of them: another engine, an older
-                // version or another device has to be able to restore the position without it.
-                bs.cfi = getLocation();
+                // foliate answers only off the main thread, which is where this save runs: there
+                // the page text and the place are read on a thread of their own and written after
+                if (getCodecDocument() instanceof FoliateDocument && Looper.myLooper() == Looper.getMainLooper()) {
+                    savePlaceInBackground(bs, getCurentPageFirst1());
+                } else {
+                    bs.pt = getBookmarkText();
+                    // The exact place, when the engine can name one. It is written beside the
+                    // percentage and the page text, never instead of them: another engine, an older
+                    // version or another device has to be able to restore the position without it.
+                    bs.cfi = getLocation();
+                }
             }
             SharedBooks.save(bs);
             // The row the shelves are drawn from is brought up to the file straight away, so a
@@ -970,6 +1017,39 @@ public abstract class DocumentController {
 
     }
 
+    private static final long PLACE_READ_DELAY_MS = 2000;
+    private static final ScheduledExecutorService placeReader =
+            Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, "@T PlaceRead"));
+    private ScheduledFuture<?> placeRead;
+
+    // Read once the page has stood still: a turn, and the next page drawn ahead of it, need the
+    // same renderer and are not kept waiting on this. A newer page cancels the read still to come.
+    private void savePlaceInBackground(final AppBook bs, final int page) {
+        final float p = bs.p;
+        if (placeRead != null) {
+            placeRead.cancel(false);
+        }
+        placeRead = placeReader.schedule(() -> {
+            try {
+                final CodecDocument doc = getCodecDocument();
+                if (doc == null || bs.p != p || bs.pt != null) {
+                    return;
+                }
+                final String pt = doc.getBookmarkText(page);
+                final String cfi = doc.getLocation(page);
+                // the page turned meanwhile: currentPageChanged has cleared the place for the new one
+                if (pt == null || bs.p != p || bs.pt != null) {
+                    return;
+                }
+                bs.pt = pt;
+                bs.cfi = cfi;
+                SharedBooks.save(bs);
+            } catch (Exception e) {
+                LOG.e(e);
+            }
+        }, PLACE_READ_DELAY_MS, TimeUnit.MILLISECONDS);
+    }
+
     public boolean isBookMode() {
         return AppSP.get().readingMode == AppState.READING_MODE_BOOK;
     }
@@ -982,16 +1062,38 @@ public abstract class DocumentController {
         return AppSP.get().readingMode == AppState.READING_MODE_MUSICIAN;
     }
 
+    /**
+     * Writes the position the moment the reader leaves the screen - locked, sent to the
+     * background, or closed.
+     *
+     * Nothing was written on pause: a page turned only queued a write a second later, so a
+     * phone locked straight after a page turn kept the new page only in memory, for a process
+     * the system may kill in the background before it ever comes back to the front.
+     */
+    public void saveCurrentPageOnPause() {
+        handler2.removeCallbacks(saveCurrentPageRunnable);
+        if (activity.isFinishing()) {
+            // The document may already be closed, so its text cannot be asked for: what is in
+            // memory - the page, kept up to date on every page turn - is what is written.
+            SharedBooks.save(SettingsManager.getBookSettings());
+        } else {
+            saveCurrentPageAsync();
+        }
+    }
+
     public void onResume() {
         resetReadTimer();
 
         try {
             if (getPageCount() != 0) {
-                AppBook bs = SettingsManager.getBookSettings(getCurrentBook().getPath());
+                AppBook bs = SettingsManager.refreshBookSettings(getCurrentBook().getPath());
                 int page = bs.getCurrentPage(getPageCount()).viewIndex + 1;
-                if (getCurentPage() != page) {
+                // Both pages counted from 1. The book mode's getCurentPage() counts from 0, so it
+                // never equalled the saved page, and every return to the front searched the
+                // page text and turned the page, on the main thread, even with nothing to do.
+                if (getCurentPageFirst1() != page) {
                     page = findBookmarkPage(page, null, bs.pt, bs.cfi);
-                    if (getCurentPage() != page) {
+                    if (getCurentPageFirst1() != page) {
                         onGoToPage(page);
                     }
                 }

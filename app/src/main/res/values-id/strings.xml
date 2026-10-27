@@ -244,6 +244,7 @@
    <string name="allow">Izinkan</string>
    <string name="storage">Penyimpanan</string>
    <string name="add_all_books_with_permission">Harap izinkan aplikasi memindai folder Unduhan Anda untuk menambahkan buku ke perpustakaan secara otomatis.</string>
+   <string name="allow_access_to_see_files">Izinkan akses ke semua file untuk melihat buku di folder ini. Tanpanya, hanya foldernya yang ditampilkan.</string>
    <string name="save_settings_in_librera_folder">Simpan pengaturan dan kemajuan membaca di folder Librera.</string>
    <string name="regrant_folder_title">Izinkan lagi akses ke folder</string>
    <string name="regrant_folder_msg">Aplikasi tidak bisa lagi membaca %1$s: Android menghapus akses folder saat aplikasi dipasang ulang. Pilih folder itu lagi di layar berikutnya.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Tunjukkan huruf kapital</string>
    <string name="size">Ukuran</string>
    <string name="quick_bookmark_by_the_headset">Bookmark cepat dengan headset</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Tampilkan tombol TTS di bagian bawah halaman</string>
    <string name="slider_scale">Skala Slider</string>
    <string name="chapter_format">Format bab</string>
    <string name="play_a_music_file">Mainkan file musik</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Buku dicari di folder ini dan subfoldernya.</string>
    <string name="add_folder_hint">Pilih satu folder</string>
    <string name="add_storage_hint">Kartu SD atau drive USB</string>
+   <string name="folder_no_access">Tanpa akses · ketuk untuk mengizinkan lagi</string>
    <string name="watch">Tonton</string>
    <string name="librerax_not_installed">LibreraX belum terpasang. Unduh dan pasang, lalu buka buku lagi.</string>
    <string name="remove_library_folder">Hapus folder ini dari pustaka? File di dalamnya tidak akan dihapus.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Terapkan lembar gaya dasar (foliate-js)</string>
    <string name="pdf_engine">Mesin PDF</string>
    <string name="msg_pdf_engine_unavailable">Build ini tidak menyertakan pustaka PDFium.</string>
+   <string name="book_open_failed">Buku ini tidak dapat dibuka.</string>
+   <string name="book_open_crashed">Aplikasi tertutup secara tak terduga saat membuka buku ini terakhir kali.</string>
+   <string name="try_librerax">Coba buka di LibreraX.</string>
+   <string name="get_librerax">LibreraX mungkin dapat membukanya. Unduh di sini:</string>
+   <string name="open_in_librerax">Buka di LibreraX</string>
+   <string name="try_again">Coba lagi</string>
+   <string name="export_to_librerax">Ekspor ke LibreraX</string>
+   <string name="update_librerax">Perbarui LibreraX ke versi terbaru untuk mengimpor dari Librera.</string>
+   <string name="reading_progress">Kemajuan membaca</string>
 </resources>

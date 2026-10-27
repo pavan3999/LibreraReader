@@ -244,6 +244,7 @@
    <string name="allow">അനുവദിക്കുക</string>
    <string name="storage">സംഭരണം</string>
    <string name="add_all_books_with_permission">പുസ്തകങ്ങൾ നിങ്ങളുടെ ലൈബ്രറിയിലേക്ക് സ്വയം ചേർക്കാൻ, ഡൗൺലോഡ്സ് ഫോൾഡർ സ്കാൻ ചെയ്യാൻ ദയവായി ആപ്പിനെ അനുവദിക്കുക.</string>
+   <string name="allow_access_to_see_files">ഈ ഫോൾഡറിലെ പുസ്തകങ്ങൾ കാണാൻ എല്ലാ ഫയലുകളിലേക്കും ആക്സസ് അനുവദിക്കുക. അതില്ലാതെ ഇതിലെ ഫോൾഡറുകൾ മാത്രമേ കാണിക്കൂ.</string>
    <string name="save_settings_in_librera_folder">ക്രമീകരണങ്ങളും വായനാ പുരോഗതിയും Librera ഫോൾഡറിൽ സൂക്ഷിക്കുക.</string>
    <string name="regrant_folder_title">ഫോൾഡറിലേക്കുള്ള ആക്സസ് വീണ്ടും അനുവദിക്കുക</string>
    <string name="regrant_folder_msg">ആപ്പിന് ഇനി %1$s വായിക്കാൻ കഴിയില്ല: ആപ്പ് വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുമ്പോൾ Android ഫോൾഡർ ആക്സസ് നീക്കം ചെയ്യുന്നു. അടുത്ത സ്ക്രീനിൽ ഫോൾഡർ വീണ്ടും തിരഞ്ഞെടുക്കുക.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">ഇനീഷ്യലുകൾ ഉള്ള ലീഡ് ചാപ്റ്ററുകൾ</string>
    <string name="size">വലുപ്പം</string>
    <string name="quick_bookmark_by_the_headset">വിദൂര ബുക്ക്മാർക്കുകൾ പ്രാപ്തമാക്കുക (ആരംഭ / നിർത്തുക ബട്ടൺ)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">പേജിന്റെ താഴെ TTS ബട്ടണുകൾ കാണിക്കുക</string>
    <string name="slider_scale">സ്ലൈഡർ സ്കെയിൽ</string>
    <string name="chapter_format">ഇതിഹാസം</string>
    <string name="play_a_music_file">ഒരു ഓഡിയോ ഫയൽ പ്ലേ ചെയ്യുക</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">ഈ ഫോൾഡറുകളിലും അവയുടെ ഉപഫോൾഡറുകളിലും പുസ്തകങ്ങൾ തിരയുന്നു.</string>
    <string name="add_folder_hint">ഒരു ഫോൾഡർ തിരഞ്ഞെടുക്കുക</string>
    <string name="add_storage_hint">SD കാർഡ് അല്ലെങ്കിൽ USB ഡ്രൈവ്</string>
+   <string name="folder_no_access">ആക്സസ് ഇല്ല · വീണ്ടും അനുവദിക്കാൻ ടാപ്പ് ചെയ്യുക</string>
    <string name="watch">കാണുക</string>
    <string name="librerax_not_installed">LibreraX ഇൻസ്റ്റാൾ ചെയ്തിട്ടില്ല. ഇത് ഡൗൺലോഡ് ചെയ്ത് ഇൻസ്റ്റാൾ ചെയ്യുക, തുടർന്ന് പുസ്തകം വീണ്ടും തുറക്കുക.</string>
    <string name="remove_library_folder">ഈ ഫോൾഡർ ലൈബ്രറിയിൽ നിന്ന് നീക്കം ചെയ്യണോ? അതിലെ ഫയലുകൾ ഇല്ലാതാക്കില്ല.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">അടിസ്ഥാന സ്റ്റൈൽഷീറ്റ് പ്രയോഗിക്കുക (foliate-js)</string>
    <string name="pdf_engine">PDF എഞ്ചിൻ</string>
    <string name="msg_pdf_engine_unavailable">ഈ ബിൽഡിൽ PDFium ലൈബ്രറികൾ ഉൾപ്പെടുന്നില്ല.</string>
+   <string name="book_open_failed">ഈ പുസ്തകം തുറക്കാൻ കഴിഞ്ഞില്ല.</string>
+   <string name="book_open_crashed">കഴിഞ്ഞ തവണ ഈ പുസ്തകം തുറക്കുമ്പോൾ ആപ്പ് അപ്രതീക്ഷിതമായി അടഞ്ഞു.</string>
+   <string name="try_librerax">ഇത് LibreraX-ൽ തുറന്നുനോക്കൂ.</string>
+   <string name="get_librerax">LibreraX-ന് ഇത് തുറക്കാൻ കഴിഞ്ഞേക്കും. ഇവിടെ നിന്ന് ഡൗൺലോഡ് ചെയ്യൂ:</string>
+   <string name="open_in_librerax">LibreraX-ൽ തുറക്കുക</string>
+   <string name="try_again">വീണ്ടും ശ്രമിക്കുക</string>
+   <string name="export_to_librerax">LibreraX-ലേക്ക് എക്സ്പോർട്ട് ചെയ്യുക</string>
+   <string name="update_librerax">Librera-യിൽ നിന്ന് ഇമ്പോർട്ട് ചെയ്യാൻ LibreraX ഏറ്റവും പുതിയ പതിപ്പിലേക്ക് അപ്ഡേറ്റ് ചെയ്യുക.</string>
+   <string name="reading_progress">വായനാ പുരോഗതി</string>
 </resources>

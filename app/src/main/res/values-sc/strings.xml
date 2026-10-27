@@ -244,6 +244,7 @@
    <string name="allow">Permite</string>
    <string name="storage">Archiviatzione</string>
    <string name="add_all_books_with_permission">Pro praghere, permite a s\'aplicatzione de esaminare sa cartella de is Iscarrigamentos pro annànghere sos libros a sa biblioteca tua in manera automàtica.</string>
+   <string name="allow_access_to_see_files">Permite s\'atzessu a totu sos archìvios pro bìdere sos libros de custa cartella. Sena, si mustrant isceti sas cartellas suas.</string>
    <string name="save_settings_in_librera_folder">Sarva sas impostatziones e su progressu de letura in sa cartella Librera.</string>
    <string name="regrant_folder_title">Permite torra s\'atzessu a sa cartella</string>
    <string name="regrant_folder_msg">S\'aplicatzione no podet prus lèghere %1$s: Android bogat s\'atzessu a sas cartellas cando s\'aplicatzione benit torrada a installare. Torra a seberare sa cartella in s\'ischermu imbeniente.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Pone sas majùsculas mannas a s\'incumintzu de sos capìtulos</string>
    <string name="size">Mannària</string>
    <string name="quick_bookmark_by_the_headset">Abìlita sos sinnalibros remotos (butone de Incumintzu/Fine)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Mustra sos butones de TTS in fundu de sa pàgina</string>
    <string name="slider_scale">Iscala de su dispositivu de iscurrimentu</string>
    <string name="chapter_format">Legenda</string>
    <string name="play_a_music_file">Riprodui unu documentu àudio</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Sos libros si chircant in custas cartellas e in sas sutacartellas issoro.</string>
    <string name="add_folder_hint">Sèbera una cartella</string>
    <string name="add_storage_hint">Ischeda SD o unidade USB</string>
+   <string name="folder_no_access">Chene atzessu · toca pro lu permìtere torra</string>
    <string name="watch">Pòmpia</string>
    <string name="librerax_not_installed">LibreraX no est installadu. Iscàrriga·lu e installa·lu, e a pustis torra a abèrrere su libru.</string>
    <string name="remove_library_folder">Bogare custa cartella dae sa biblioteca? Sos archìvios chi bi sunt no ant a èssere cantzellados.</string>   
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Àplica su fògiu de istiles de base (foliate-js)</string>
    <string name="pdf_engine">Motore PDF</string>
    <string name="msg_pdf_engine_unavailable">Custa versione no includet is librerias PDFium.</string>
+   <string name="book_open_failed">No est istadu possìbile abèrrere custu libru.</string>
+   <string name="book_open_crashed">S\'aplicatzione s\'est serrada a s\'improvisu s\'ùrtima borta chi at abertu custu libru.</string>
+   <string name="try_librerax">Proa a ddu abèrrere in LibreraX.</string>
+   <string name="get_librerax">Podet èssere chi LibreraX ddu potat abèrrere. Iscàrriga·ddu dae inoghe:</string>
+   <string name="open_in_librerax">Aberi in LibreraX</string>
+   <string name="try_again">Torra a proare</string>
+   <string name="export_to_librerax">Esporta a LibreraX</string>
+   <string name="update_librerax">Agiorna LibreraX a s\'ùrtima versione pro importare dae Librera.</string>
+   <string name="reading_progress">Progressu de letura</string>
 </resources>

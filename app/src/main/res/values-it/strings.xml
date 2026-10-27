@@ -244,6 +244,7 @@
    <string name="allow">Consenti</string>
    <string name="storage">Archiviazione</string>
    <string name="add_all_books_with_permission">Consenti all\'app di analizzare la cartella Download per aggiungere automaticamente i libri alla tua libreria.</string>
+   <string name="allow_access_to_see_files">Consenti l\'accesso a tutti i file per vedere i libri in questa cartella. Senza, vengono mostrate solo le sue cartelle.</string>
    <string name="save_settings_in_librera_folder">Salva le impostazioni e i progressi di lettura nella cartella Librera.</string>
    <string name="regrant_folder_title">Consenti di nuovo l\'accesso alla cartella</string>
    <string name="regrant_folder_msg">L\'app non può più leggere %1$s: Android rimuove l\'accesso alle cartelle quando l\'app viene reinstallata. Scegli di nuovo la cartella nella schermata successiva.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Mostra la lettera maiuscola</string>
    <string name="size">Dimensione</string>
    <string name="quick_bookmark_by_the_headset">Segnalibro rapido dall\'auricolare</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Mostra i pulsanti TTS in fondo alla pagina</string>
    <string name="slider_scale">Scala del dispositivo di scorrimento</string>
    <string name="chapter_format">Formato del capitolo</string>
    <string name="play_a_music_file">Riproduci un file musicale</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">I libri vengono cercati in queste cartelle e nelle loro sottocartelle.</string>
    <string name="add_folder_hint">Scegli una cartella</string>
    <string name="add_storage_hint">Scheda SD o unità USB</string>
+   <string name="folder_no_access">Nessun accesso · tocca per consentirlo di nuovo</string>
    <string name="watch">Guarda</string>
    <string name="librerax_not_installed">LibreraX non è installato. Scaricalo e installalo, poi riapri il libro.</string>
    <string name="remove_library_folder">Rimuovere questa cartella dalla libreria? I file al suo interno non verranno eliminati.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Applica il foglio di stile di base (foliate-js)</string>
    <string name="pdf_engine">Motore PDF</string>
    <string name="msg_pdf_engine_unavailable">Questa build non include le librerie PDFium.</string>
+   <string name="book_open_failed">Impossibile aprire questo libro.</string>
+   <string name="book_open_crashed">L\'app si è chiusa in modo imprevisto durante l\'ultima apertura di questo libro.</string>
+   <string name="try_librerax">Prova ad aprirlo con LibreraX.</string>
+   <string name="get_librerax">LibreraX potrebbe riuscire ad aprirlo. Scaricalo qui:</string>
+   <string name="open_in_librerax">Apri con LibreraX</string>
+   <string name="try_again">Riprova</string>
+   <string name="export_to_librerax">Esporta in LibreraX</string>
+   <string name="update_librerax">Aggiorna LibreraX all\'ultima versione per importare da Librera.</string>
+   <string name="reading_progress">Progresso di lettura</string>
 </resources>

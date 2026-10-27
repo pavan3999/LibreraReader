@@ -244,6 +244,7 @@
    <string name="allow">Permitir</string>
    <string name="storage">Almacenamiento</string>
    <string name="add_all_books_with_permission">Permite que la aplicación examine tu carpeta de Descargas para añadir libros automáticamente a tu biblioteca, por favor.</string>
+   <string name="allow_access_to_see_files">Permite el acceso a todos los archivos para ver los libros de esta carpeta. Sin él solo se muestran sus carpetas.</string>
    <string name="save_settings_in_librera_folder">Guardar la configuración y el progreso de lectura en la carpeta Librera.</string>
    <string name="regrant_folder_title">Permitir de nuevo el acceso a la carpeta</string>
    <string name="regrant_folder_msg">La aplicación ya no puede leer %1$s: Android retira el acceso a las carpetas al reinstalar la aplicación. Vuelve a elegir la carpeta en la siguiente pantalla.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Mostrar la letra mayúscula</string>
    <string name="size">Tamaño</string>
    <string name="quick_bookmark_by_the_headset">Marcadores remotos</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Mostrar los botones de TTS en la parte inferior de la página</string>
    <string name="slider_scale">Escala del control deslizante</string>
    <string name="chapter_format">Formato de capítulo</string>
    <string name="play_a_music_file">Reproducir archivo de música</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Los libros se buscan en estas carpetas y sus subcarpetas.</string>
    <string name="add_folder_hint">Elige una carpeta</string>
    <string name="add_storage_hint">Tarjeta SD o unidad USB</string>
+   <string name="folder_no_access">Sin acceso · toca para permitirlo de nuevo</string>
    <string name="watch">Ver</string>
    <string name="librerax_not_installed">LibreraX no está instalado. Descárgalo e instálalo y vuelve a abrir el libro.</string>
    <string name="remove_library_folder">¿Quitar esta carpeta de la biblioteca? Los archivos que contiene no se eliminarán.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Aplicar la hoja de estilos base (foliate-js)</string>
    <string name="pdf_engine">Motor PDF</string>
    <string name="msg_pdf_engine_unavailable">Esta compilación no incluye las bibliotecas PDFium.</string>
+   <string name="book_open_failed">No se pudo abrir este libro.</string>
+   <string name="book_open_crashed">La aplicación se cerró inesperadamente al abrir este libro la última vez.</string>
+   <string name="try_librerax">Intente abrirlo en LibreraX.</string>
+   <string name="get_librerax">Es posible que LibreraX pueda abrirlo. Descárguelo aquí:</string>
+   <string name="open_in_librerax">Abrir en LibreraX</string>
+   <string name="try_again">Reintentar</string>
+   <string name="export_to_librerax">Exportar a LibreraX</string>
+   <string name="update_librerax">Actualiza LibreraX a la última versión para importar desde Librera.</string>
+   <string name="reading_progress">Progreso de lectura</string>
 </resources>

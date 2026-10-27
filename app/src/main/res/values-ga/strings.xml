@@ -244,6 +244,7 @@
    <string name="allow">Ceadaigh</string>
    <string name="storage">Stóráil</string>
    <string name="add_all_books_with_permission">Lig don aip, le do thoil, d\'fhillteán Íoslódálacha a scanadh chun leabhair a chur le do leabharlann go huathoibríoch.</string>
+   <string name="allow_access_to_see_files">Ceadaigh rochtain ar gach comhad chun na leabhair san fhillteán seo a fheiceáil. Gan é, ní thaispeántar ach a chuid fillteán.</string>
    <string name="save_settings_in_librera_folder">Sábháil socruithe agus dul chun cinn léitheoireachta san fhillteán Librera.</string>
    <string name="regrant_folder_title">Ceadaigh rochtain ar an bhfillteán arís</string>
    <string name="regrant_folder_msg">Ní féidir leis an aip %1$s a léamh a thuilleadh: baineann Android rochtain ar fhillteáin nuair a athshuiteáiltear an aip. Roghnaigh an fillteán arís ar an gcéad scáileán eile.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Caibidlí tosaigh le ceannlitreacha</string>
    <string name="size">Méid</string>
    <string name="quick_bookmark_by_the_headset">Leabharmharcanna iargúlta a chumasú (cnaipe tosaithe / stad)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Taispeáin cnaipí TTS ag bun an leathanaigh</string>
    <string name="slider_scale">Scála sleamhnáin</string>
    <string name="chapter_format">Finscéal</string>
    <string name="play_a_music_file">Comhad fuaime a sheinm</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Lorgaítear leabhair sna fillteáin seo agus ina bhfofhillteáin.</string>
    <string name="add_folder_hint">Roghnaigh fillteán amháin</string>
    <string name="add_storage_hint">Cárta SD nó tiomántán USB</string>
+   <string name="folder_no_access">Gan rochtain · tapáil chun é a cheadú arís</string>
    <string name="watch">Féach</string>
    <string name="librerax_not_installed">Níl LibreraX suiteáilte. Íoslódáil agus suiteáil é, ansin oscail an leabhar arís.</string>
    <string name="remove_library_folder">An fillteán seo a bhaint den leabharlann? Ní scriosfar na comhaid atá ann.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Cuir an bunstílbhileog i bhfeidhm (foliate-js)</string>
    <string name="pdf_engine">Inneall PDF</string>
    <string name="msg_pdf_engine_unavailable">Níl leabharlanna PDFium sa leagan seo.</string>
+   <string name="book_open_failed">Níorbh fhéidir an leabhar seo a oscailt.</string>
+   <string name="book_open_crashed">Dúnadh an aip gan choinne agus an leabhar seo á oscailt an uair dheireanach.</string>
+   <string name="try_librerax">Bain triail as é a oscailt in LibreraX.</string>
+   <string name="get_librerax">B\'fhéidir go mbeidh LibreraX in ann é a oscailt. Íoslódáil anseo é:</string>
+   <string name="open_in_librerax">Oscail in LibreraX</string>
+   <string name="try_again">Bain triail eile as</string>
+   <string name="export_to_librerax">Easpórtáil go LibreraX</string>
+   <string name="update_librerax">Nuashonraigh LibreraX go dtí an leagan is déanaí chun iompórtáil ó Librera.</string>
+   <string name="reading_progress">Dul chun cinn léitheoireachta</string>
 </resources>

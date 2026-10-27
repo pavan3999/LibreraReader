@@ -244,6 +244,7 @@
    <string name="allow">Разрешить</string>
    <string name="storage">Хранилище</string>
    <string name="add_all_books_with_permission">Пожалуйста, разрешите приложению просматривать папку «Загрузки», чтобы автоматически добавлять книги в вашу библиотеку.</string>
+   <string name="allow_access_to_see_files">Разрешите доступ ко всем файлам, чтобы видеть книги в этой папке. Без него показываются только её папки.</string>
    <string name="save_settings_in_librera_folder">Хранить настройки и прогресс чтения в папке Librera.</string>
    <string name="regrant_folder_title">Снова разрешить доступ к папке</string>
    <string name="regrant_folder_msg">Приложение больше не может читать %1$s: Android забывает доступ к папкам при переустановке приложения. Выберите папку снова на следующем экране.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Использовать буквицу</string>
    <string name="size">Размер</string>
    <string name="quick_bookmark_by_the_headset">Использовать одну из кнопок гарнитуры для создания быстрых закладок к книге</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Показывать кнопки TTS внизу страницы</string>
    <string name="slider_scale">Шкала бегунка</string>
    <string name="chapter_format">Прогресс чтения</string>
    <string name="play_a_music_file">Выбрать и проиграть музык. файл</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Книги ищутся в этих папках и их подпапках.</string>
    <string name="add_folder_hint">Выберите одну папку</string>
    <string name="add_storage_hint">SD-карта или USB-накопитель</string>
+   <string name="folder_no_access">Нет доступа · нажмите, чтобы разрешить снова</string>
    <string name="watch">Смотреть</string>
    <string name="librerax_not_installed">LibreraX не установлена. Скачайте и установите её, затем откройте книгу снова.</string>
    <string name="remove_library_folder">Убрать эту папку из библиотеки? Файлы в ней не будут удалены.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Применять базовую таблицу стилей (foliate-js)</string>
    <string name="pdf_engine">Движок PDF</string>
    <string name="msg_pdf_engine_unavailable">В этой сборке нет библиотек PDFium.</string>
+   <string name="book_open_failed">Не удалось открыть эту книгу.</string>
+   <string name="book_open_crashed">В прошлый раз приложение неожиданно закрылось при открытии этой книги.</string>
+   <string name="try_librerax">Попробуйте открыть её в LibreraX.</string>
+   <string name="get_librerax">Возможно, LibreraX сможет её открыть. Скачайте здесь:</string>
+   <string name="open_in_librerax">Открыть в LibreraX</string>
+   <string name="try_again">Повторить</string>
+   <string name="export_to_librerax">Экспорт в LibreraX</string>
+   <string name="update_librerax">Обновите LibreraX до последней версии, чтобы импортировать из Librera.</string>
+   <string name="reading_progress">Прогресс чтения</string>
 </resources>

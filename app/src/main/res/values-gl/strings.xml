@@ -244,6 +244,7 @@
    <string name="allow">Permitir</string>
    <string name="storage">Almacenamento</string>
    <string name="add_all_books_with_permission">Permite que a aplicación examine o teu cartafol de Descargas para engadir libros automaticamente á túa biblioteca.</string>
+   <string name="allow_access_to_see_files">Permite o acceso a todos os ficheiros para ver os libros deste cartafol. Sen el só se amosan os seus cartafoles.</string>
    <string name="save_settings_in_librera_folder">Gardar a configuración e o progreso de lectura no cartafol Librera.</string>
    <string name="regrant_folder_title">Permitir de novo o acceso ao cartafol</string>
    <string name="regrant_folder_msg">A aplicación xa non pode ler %1$s: Android retira o acceso aos cartafoles ao reinstalar a aplicación. Escolle de novo o cartafol na seguinte pantalla.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Comezar capítulos con inicial</string>
    <string name="size">Tamaño</string>
    <string name="quick_bookmark_by_the_headset">Activar marcadores remotos (botón Iniciar/Parar)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Amosar os botóns de TTS na parte inferior da páxina</string>
    <string name="slider_scale">Escala do control deslizante</string>
    <string name="chapter_format">Lenda</string>
    <string name="play_a_music_file">Reproducir ficheiro de son</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Os libros búscanse nestes cartafoles e nos seus subcartafoles.</string>
    <string name="add_folder_hint">Escolle un cartafol</string>
    <string name="add_storage_hint">Tarxeta SD ou unidade USB</string>
+   <string name="folder_no_access">Sen acceso · toca para permitilo de novo</string>
    <string name="watch">Ver</string>
    <string name="librerax_not_installed">LibreraX non está instalado. Descárgao e instálao e volve abrir o libro.</string>
    <string name="remove_library_folder">Quitar este cartafol da biblioteca? Os ficheiros que contén non se eliminarán.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Aplicar a folla de estilos base (foliate-js)</string>
    <string name="pdf_engine">Motor PDF</string>
    <string name="msg_pdf_engine_unavailable">Esta compilación non inclúe as bibliotecas PDFium.</string>
+   <string name="book_open_failed">Non se puido abrir este libro.</string>
+   <string name="book_open_crashed">A aplicación pechouse inesperadamente ao abrir este libro a última vez.</string>
+   <string name="try_librerax">Probe a abrilo en LibreraX.</string>
+   <string name="get_librerax">É posible que LibreraX poida abrilo. Descárgueo aquí:</string>
+   <string name="open_in_librerax">Abrir en LibreraX</string>
+   <string name="try_again">Tentar de novo</string>
+   <string name="export_to_librerax">Exportar a LibreraX</string>
+   <string name="update_librerax">Actualiza LibreraX á última versión para importar desde Librera.</string>
+   <string name="reading_progress">Progreso de lectura</string>
 </resources>

@@ -244,6 +244,7 @@
    <string name="allow">允许</string>
    <string name="storage">存储</string>
    <string name="add_all_books_with_permission">请允许应用扫描“下载”文件夹，以便自动将书籍添加到您的书库。</string>
+   <string name="allow_access_to_see_files">允许访问所有文件即可查看此文件夹中的图书。否则只显示其中的文件夹。</string>
    <string name="save_settings_in_librera_folder">将设置和阅读进度保存在 Librera 文件夹中。</string>
    <string name="regrant_folder_title">再次允许访问文件夹</string>
    <string name="regrant_folder_msg">应用无法再读取 %1$s：重新安装应用后，Android 会移除文件夹访问权限。请在下一个屏幕中重新选择该文件夹。</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">首字母大写</string>
    <string name="size">尺寸</string>
    <string name="quick_bookmark_by_the_headset">启用远程书签（开始/停止按钮）</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">在页面底部显示 TTS 按钮</string>
    <string name="slider_scale">进度条刻度</string>
    <string name="chapter_format">章节格式</string>
    <string name="play_a_music_file">播放音频文件</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">在这些文件夹及其子文件夹中查找图书。</string>
    <string name="add_folder_hint">选择一个文件夹</string>
    <string name="add_storage_hint">SD 卡或 U 盘</string>
+   <string name="folder_no_access">无访问权限 · 点按以重新允许</string>
    <string name="watch">观看</string>
    <string name="librerax_not_installed">尚未安装 LibreraX。请下载并安装，然后重新打开这本书。</string>
    <string name="remove_library_folder">要从书库中移除此文件夹吗？其中的文件不会被删除。</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">应用基础样式表 (foliate-js)</string>
    <string name="pdf_engine">PDF 引擎</string>
    <string name="msg_pdf_engine_unavailable">此版本不包含 PDFium 库。</string>
+   <string name="book_open_failed">无法打开这本书。</string>
+   <string name="book_open_crashed">上次打开这本书时应用意外关闭。</string>
+   <string name="try_librerax">请尝试用 LibreraX 打开。</string>
+   <string name="get_librerax">LibreraX 或许能打开它。在此下载：</string>
+   <string name="open_in_librerax">用 LibreraX 打开</string>
+   <string name="try_again">重试</string>
+   <string name="export_to_librerax">导出到 LibreraX</string>
+   <string name="update_librerax">请将 LibreraX 更新到最新版本，以便从 Librera 导入。</string>
+   <string name="reading_progress">阅读进度</string>
 </resources>

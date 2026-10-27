@@ -2,6 +2,13 @@ package com.foobnix.pdf.info.widget;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import com.foobnix.pdf.info.wrapper.UITab;
+import android.util.TypedValue;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import com.foobnix.pdf.search.activity.msg.OpenDirMessage;
+import com.foobnix.ui2.fragment.UIFragment;
+import com.foobnix.ui2.fragment.PrefFragment2;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -141,7 +148,11 @@ public class PrefDialogs {
                             BookCSS.get().searchPathsJson = JsonDB.remove(BookCSS.get().searchPathsJson, path);
                             showFolders[0].run();
                             onChanges.run();
-                        })));
+                        }), () -> {
+                    create.dismiss();
+                    PrefFragment2.closeLeftMenu(a);
+                    openLibraryFolder(a, path);
+                }));
             }
             folders.setVisibility(paths.isEmpty() ? View.GONE : View.VISIBLE);
         };
@@ -225,7 +236,8 @@ public class PrefDialogs {
     }
 
     /** One folder of the library: its mark in a round of the theme colour, its name, where it is, and the button that drops it. */
-    public static View folderRow(Context c, LinearLayout parent, String path, int accent, Runnable onRemove) {
+    public static View folderRow(Context c, LinearLayout parent, String path, int accent, Runnable onRemove,
+                                 Runnable onOpen) {
         View row = LayoutInflater.from(parent.getContext()).inflate(R.layout.library_folder_item, parent, false);
         String[] namePlace = folderNameAndPlace(c, path);
 
@@ -235,8 +247,9 @@ public class PrefDialogs {
         row.findViewById(R.id.folderMark).setBackground(round);
 
         ImageView icon = row.findViewById(R.id.folderIcon);
-        // A whole storage is marked as one; a folder in it as a folder
-        icon.setImageResource(namePlace[2] != null ? R.drawable.ic_lf_storage : R.drawable.ic_lf_folder);
+        // Marked as it was added, with the mark of the card that adds it: a folder the app reads
+        // itself (Add folder), or one handed over through the system's picker (Add storage)
+        icon.setImageResource(ExtUtils.isExteralSD(path) ? R.drawable.ic_lf_storage : R.drawable.ic_lf_folder);
         icon.setColorFilter(accent);
 
         ((TextView) row.findViewById(R.id.folderName)).setText(namePlace[0]);
@@ -244,11 +257,56 @@ public class PrefDialogs {
         place.setText(namePlace[1]);
         place.setVisibility(TxtUtils.isEmpty(namePlace[1]) ? View.GONE : View.VISIBLE);
 
+        // A folder handed over through the picker that can no longer be read says so; a tap on
+        // it asks for it again (see openLibraryFolder). With the permission it is read as the
+        // folder it stands for, and needs no grant.
+        boolean readableAsPath = Android6.canWrite(c) && ExtUtils.getSafTreePath(path) != null;
+        if (!readableAsPath && MainTabs2.isLostLibraryStorage(c, path)) {
+            row.findViewById(R.id.folderNoAccess).setVisibility(View.VISIBLE);
+            icon.setAlpha(0.5f);
+        }
+
         ImageView remove = row.findViewById(R.id.folderRemove);
         remove.setColorFilter(place.getCurrentTextColor());
         remove.setContentDescription(c.getString(R.string.remove) + " " + namePlace[0]);
         remove.setOnClickListener(v -> onRemove.run());
+
+        // The row itself opens the folder, to see what the library finds in it
+        TypedValue pressed = new TypedValue();
+        c.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, pressed, true);
+        row.setBackgroundResource(pressed.resourceId);
+        row.setOnClickListener(v -> onOpen.run());
         return row;
+    }
+
+    /**
+     * Shows a library folder in the Folder tab. A folder handed over through the system's picker
+     * is shown as the folder it stands for once the app may read the storage itself, as the
+     * folder chooser shows it.
+     */
+    public static void openLibraryFolder(Activity a, String path) {
+        String target = path;
+        if (ExtUtils.isExteralSD(path) && Android6.canWrite(a)) {
+            String file = ExtUtils.getSafTreePath(path);
+            if (file != null) {
+                target = file;
+            }
+        }
+        // A folder handed over through the picker whose grant is gone - after a reinstall, say -
+        // cannot be opened: it is asked for again instead of showing nothing
+        if (ExtUtils.isExteralSD(target) && MainTabs2.isLostLibraryStorage(a, target)) {
+            MainTabs2.askToRegrantLibraryStorage(a, target);
+            return;
+        }
+        // The Folder tab listens only while it is the tab on screen, so the folder is also left
+        // where it looks when it comes up: as its last folder, with the lists marked as changed
+        AppState.get().displayPath = target;
+        BookCSS.get().dirLastPath = target;
+        TempHolder.listHash++;
+        LocalBroadcastManager.getInstance(a)
+                             .sendBroadcast(new Intent(UIFragment.INTENT_TINT_CHANGE).putExtra(MainTabs2.EXTRA_PAGE_NUMBER,
+                                     UITab.getCurrentTabIndex(UITab.BrowseFragment)));
+        EventBus.getDefault().post(new OpenDirMessage(target));
     }
 
     /**
@@ -256,9 +314,9 @@ public class PrefDialogs {
      * storage it is on, then the folders it sits in - so {@code /storage/emulated/0/Download/Books}
      * and {@code primary:Download/Books} handed over through the picker both read "Books" in
      * "Internal storage › Download". A whole storage is named by the storage, with its path under
-     * it, and the third value is then set.
+     * it.
      *
-     * @return name, place, and non-null when the folder is a whole storage
+     * @return name, place, and the path when the folder is a whole storage (unused by the row)
      */
     static String[] folderNameAndPlace(Context c, String path) {
         final String internal = c.getString(R.string.internal_storage);

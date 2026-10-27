@@ -54,15 +54,9 @@ cd ../
 ./gradlew copyApks -Prelease -Pmupdf=$MUPDF || exit 1
 ./gradlew -stop
 
-# Where copyApks puts the builds: librera_builds_dir in the global ~/.gradle/gradle.properties
-BUILDS_DIR=$(sed -n 's/^librera_builds_dir=//p' "${GRADLE_USER_HOME:-$HOME/.gradle}/gradle.properties" | tail -n 1)
-if [ -z "$BUILDS_DIR" ]; then
-  echo "ERROR: librera_builds_dir is not set in ~/.gradle/gradle.properties"
-  exit 1
-fi
-
 # Native debug symbols for Play Console crash reports (App bundle explorer > Downloads > Assets):
-# debug info of the unstripped libMuPDF.so from ndk-build, one folder per ABI
+# debug info of every unstripped library from ndk-build - libmupdf.so and the ones of
+# Builder/jni/Librera-libs.mk, libarchive.so and liblame.so - one folder per ABI
 VERSION_BASE=$(sed -n 's/^appVersionNumberBase=//p' app/gradle.properties)
 VERSION_INDEX=$(sed -n 's/^appVersionNumberIndex=//p' app/gradle.properties)
 if [ -z "$VERSION_BASE" ] || [ -z "$VERSION_INDEX" ]; then
@@ -71,8 +65,8 @@ if [ -z "$VERSION_BASE" ] || [ -z "$VERSION_INDEX" ]; then
 fi
 VERSION=$VERSION_BASE.$VERSION_INDEX
 # The version's folder in librera_release_dir, where copyApks put the APKs, bundles and mappings.
-# Never librera_builds_dir or librera_beta_dir: those are the Testing folders (Google Drive,
-# Dropbox) the testers read, and a release does not go into them.
+# The symbols stay there: the Testing folders (librera_builds_dir, librera_beta_dir) only get the
+# builds themselves.
 RELEASE_DIR=$(sed -n 's/^librera_release_dir=//p' "${GRADLE_USER_HOME:-$HOME/.gradle}/gradle.properties" | tail -n 1)
 if [ -z "$RELEASE_DIR" ]; then
   echo "ERROR: librera_release_dir is not set in ~/.gradle/gradle.properties"
@@ -93,7 +87,9 @@ fi
 SYMBOLS=$(mktemp -d)
 for ABI in armeabi-v7a arm64-v8a x86 x86_64; do
   mkdir -p "$SYMBOLS/$ABI"
-  "$OBJCOPY" --only-keep-debug Builder/mupdf-$MUPDF/platform/librera/obj/local/$ABI/libMuPDF.so "$SYMBOLS/$ABI/libMuPDF.so.dbg" || exit 1
+  for LIB in Builder/mupdf-$MUPDF/platform/librera/obj/local/$ABI/*.so; do
+    "$OBJCOPY" --only-keep-debug "$LIB" "$SYMBOLS/$ABI/$(basename "$LIB").dbg" || exit 1
+  done
 done
 SYMBOLS_ZIP="Librera-$VERSION-mupdf$MUPDF-native-debug-symbols.zip"
 for D in "${RELEASE_DIRS[@]}"; do
@@ -104,11 +100,6 @@ for D in "${RELEASE_DIRS[@]}"; do
 done
 rm -rf "$SYMBOLS"
 # Native debug end
-
-# The betas are not needed once the release of the same version is in its own folder
-for D in "$BUILDS_DIR" "$BUILDS_DIR/LibreraPro"; do
-  rm -f "$D"/*.apk "$D"/*.aab "$D"/*-mapping.txt
-done
 
 cd Builder
 ./remove_all.sh

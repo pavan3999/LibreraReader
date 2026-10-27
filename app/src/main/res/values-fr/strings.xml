@@ -244,6 +244,7 @@
    <string name="allow">Autoriser</string>
    <string name="storage">Stockage</string>
    <string name="add_all_books_with_permission">Veuillez autoriser l\'application à analyser votre dossier Téléchargements pour ajouter automatiquement des livres à votre bibliothèque.</string>
+   <string name="allow_access_to_see_files">Autorisez l\'accès à tous les fichiers pour voir les livres de ce dossier. Sans cela, seuls ses dossiers sont affichés.</string>
    <string name="save_settings_in_librera_folder">Enregistrer les paramètres et la progression de lecture dans le dossier Librera.</string>
    <string name="regrant_folder_title">Autoriser à nouveau l\'accès au dossier</string>
    <string name="regrant_folder_msg">L\'application ne peut plus lire %1$s : Android retire l\'accès aux dossiers lorsque l\'application est réinstallée. Choisissez à nouveau le dossier sur l\'écran suivant.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Afficher la lettre majuscule</string>
    <string name="size">Taille</string>
    <string name="quick_bookmark_by_the_headset">Signet rapide par le casque</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Afficher les boutons TTS en bas de la page</string>
    <string name="slider_scale">Échelle de curseur</string>
    <string name="chapter_format">Format de chapitre</string>
    <string name="play_a_music_file">Lire un fichier de musique</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Les livres sont recherchés dans ces dossiers et leurs sous-dossiers.</string>
    <string name="add_folder_hint">Choisir un dossier</string>
    <string name="add_storage_hint">Carte SD ou clé USB</string>
+   <string name="folder_no_access">Pas d\'accès · touchez pour l\'autoriser à nouveau</string>
    <string name="watch">Regarder</string>
    <string name="librerax_not_installed">LibreraX n\'est pas installé. Téléchargez-le et installez-le, puis rouvrez le livre.</string>
    <string name="remove_library_folder">Retirer ce dossier de la bibliothèque ? Les fichiers qu\'il contient ne seront pas supprimés.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Appliquer la feuille de style de base (foliate-js)</string>
    <string name="pdf_engine">Moteur PDF</string>
    <string name="msg_pdf_engine_unavailable">Cette version n\'inclut pas les bibliothèques PDFium.</string>
+   <string name="book_open_failed">Impossible d\'ouvrir ce livre.</string>
+   <string name="book_open_crashed">L\'application s\'est fermée de manière inattendue lors de la dernière ouverture de ce livre.</string>
+   <string name="try_librerax">Essayez de l\'ouvrir dans LibreraX.</string>
+   <string name="get_librerax">LibreraX pourra peut-être l\'ouvrir. Téléchargez-le ici :</string>
+   <string name="open_in_librerax">Ouvrir dans LibreraX</string>
+   <string name="try_again">Réessayer</string>
+   <string name="export_to_librerax">Exporter vers LibreraX</string>
+   <string name="update_librerax">Mettez à jour LibreraX vers la dernière version pour importer depuis Librera.</string>
+   <string name="reading_progress">Progression de lecture</string>
 </resources>

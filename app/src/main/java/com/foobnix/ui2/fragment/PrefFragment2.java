@@ -1259,10 +1259,6 @@ public class PrefFragment2 extends UIFragment {
                 of(getString(R.string.open_with), AppState.READING_MODE_OPEN_WITH).mark("⎘")//
                               );
 
-        // The two taps' buttons stand one over the other: one width, whichever value is longer
-        TintUtil.sameWidth(inflate.findViewById(R.id.configLongClick).findViewById(R.id.value),
-                configSingleClick.findViewById(R.id.value));
-
         inflate.findViewById(R.id.moreModeSettings)
                .
 
@@ -1952,6 +1948,16 @@ public class PrefFragment2 extends UIFragment {
         asButton(inflate.findViewById(R.id.exportButton))
                 .setOnClickListener(v -> PrefDialogs.exportDialog(getActivity()));
 
+        roundCorners(inflate.findViewById(R.id.exportToLibreraXIcon));
+        TextView exportToLibreraX = (TextView) asButton(inflate.findViewById(R.id.exportToLibreraX));
+        // A one-line button: the mark is kept to a glyph's size, not the 36dp of the app boxes
+        Drawable libreraXMark = exportToLibreraX.getCompoundDrawablesRelative()[0];
+        if (libreraXMark != null) {
+            libreraXMark.setBounds(0, 0, Dips.dpToPx(22), Dips.dpToPx(22));
+            exportToLibreraX.setCompoundDrawablesRelative(libreraXMark, null, null, null);
+        }
+        exportToLibreraX.setOnClickListener(v -> LibreraX.exportTo(getActivity()));
+
 
         // folders
 
@@ -2473,13 +2479,15 @@ public class PrefFragment2 extends UIFragment {
 
             CheckBox isAccentTextColor = inflate.findViewById(R.id.isAccentTextColor);
 
+            // Restored before the listener is set: onAccent overwrites the status bar colors, and
+            // building this screen must not reset the ones the user chose in the reader
+            isAccentTextColor.setChecked(AppState.get().isUiTextColor);
             isAccentTextColor.setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 @Override public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     AppState.get().isUiTextColor = b;
                     onAccent.run();
                 }
             });
-            isAccentTextColor.setChecked(AppState.get().isUiTextColor);
 
             for (String color : AppState.ACCENT_COLORS) {
                 final int intColor = Color.parseColor(color);
@@ -3294,15 +3302,19 @@ public class PrefFragment2 extends UIFragment {
                         BookCSS.get().searchPathsJson = JsonDB.remove(BookCSS.get().searchPathsJson, path);
                         showSearchPaths();
                         saveChanges();
-                    }));
+                    }), () -> {
+                closeLeftMenu(getActivity());
+                PrefDialogs.openLibraryFolder(getActivity(), path);
+            });
             // The panel is narrower than the dialog, and its other rows start near the edge
             row.setPadding(Dips.dpToPx(8), row.getPaddingTop(), row.getPaddingRight(), row.getPaddingBottom());
-            TypedValue pressed = new TypedValue();
-            getActivity().getTheme().resolveAttribute(android.R.attr.selectableItemBackground, pressed, true);
-            row.setBackgroundResource(pressed.resourceId);
-            row.setOnClickListener(v -> onFolderConfigDialog());
             searchPaths.addView(row);
         }
+    }
+
+    /** The library folders were changed elsewhere - the permission given, say: the list here follows. */
+    public void onLibraryFoldersChanged() {
+        showSearchPaths();
     }
 
     /**
@@ -3486,7 +3498,7 @@ public class PrefFragment2 extends UIFragment {
         }
     }
 
-    private static void closeLeftMenu(FragmentActivity activity) {
+    public static void closeLeftMenu(FragmentActivity activity) {
         try {
             final DrawerLayout drawerLayout = activity.findViewById(R.id.drawer_layout);
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

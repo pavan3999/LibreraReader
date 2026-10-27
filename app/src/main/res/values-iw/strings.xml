@@ -244,6 +244,7 @@
    <string name="allow">אישור</string>
    <string name="storage">אחסון</string>
    <string name="add_all_books_with_permission">נא לאפשר לאפליקציה לסרוק את תיקיית ההורדות כדי להוסיף ספרים לספרייה שלך באופן אוטומטי.</string>
+   <string name="allow_access_to_see_files">אפשרו גישה לכל הקבצים כדי לראות את הספרים בתיקייה זו. בלעדיה מוצגות רק התיקיות שבה.</string>
    <string name="save_settings_in_librera_folder">שמירת ההגדרות והתקדמות הקריאה בתיקייה Librera.</string>
    <string name="regrant_folder_title">אפשר שוב גישה לתיקייה</string>
    <string name="regrant_folder_msg">האפליקציה כבר לא יכולה לקרוא את %1$s: Android מסיר את הגישה לתיקיות כשהאפליקציה מותקנת מחדש. בחר שוב את התיקייה במסך הבא.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">הצג את אות ההוני</string>
    <string name="size">גודל</string>
    <string name="quick_bookmark_by_the_headset">סימנייה מהירה על ידי הדיבורית האישית</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">הצג את כפתורי ה-TTS בתחתית העמוד</string>
    <string name="slider_scale">סולם המחוון</string>
    <string name="chapter_format">תבנית פרק</string>
    <string name="play_a_music_file">נגן קובץ מוסיקה</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">ספרים מחופשים בתיקיות אלה ובתתי־התיקיות שלהן.</string>
    <string name="add_folder_hint">בחרו תיקייה אחת</string>
    <string name="add_storage_hint">כרטיס SD או כונן USB</string>
+   <string name="folder_no_access">אין גישה · הקישו כדי לאפשר שוב</string>
    <string name="watch">צפה</string>
    <string name="librerax_not_installed">LibreraX אינו מותקן. הורידו והתקינו אותו ואז פתחו את הספר שוב.</string>
    <string name="remove_library_folder">להסיר את התיקייה הזו מהספרייה? הקבצים שבה לא יימחקו.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">החלת גיליון הסגנונות הבסיסי (foliate-js)</string>
    <string name="pdf_engine">מנוע PDF</string>
    <string name="msg_pdf_engine_unavailable">גרסה זו אינה כוללת את ספריות PDFium.</string>
+   <string name="book_open_failed">לא ניתן היה לפתוח ספר זה.</string>
+   <string name="book_open_crashed">בפעם הקודמת היישום נסגר באופן בלתי צפוי בזמן פתיחת ספר זה.</string>
+   <string name="try_librerax">נסו לפתוח אותו ב-LibreraX.</string>
+   <string name="get_librerax">ייתכן ש-LibreraX יוכל לפתוח אותו. הורידו אותו מכאן:</string>
+   <string name="open_in_librerax">פתיחה ב-LibreraX</string>
+   <string name="try_again">ניסיון חוזר</string>
+   <string name="export_to_librerax">ייצוא ל-LibreraX</string>
+   <string name="update_librerax">יש לעדכן את LibreraX לגרסה האחרונה כדי לייבא מ-Librera.</string>
+   <string name="reading_progress">התקדמות קריאה</string>
 </resources>

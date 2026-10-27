@@ -244,6 +244,7 @@
    <string name="allow">Cho phép</string>
    <string name="storage">Bộ nhớ</string>
    <string name="add_all_books_with_permission">Vui lòng cho phép ứng dụng quét thư mục Tải xuống để tự động thêm sách vào thư viện của bạn.</string>
+   <string name="allow_access_to_see_files">Cho phép truy cập tất cả tệp để xem sách trong thư mục này. Nếu không, chỉ các thư mục con được hiển thị.</string>
    <string name="save_settings_in_librera_folder">Lưu cài đặt và tiến độ đọc trong thư mục Librera.</string>
    <string name="regrant_folder_title">Cho phép truy cập thư mục lần nữa</string>
    <string name="regrant_folder_msg">Ứng dụng không thể đọc %1$s nữa: Android xóa quyền truy cập thư mục khi ứng dụng được cài đặt lại. Hãy chọn lại thư mục ở màn hình tiếp theo.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Hiển thị chữ cái viết hoa</string>
    <string name="size">Kích thước</string>
    <string name="quick_bookmark_by_the_headset">Đánh dấu nhanh bằng tai nghe</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Hiển thị các nút TTS ở cuối trang</string>
    <string name="slider_scale">Thang trượt</string>
    <string name="chapter_format">Định dạng chương</string>
    <string name="play_a_music_file">Phát tệp nhạc</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Sách được tìm trong các thư mục này và thư mục con của chúng.</string>
    <string name="add_folder_hint">Chọn một thư mục</string>
    <string name="add_storage_hint">Thẻ SD hoặc ổ USB</string>
+   <string name="folder_no_access">Không có quyền truy cập · chạm để cho phép lại</string>
    <string name="watch">Xem</string>
    <string name="librerax_not_installed">LibreraX chưa được cài đặt. Hãy tải xuống và cài đặt, sau đó mở lại sách.</string>
    <string name="remove_library_folder">Xóa thư mục này khỏi thư viện? Các tệp bên trong sẽ không bị xóa.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Áp dụng biểu định kiểu cơ bản (foliate-js)</string>
    <string name="pdf_engine">Công cụ PDF</string>
    <string name="msg_pdf_engine_unavailable">Bản dựng này không bao gồm thư viện PDFium.</string>
+   <string name="book_open_failed">Không thể mở cuốn sách này.</string>
+   <string name="book_open_crashed">Lần trước ứng dụng đã đóng đột ngột khi mở cuốn sách này.</string>
+   <string name="try_librerax">Hãy thử mở bằng LibreraX.</string>
+   <string name="get_librerax">LibreraX có thể mở được. Tải xuống tại đây:</string>
+   <string name="open_in_librerax">Mở bằng LibreraX</string>
+   <string name="try_again">Thử lại</string>
+   <string name="export_to_librerax">Xuất sang LibreraX</string>
+   <string name="update_librerax">Cập nhật LibreraX lên phiên bản mới nhất để nhập từ Librera.</string>
+   <string name="reading_progress">Tiến độ đọc</string>
 </resources>

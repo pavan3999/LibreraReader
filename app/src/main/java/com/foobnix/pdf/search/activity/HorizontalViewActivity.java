@@ -113,6 +113,8 @@ import com.foobnix.ui2.AdsFragmentActivity;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.MainTabs2;
 import com.foobnix.ui2.MyContextWrapper;
+import com.foobnix.librerax.BookOpenGuard;
+import com.foobnix.librerax.LibreraX;
 
 import org.ebookdroid.common.settings.SettingsManager;
 import org.ebookdroid.common.settings.books.SharedBooks;
@@ -136,6 +138,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     ImageView bookCover;
     LinearLayout actionBar, bottomPanel;
     TTSControlsView ttsActive;
+    TTSControlsView ttsActivePage;
     FrameLayout anchor;
     UnderlineImageView onCrop, onBC;
     ImageView moveCenter, lockModelImage, linkHistory, onModeChange, outline, onMove, textToSpeach, onPageFlip1,
@@ -145,6 +148,9 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     Handler flippingHandler = new Handler(Looper.getMainLooper());
     Handler handlerTimer = new Handler(Looper.getMainLooper());
     CopyAsyncTask loadinAsyncTask;
+    /** The book being opened, as BookOpenGuard knows it, and the mark this open left on it. */
+    private String guardedBook;
+    private String guardMark;
     Dialog rotatoinDialog;
     volatile Boolean isInitPosistion = null;
     volatile int isInitOrientation;
@@ -672,6 +678,8 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         });
         ttsActive = findViewById(R.id.ttsActive);
         moveTtsControlsIntoPanel();
+        ttsActivePage = findViewById(R.id.ttsActivePage);
+        ttsActivePage.onPage();
 
         // ttsActive.setOnClickListener(new View.OnClickListener() {
         //
@@ -1082,12 +1090,16 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     finish();
                     return;
                 }
+                if ((Integer) result == 0) {
+                    BookOpenGuard.openedSoon(viewPager, guardedBook, guardMark);
+                } else {
+                    BookOpenGuard.opened(HorizontalViewActivity.this, guardedBook, guardMark);
+                }
                 if ((Integer) result == -2) {
-                    Toast.makeText(HorizontalViewActivity.this, R.string.msg_unexpected_error, Toast.LENGTH_SHORT)
-                         .show();
                     AppState.get().isEditMode = true;
                     hideShow();
                     onClose.setVisibility(View.VISIBLE);
+                    LibreraX.showCannotOpen(HorizontalViewActivity.this, getIntent().getData(), false, null);
                     return;
                 }
                 if ((Integer) result == -1) {
@@ -1194,6 +1206,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
                     ttsActive.setDC(dc);
                     ttsActive.hideStop();
+                    ttsActivePage.setDC(dc);
                     ttsActive.addOnDialogRunnable(new Runnable() {
 
                         @Override
@@ -1209,6 +1222,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
                     // RecentUpates.updateAll(HorizontalViewActivity.this);
                     if (dc.getPageCount() == 0) {
                         onClose.setVisibility(View.VISIBLE);
+                        LibreraX.showCannotOpen(HorizontalViewActivity.this, getIntent().getData(), false, null);
                     }
 
                     HypenPanelHelper.init(parentParent, dc);
@@ -1219,7 +1233,20 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
             ;
         };
-        loadinAsyncTask.executeOnExecutor(AppsConfig.executorServiceSingle);
+        // The app died opening this book last time: offer LibreraX before trying again
+        guardedBook = Apps.getBookPathFromActivity(this);
+        if (BookOpenGuard.crashedLastTime(this, guardedBook)) {
+            BookOpenGuard.forget(this, guardedBook);
+            LibreraX.showCannotOpen(this, getIntent().getData(), true, () -> {
+                if (loadinAsyncTask != null) {
+                    guardMark = BookOpenGuard.opening(this, guardedBook);
+                    loadinAsyncTask.executeOnExecutor(AppsConfig.executorServiceSingle);
+                }
+            });
+        } else {
+            guardMark = BookOpenGuard.opening(this, guardedBook);
+            loadinAsyncTask.executeOnExecutor(AppsConfig.executorServiceSingle);
+        }
         updateIconMode();
         BrightnessHelper.updateOverlay(overlay);
 
@@ -1564,6 +1591,8 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Closed, not crashed: whatever happened, it is not a crash to remember
+        BookOpenGuard.opened(this, guardedBook, guardMark);
 
         if (loadinAsyncTask != null) {
             try {
@@ -1641,7 +1670,9 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
         AppProfile.save(this);
         TempHolder.isSeaching = false;
         TempHolder.isActiveSpeedRead.set(false);
-        //dc.saveCurrentPageAsync();
+        if (dc != null) {
+            dc.saveCurrentPageOnPause();
+        }
         //handler.postDelayed(closeRunnable, AppState.APP_CLOSE_AUTOMATIC);
         handlerTimer.removeCallbacks(updateTimePower);
         GFile.runSyncService(this);
@@ -2174,6 +2205,7 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     }
 
     public void hideShow(boolean animated) {
+        showTtsPageControls();
         if (AppState.get().isEnableAccessibility) {
             //animated = false;
             //AppState.get().isEditMode = true;
@@ -2195,6 +2227,8 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
 
         if (AppsConfig.IS_LOG && animated) {
             modeName.setText(R.string.mode_horizontally);
+            // the name was just rewritten: the engine is put back after it
+            DocumentController.showEngineInDebug(modeName, dc);
         }
 
         if (!animated || AppState.get().appTheme == AppState.THEME_INK) {
@@ -2316,6 +2350,8 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
             seekBar.setRotation(0);
             modeName.setText(AppState.get().nameHorizontalMode);
         }
+        // the name was just rewritten: the engine is put back after it
+        DocumentController.showEngineInDebug(modeName, dc);
 
     }
 
@@ -2355,14 +2391,36 @@ public class HorizontalViewActivity extends AdsFragmentActivity {
     }
 
     /**
-     * The reading controls stand with the panels, not over the page. They were shown for as
-     * long as speech was running, which left them lying across the words being read.
+     * The reading controls stand with the panels while they are open. With the panels closed a
+     * second line of them stands on the page, below the words, unless the TTS dialog's advanced
+     * settings turn it off.
      */
     private void showTtsControls() {
         if (ttsActive == null) {
             return;
         }
         ttsActive.setVisibility(TxtUtils.visibleIf(!TTSEngine.get().isShutdown() && AppState.get().isEditMode));
+        showTtsPageControls();
+    }
+
+    /**
+     * Set at once when the panels start to move, not when their animation ends, so the line on
+     * the page comes and goes with the tap.
+     */
+    private void showTtsPageControls() {
+        if (ttsActivePage == null) {
+            return;
+        }
+        // Above the status line where it is at the foot of the page, else on the foot itself
+        final boolean statusBelow = AppState.get().statusBarPosition != AppState.STATUSBAR_POSITION_TOP;
+        if (ttsActivePage.getLayoutParams() instanceof RelativeLayout.LayoutParams) {
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) ttsActivePage.getLayoutParams();
+            lp.addRule(RelativeLayout.ABOVE, statusBelow ? R.id.bottomPanel : 0);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, statusBelow ? 0 : RelativeLayout.TRUE);
+            ttsActivePage.setLayoutParams(lp);
+        }
+        ttsActivePage.setTintColor(TintUtil.getStatusBarTextColor());
+        ttsActivePage.setVisibility(TxtUtils.visibleIf(!TTSEngine.get().isShutdown() && !AppState.get().isEditMode && AppState.get().isShowTtsPageControls));
     }
 
     @Override

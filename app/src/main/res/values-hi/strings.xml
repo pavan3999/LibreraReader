@@ -244,6 +244,7 @@
    <string name="allow">अनुमति दें</string>
    <string name="storage">संग्रहण</string>
    <string name="add_all_books_with_permission">कृपया ऐप को अपने डाउनलोड फ़ोल्डर को स्कैन करने दें, ताकि किताबें अपने-आप आपकी लाइब्रेरी में जुड़ जाएँ।</string>
+   <string name="allow_access_to_see_files">इस फ़ोल्डर में किताबें देखने के लिए सभी फ़ाइलों तक पहुँच की अनुमति दें। इसके बिना केवल इसके फ़ोल्डर दिखते हैं।</string>
    <string name="save_settings_in_librera_folder">सेटिंग्स और पढ़ने की प्रगति Librera फ़ोल्डर में सहेजें।</string>
    <string name="regrant_folder_title">फ़ोल्डर तक पहुँच फिर से दें</string>
    <string name="regrant_folder_msg">ऐप अब %1$s नहीं पढ़ सकता: ऐप को दोबारा इंस्टॉल करने पर Android फ़ोल्डरों की पहुँच हटा देता है। अगली स्क्रीन पर फ़ोल्डर फिर से चुनें।</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">पूंजी पत्र दिखाएं</string>
    <string name="size">आकार</string>
    <string name="quick_bookmark_by_the_headset">हेडसेट द्वारा त्वरित बुकमार्क</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">पृष्ठ के नीचे TTS बटन दिखाएँ</string>
    <string name="slider_scale">स्लाइडर पैमाने</string>
    <string name="chapter_format">अध्याय प्रारूप</string>
    <string name="play_a_music_file">एक संगीत फ़ाइल चलाएं</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">किताबें इन फ़ोल्डरों और उनके सबफ़ोल्डरों में खोजी जाती हैं।</string>
    <string name="add_folder_hint">एक फ़ोल्डर चुनें</string>
    <string name="add_storage_hint">SD कार्ड या USB ड्राइव</string>
+   <string name="folder_no_access">पहुँच नहीं · फिर से अनुमति देने के लिए टैप करें</string>
    <string name="watch">देखें</string>
    <string name="librerax_not_installed">LibreraX इंस्टॉल नहीं है। इसे डाउनलोड और इंस्टॉल करें, फिर किताब दोबारा खोलें।</string>
    <string name="remove_library_folder">इस फ़ोल्डर को लाइब्रेरी से हटाएँ? इसमें मौजूद फ़ाइलें डिलीट नहीं होंगी।</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">आधार स्टाइलशीट लागू करें (foliate-js)</string>
    <string name="pdf_engine">PDF इंजन</string>
    <string name="msg_pdf_engine_unavailable">इस बिल्ड में PDFium लाइब्रेरी शामिल नहीं हैं।</string>
+   <string name="book_open_failed">यह पुस्तक खोली नहीं जा सकी।</string>
+   <string name="book_open_crashed">पिछली बार इस पुस्तक को खोलते समय ऐप अप्रत्याशित रूप से बंद हो गया था।</string>
+   <string name="try_librerax">इसे LibreraX में खोलकर देखें।</string>
+   <string name="get_librerax">LibreraX इसे खोल सकता है। इसे यहाँ से डाउनलोड करें:</string>
+   <string name="open_in_librerax">LibreraX में खोलें</string>
+   <string name="try_again">फिर से कोशिश करें</string>
+   <string name="export_to_librerax">LibreraX में निर्यात करें</string>
+   <string name="update_librerax">Librera से आयात करने के लिए LibreraX को नवीनतम संस्करण में अपडेट करें।</string>
+   <string name="reading_progress">पढ़ने की प्रगति</string>
 </resources>

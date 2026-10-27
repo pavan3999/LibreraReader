@@ -244,6 +244,7 @@
    <string name="allow">Permittere</string>
    <string name="storage">Repositorium</string>
    <string name="add_all_books_with_permission">Quaeso, sine applicationem scrutari tabellarium Depromptorum, ut libri in bibliothecam tuam sponte addantur.</string>
+   <string name="allow_access_to_see_files">Permitte aditum ad omnia documenta ut libros in hoc scrinio videas. Sine eo sola eius scrinia ostenduntur.</string>
    <string name="save_settings_in_librera_folder">Optiones et progressum legendi in folliculo Librera serva.</string>
    <string name="regrant_folder_title">Accessum ad folliculum iterum permitte</string>
    <string name="regrant_folder_msg">Applicatio %1$s iam legere non potest: Android accessum ad folliculos removet cum applicatio iterum instituitur. Folliculum iterum in proximo scrinio elige.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Caput epistulam ostendere</string>
    <string name="size">Magnitudine</string>
    <string name="quick_bookmark_by_the_headset">Velox bookmark a headset</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Globulos TTS in imo paginae monstrare</string>
    <string name="slider_scale">Notatio paginae</string>
    <string name="chapter_format">Forma</string>
    <string name="play_a_music_file">A lima musicorum ludere</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Libri in his scriniis eorumque subscriniis quaeruntur.</string>
    <string name="add_folder_hint">Unum scrinium elige</string>
    <string name="add_storage_hint">Charta SD vel instrumentum USB</string>
+   <string name="folder_no_access">Nullus aditus · tange ut iterum permittas</string>
    <string name="watch">Specta</string>
    <string name="librerax_not_installed">LibreraX non est installata. Depone et installa eam, deinde librum iterum aperi.</string>
    <string name="remove_library_folder">Hoc directorium ex bibliotheca removere? Fasciculi in eo non delebuntur.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Tabulam stilorum basalem adhibere (foliate-js)</string>
    <string name="pdf_engine">Machina PDF</string>
    <string name="msg_pdf_engine_unavailable">Haec aedificatio bibliothecas PDFium non continet.</string>
+   <string name="book_open_failed">Hic liber aperiri non potuit.</string>
+   <string name="book_open_crashed">Applicatio proxime inopinato clausa est dum hic liber aperiebatur.</string>
+   <string name="try_librerax">Experire eum in LibreraX aperire.</string>
+   <string name="get_librerax">LibreraX fortasse eum aperire poterit. Hinc depromite:</string>
+   <string name="open_in_librerax">Aperi in LibreraX</string>
+   <string name="try_again">Iterum conare</string>
+   <string name="export_to_librerax">Exporta in LibreraX</string>
+   <string name="update_librerax">Renova LibreraX ad ultimam versionem ut ex Librera importes.</string>
+   <string name="reading_progress">Progressus lectionis</string>
 </resources>

@@ -244,6 +244,7 @@
    <string name="allow">Permet</string>
    <string name="storage">Emmagatzematge</string>
    <string name="add_all_books_with_permission">Si us plau, permet que l\'aplicació analitzi la carpeta Baixades per afegir llibres automàticament a la teva biblioteca.</string>
+   <string name="allow_access_to_see_files">Permet l\'accés a tots els fitxers per veure els llibres d\'aquesta carpeta. Sense aquest permís només se\'n mostren les carpetes.</string>
    <string name="save_settings_in_librera_folder">Desa la configuració i el progrés de lectura a la carpeta Librera.</string>
    <string name="regrant_folder_title">Torna a permetre l\'accés a la carpeta</string>
    <string name="regrant_folder_msg">L\'aplicació ja no pot llegir %1$s: Android elimina l\'accés a les carpetes quan es reinstal·la l\'aplicació. Torna a triar la carpeta a la pantalla següent.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Mostra els capítols amb inicials</string>
    <string name="size">Mida</string>
    <string name="quick_bookmark_by_the_headset">Activa els marcadors remots (botó Inicia/Atura)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Mostra els botons de TTS a la part inferior de la pàgina</string>
    <string name="slider_scale">Escala del lliscador</string>
    <string name="chapter_format">Llegenda</string>
    <string name="play_a_music_file">Reprodueix un fitxer d\'àudio</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Els llibres es cerquen en aquestes carpetes i les seves subcarpetes.</string>
    <string name="add_folder_hint">Tria una carpeta</string>
    <string name="add_storage_hint">Targeta SD o unitat USB</string>
+   <string name="folder_no_access">Sense accés · toca per tornar-lo a permetre</string>
    <string name="watch">Mira</string>
    <string name="librerax_not_installed">LibreraX no està instal·lat. Baixeu-lo i instal·leu-lo i torneu a obrir el llibre.</string>
    <string name="remove_library_folder">Voleu treure aquesta carpeta de la biblioteca? Els fitxers que conté no se suprimiran.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Aplica el full d\'estils base (foliate-js)</string>
    <string name="pdf_engine">Motor de PDF</string>
    <string name="msg_pdf_engine_unavailable">Aquesta compilació no inclou les biblioteques PDFium.</string>
+   <string name="book_open_failed">No s\'ha pogut obrir aquest llibre.</string>
+   <string name="book_open_crashed">L\'aplicació es va tancar inesperadament en obrir aquest llibre l\'última vegada.</string>
+   <string name="try_librerax">Proveu d\'obrir-lo amb LibreraX.</string>
+   <string name="get_librerax">És possible que LibreraX el pugui obrir. Baixeu-lo aquí:</string>
+   <string name="open_in_librerax">Obre amb LibreraX</string>
+   <string name="try_again">Torna-ho a provar</string>
+   <string name="export_to_librerax">Exporta a LibreraX</string>
+   <string name="update_librerax">Actualitza LibreraX a la darrera versió per importar des de Librera.</string>
+   <string name="reading_progress">Progrés de lectura</string>
 </resources>

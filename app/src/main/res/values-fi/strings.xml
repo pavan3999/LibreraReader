@@ -244,6 +244,7 @@
    <string name="allow">Salli</string>
    <string name="storage">Tallennustila</string>
    <string name="add_all_books_with_permission">Salli sovelluksen tutkia Lataukset-kansiosi, jotta kirjat lisätään automaattisesti kirjastoosi.</string>
+   <string name="allow_access_to_see_files">Salli pääsy kaikkiin tiedostoihin nähdäksesi tämän kansion kirjat. Ilman sitä näytetään vain sen kansiot.</string>
    <string name="save_settings_in_librera_folder">Tallenna asetukset ja lukuedistyminen Librera-kansioon.</string>
    <string name="regrant_folder_title">Salli pääsy kansioon uudelleen</string>
    <string name="regrant_folder_msg">Sovellus ei voi enää lukea kohdetta %1$s: Android poistaa kansioiden käyttöoikeudet, kun sovellus asennetaan uudelleen. Valitse kansio uudelleen seuraavassa näkymässä.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Aloita luvut alkirjaimella</string>
    <string name="size">Koko</string>
    <string name="quick_bookmark_by_the_headset">Luo kirjanmerkki kuulokkeilla (toisto/tauko-painikkeella)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Näytä TTS-painikkeet sivun alaosassa</string>
    <string name="slider_scale">Slider-asteikko</string>
    <string name="chapter_format">Lukuformaatti</string>
    <string name="play_a_music_file">Toista musiikkitiedosto</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Kirjoja etsitään näistä kansioista ja niiden alikansioista.</string>
    <string name="add_folder_hint">Valitse yksi kansio</string>
    <string name="add_storage_hint">SD-kortti tai USB-asema</string>
+   <string name="folder_no_access">Ei käyttöoikeutta · napauta salliaksesi uudelleen</string>
    <string name="watch">Katso</string>
    <string name="librerax_not_installed">LibreraX ei ole asennettu. Lataa ja asenna se ja avaa kirja sitten uudelleen.</string>
    <string name="remove_library_folder">Poistetaanko tämä kansio kirjastosta? Sen tiedostoja ei poisteta.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Käytä perustyylitiedostoa (foliate-js)</string>
    <string name="pdf_engine">PDF-moottori</string>
    <string name="msg_pdf_engine_unavailable">Tämä koontiversio ei sisällä PDFium-kirjastoja.</string>
+   <string name="book_open_failed">Tätä kirjaa ei voitu avata.</string>
+   <string name="book_open_crashed">Sovellus sulkeutui odottamatta, kun tätä kirjaa avattiin viimeksi.</string>
+   <string name="try_librerax">Kokeile avata se LibreraX:ssä.</string>
+   <string name="get_librerax">LibreraX saattaa pystyä avaamaan sen. Lataa se täältä:</string>
+   <string name="open_in_librerax">Avaa LibreraX:ssä</string>
+   <string name="try_again">Yritä uudelleen</string>
+   <string name="export_to_librerax">Vie LibreraX:ään</string>
+   <string name="update_librerax">Päivitä LibreraX uusimpaan versioon tuodaksesi tiedot Librerasta.</string>
+   <string name="reading_progress">Lukuedistyminen</string>
 </resources>

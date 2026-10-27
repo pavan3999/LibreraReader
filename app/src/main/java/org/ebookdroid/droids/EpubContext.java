@@ -26,6 +26,13 @@ EpubContext extends PdfContext {
     private static final String TAG = "EpubContext";
     File cacheFile;
 
+    /**
+     * The converted book, named after the settings the conversion reads. A setting the conversion
+     * does not read must not be in the name: every style change restarts the reader, and a new
+     * name converts the whole book again. Full screen and image scaling were here and did that;
+     * neither changes a byte of the conversion, and MuPDF checks its saved layout against the page
+     * size itself (MuPdfDocument folds image scaling into that file's name, as MuPDF cannot).
+     */
     @Override
     public File getCacheFileName(String fileNameOriginal) {
         LOG.d(TAG, "getCacheFileName", fileNameOriginal, AppSP.get().hypenLang);
@@ -33,13 +40,11 @@ EpubContext extends PdfContext {
                 AppState.get().isReferenceMode +
                 AppState.get().isShowPageNumbers +
                 AppState.get().isShowFooterNotesInText +
-                AppState.get().fullScreenMode +
                 //AppState.get().isAccurateFontSize +
                 BookCSS.get().documentStyle +
                 BookCSS.get().isAutoHypens +
                 AppState.get().isBionicMode +
                 AppSP.get().hypenLang +
-                AppState.get().enableImageScale +
                 AppState.get().textReplacementHash +
                 BookCSS.get().isEnableBBCode +
                 AppState.get().isExperimental)
@@ -57,6 +62,12 @@ EpubContext extends PdfContext {
 
         final boolean process = /** LibreraBuildConfig.DEBUG || **/AppState.get().isEnableTextReplacement || BookCSS.get().isAutoHypens ||
                 AppState.get().isReferenceMode || AppState.get().isShowFooterNotesInText || BookCSS.get().isEnableBBCode;
+        // A copy cut short by the app dying while converting - before proccessHypens wrote it
+        // aside first - would be reused for good, and the book never open again
+        if (cacheFile.isFile() && !new ZipFile(cacheFile).isValidZipFile()) {
+            LOG.d(TAG, "converted copy is not a whole zip, converting again", cacheFile);
+            cacheFile.delete();
+        }
         final boolean cacheExists = cacheFile.isFile();
         final boolean rewritten = EpubOpenPlan.isRewritten(process, cacheExists);
 

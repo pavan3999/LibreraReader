@@ -244,6 +244,7 @@
    <string name="allow">Leisti</string>
    <string name="storage">Saugykla</string>
    <string name="add_all_books_with_permission">Leiskite programai nuskaityti aplanką „Atsisiuntimai“, kad knygos būtų automatiškai įtrauktos į jūsų biblioteką.</string>
+   <string name="allow_access_to_see_files">Leiskite prieigą prie visų failų, kad matytumėte šio aplanko knygas. Be jos rodomi tik jo aplankai.</string>
    <string name="save_settings_in_librera_folder">Išsaugoti nustatymus ir skaitymo eigą Librera aplanke.</string>
    <string name="regrant_folder_title">Vėl leisti prieigą prie aplanko</string>
    <string name="regrant_folder_msg">Programa nebegali skaityti %1$s: iš naujo įdiegus programą, Android pašalina prieigą prie aplankų. Kitame ekrane pasirinkite aplanką dar kartą.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Rodyti didžiąją raidę</string>
    <string name="size">Dydis</string>
    <string name="quick_bookmark_by_the_headset">Greita žymė su laisvų rankų įranga</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Rodyti TTS mygtukus puslapio apačioje</string>
    <string name="slider_scale">Slankiklio skalė</string>
    <string name="chapter_format">Skyriaus formatas</string>
    <string name="play_a_music_file">Groti muzikos failą</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Knygų ieškoma šiuose aplankuose ir jų poaplankiuose.</string>
    <string name="add_folder_hint">Pasirinkite vieną aplanką</string>
    <string name="add_storage_hint">SD kortelė arba USB diskas</string>
+   <string name="folder_no_access">Nėra prieigos · palieskite, kad leistumėte vėl</string>
    <string name="watch">Žiūrėti</string>
    <string name="librerax_not_installed">LibreraX neįdiegta. Atsisiųskite ir įdiekite ją, tada vėl atidarykite knygą.</string>
    <string name="remove_library_folder">Pašalinti šį aplanką iš bibliotekos? Jame esantys failai nebus ištrinti.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Taikyti bazinį stilių aprašą (foliate-js)</string>
    <string name="pdf_engine">PDF variklis</string>
    <string name="msg_pdf_engine_unavailable">Ši versija neturi PDFium bibliotekų.</string>
+   <string name="book_open_failed">Šios knygos atidaryti nepavyko.</string>
+   <string name="book_open_crashed">Paskutinį kartą atidarant šią knygą programa netikėtai užsidarė.</string>
+   <string name="try_librerax">Pabandykite ją atidaryti su LibreraX.</string>
+   <string name="get_librerax">LibreraX gali pavykti ją atidaryti. Atsisiųskite čia:</string>
+   <string name="open_in_librerax">Atidaryti su LibreraX</string>
+   <string name="try_again">Bandyti dar kartą</string>
+   <string name="export_to_librerax">Eksportuoti į LibreraX</string>
+   <string name="update_librerax">Atnaujinkite LibreraX iki naujausios versijos, kad galėtumėte importuoti iš Librera.</string>
+   <string name="reading_progress">Skaitymo eiga</string>
 </resources>

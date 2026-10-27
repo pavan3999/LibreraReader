@@ -244,6 +244,7 @@
    <string name="allow">அனுமதி</string>
    <string name="storage">சேமிப்பு</string>
    <string name="add_all_books_with_permission">புத்தகங்களை உங்கள் நூலகத்தில் தானாகச் சேர்க்க, பதிவிறக்கங்கள் கோப்புறையை ஸ்கேன் செய்ய ஆப்ஸை அனுமதிக்கவும்.</string>
+   <string name="allow_access_to_see_files">இந்தக் கோப்புறையில் உள்ள புத்தகங்களைப் பார்க்க எல்லா கோப்புகளுக்கும் அணுகலை அனுமதிக்கவும். இல்லையெனில் அதன் கோப்புறைகள் மட்டுமே காட்டப்படும்.</string>
    <string name="save_settings_in_librera_folder">அமைப்புகளையும் வாசிப்பு முன்னேற்றத்தையும் Librera கோப்புறையில் சேமிக்கவும்.</string>
    <string name="regrant_folder_title">கோப்புறைக்கான அணுகலை மீண்டும் அனுமதிக்கவும்</string>
    <string name="regrant_folder_msg">செயலியால் இனி %1$s ஐப் படிக்க முடியாது: செயலியை மீண்டும் நிறுவும்போது Android கோப்புறை அணுகலை நீக்குகிறது. அடுத்த திரையில் கோப்புறையை மீண்டும் தேர்ந்தெடுக்கவும்.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">முதலெழுத்துகளுடன் முன்னணி அத்தியாயங்கள்</string>
    <string name="size">அளவு</string>
    <string name="quick_bookmark_by_the_headset">தொலை புக்மார்க்குகளை இயக்கவும் (தொடக்க / நிறுத்து பொத்தானை)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">பக்கத்தின் கீழே TTS பொத்தான்களைக் காட்டு</string>
    <string name="slider_scale">ஸ்லைடர் அளவு</string>
    <string name="chapter_format">புராண</string>
    <string name="play_a_music_file">ஆடியோ கோப்பை இயக்கு</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">இந்தக் கோப்புறைகளிலும் அவற்றின் துணைக் கோப்புறைகளிலும் புத்தகங்கள் தேடப்படும்.</string>
    <string name="add_folder_hint">ஒரு கோப்புறையைத் தேர்வுசெய்க</string>
    <string name="add_storage_hint">SD கார்டு அல்லது USB டிரைவ்</string>
+   <string name="folder_no_access">அணுகல் இல்லை · மீண்டும் அனுமதிக்க தட்டவும்</string>
    <string name="watch">பார்க்க</string>
    <string name="librerax_not_installed">LibreraX நிறுவப்படவில்லை. அதைப் பதிவிறக்கி நிறுவி, பின்னர் புத்தகத்தை மீண்டும் திறக்கவும்.</string>
    <string name="remove_library_folder">இந்தக் கோப்புறையை நூலகத்திலிருந்து அகற்றவா? அதிலுள்ள கோப்புகள் நீக்கப்படாது.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">அடிப்படை பாணித்தாளைப் பயன்படுத்து (foliate-js)</string>
    <string name="pdf_engine">PDF இயந்திரம்</string>
    <string name="msg_pdf_engine_unavailable">இந்தப் பதிப்பில் PDFium நூலகங்கள் இல்லை.</string>
+   <string name="book_open_failed">இந்தப் புத்தகத்தைத் திறக்க முடியவில்லை.</string>
+   <string name="book_open_crashed">கடந்த முறை இந்தப் புத்தகத்தைத் திறக்கும்போது ஆப் எதிர்பாராமல் மூடப்பட்டது.</string>
+   <string name="try_librerax">இதை LibreraX-இல் திறந்து பாருங்கள்.</string>
+   <string name="get_librerax">LibreraX இதைத் திறக்கக்கூடும். இங்கிருந்து பதிவிறக்குங்கள்:</string>
+   <string name="open_in_librerax">LibreraX-இல் திற</string>
+   <string name="try_again">மீண்டும் முயல்க</string>
+   <string name="export_to_librerax">LibreraX-க்கு ஏற்றுமதி</string>
+   <string name="update_librerax">Librera-இலிருந்து இறக்குமதி செய்ய LibreraX-ஐ சமீபத்திய பதிப்புக்குப் புதுப்பிக்கவும்.</string>
+   <string name="reading_progress">வாசிப்பு முன்னேற்றம்</string>
 </resources>

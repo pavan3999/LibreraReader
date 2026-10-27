@@ -244,6 +244,7 @@
    <string name="allow">Toestaan</string>
    <string name="storage">Opslag</string>
    <string name="add_all_books_with_permission">Sta de app toe je map Downloads te doorzoeken, zodat boeken automatisch aan je bibliotheek worden toegevoegd.</string>
+   <string name="allow_access_to_see_files">Sta toegang tot alle bestanden toe om de boeken in deze map te zien. Zonder toegang worden alleen de mappen getoond.</string>
    <string name="save_settings_in_librera_folder">Instellingen en leesvoortgang opslaan in de map Librera.</string>
    <string name="regrant_folder_title">Toegang tot de map opnieuw toestaan</string>
    <string name="regrant_folder_msg">De app kan %1$s niet meer lezen: Android trekt de maptoegang in als de app opnieuw wordt geïnstalleerd. Kies de map opnieuw in het volgende scherm.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Begin hoofdstukken met een hoofdletter</string>
    <string name="size">Grootte</string>
    <string name="quick_bookmark_by_the_headset">Snelle bladwijzer door de headset</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">TTS-knoppen onderaan de pagina tonen</string>
    <string name="slider_scale">Schuifschaal</string>
    <string name="chapter_format">Hoofdstuk formaat</string>
    <string name="play_a_music_file">Speel een muziekbestand</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Boeken worden gezocht in deze mappen en hun submappen.</string>
    <string name="add_folder_hint">Kies één map</string>
    <string name="add_storage_hint">SD-kaart of USB-stick</string>
+   <string name="folder_no_access">Geen toegang · tik om opnieuw toe te staan</string>
    <string name="watch">Bekijken</string>
    <string name="librerax_not_installed">LibreraX is niet geïnstalleerd. Download en installeer het en open het boek daarna opnieuw.</string>
    <string name="remove_library_folder">Deze map uit de bibliotheek verwijderen? De bestanden erin worden niet verwijderd.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Basisstijlblad toepassen (foliate-js)</string>
    <string name="pdf_engine">PDF-engine</string>
    <string name="msg_pdf_engine_unavailable">Deze build bevat de PDFium-bibliotheken niet.</string>
+   <string name="book_open_failed">Dit boek kon niet worden geopend.</string>
+   <string name="book_open_crashed">De app is de vorige keer onverwacht gesloten tijdens het openen van dit boek.</string>
+   <string name="try_librerax">Probeer het te openen in LibreraX.</string>
+   <string name="get_librerax">LibreraX kan het mogelijk openen. Download het hier:</string>
+   <string name="open_in_librerax">Openen in LibreraX</string>
+   <string name="try_again">Opnieuw proberen</string>
+   <string name="export_to_librerax">Exporteren naar LibreraX</string>
+   <string name="update_librerax">Werk LibreraX bij naar de nieuwste versie om vanuit Librera te importeren.</string>
+   <string name="reading_progress">Leesvoortgang</string>
 </resources>

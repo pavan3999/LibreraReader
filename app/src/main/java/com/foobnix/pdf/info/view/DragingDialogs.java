@@ -152,6 +152,7 @@ import com.foobnix.tts.TTSControlsView;
 import com.foobnix.tts.TTSEngine;
 import com.foobnix.tts.TTSService;
 import com.foobnix.tts.TTSTracks;
+import com.foobnix.tts.TtsStatus;
 import com.foobnix.ui2.AppDB;
 import com.foobnix.ui2.adapter.DefaultListeners;
 import com.foobnix.ui2.adapter.FileMetaAdapter;
@@ -163,6 +164,7 @@ import com.foobnix.ui2.fragment.SearchFragment2;
 import com.foobnix.ui2.fragment.UIFragment;
 import com.jmedeisis.draglinearlayout.DragLinearLayout;
 
+import org.ebookdroid.droids.foliate.codec.FoliateDocument;
 import org.ebookdroid.BookType;
 import org.ebookdroid.common.settings.CoreSettings;
 import org.ebookdroid.common.settings.SettingsManager;
@@ -1198,6 +1200,16 @@ public class DragingDialogs {
                     }
                 });
 
+                CheckBox isShowTtsPageControls = view.findViewById(R.id.isShowTtsPageControls);
+                isShowTtsPageControls.setChecked(AppState.get().isShowTtsPageControls);
+                isShowTtsPageControls.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                    @Override public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                        AppState.get().isShowTtsPageControls = isChecked;
+                        // the screens show or hide the controls on the page when the status changes
+                        EventBus.getDefault().post(new TtsStatus());
+                    }
+                });
+
                 CheckBox ttsTunnOnLastWord = view.findViewById(R.id.ttsTunnOnLastWord);
                 ttsTunnOnLastWord.setChecked(AppState.get().ttsTunnOnLastWord);
                 ttsTunnOnLastWord.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -1735,9 +1747,7 @@ public class DragingDialogs {
                 final View view = inflater.inflate(R.layout.dialog_selected_text, null, false);
                 final LinearLayout linearLayoutColor = view.findViewById(R.id.colorsLine);
                 linearLayoutColor.removeAllViews();
-                List<String> colors = new ArrayList<String>(AppState.COLORS);
-                colors.remove(0);
-                colors.remove(0);
+                List<String> colors = AppState.ANNOTATION_COLORS;
 
                 final ImageView underLine = view.findViewById(R.id.onUnderline);
                 final ImageView strike = view.findViewById(R.id.onStrike);
@@ -2319,9 +2329,13 @@ public class DragingDialogs {
                 // into the PDF and no other format has anywhere to put one. Librera keeps those
                 // itself now, so the only book that cannot be marked up is one with no text to
                 // mark - a comic, which is pictures.
-                if (!withAnnotation || ExtUtils.isNoTextLayerForamt(controller.getCurrentBook().
-
-                        getPath())) {
+                // A text book - an epub, fb2, mobi - is marked up only when foliate-js lays it
+                // out: MuPDF draws it as pictures of pages that are laid out again at every font
+                // size, with nothing for a mark to stay on.
+                final String bookPath = controller.getCurrentBook().getPath();
+                final boolean textWithoutFoliate = ExtUtils.isTextFomat(bookPath)
+                        && !(controller.getCodecDocument() instanceof FoliateDocument);
+                if (!withAnnotation || ExtUtils.isNoTextLayerForamt(bookPath) || textWithoutFoliate) {
                     linearLayoutColor.setVisibility(View.GONE);
                     view.findViewById(R.id.onUnderline).setVisibility(View.GONE);
                     view.findViewById(R.id.onStrike).setVisibility(View.GONE);
@@ -5063,11 +5077,13 @@ public class DragingDialogs {
                     }
                 });
 
+                // The line spacing of the engine laying this book out: foliate-js keeps its own
+                final boolean foliateLines = controller.getCodecDocument() instanceof FoliateDocument;
                 final CustomSeek lineHeight = inflate.findViewById(R.id.lineHeight);
-                lineHeight.init(10, 30, BookCSS.get().lineHeight12);
+                lineHeight.init(10, 30, BookCSS.get().lineHeight(foliateLines));
                 lineHeight.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().lineHeight12 = result;
+                        BookCSS.get().setLineHeight(foliateLines, result);
                         return false;
                     }
                 });
@@ -5108,39 +5124,41 @@ public class DragingDialogs {
 
 // Margins
 
+                // The margins of the engine laying this book out: foliate-js keeps its own
+                final boolean foliateMargins = controller.getCodecDocument() instanceof FoliateDocument;
                 final CustomSeek marginTop = inflate.findViewById(R.id.marginTop);
                 int maxMargin = Dips.isLargeOrXLargeScreen() ? 400 : 50;
-                marginTop.init(0, maxMargin, BookCSS.get().marginTop);
+                marginTop.init(0, maxMargin, BookCSS.get().marginTop(foliateMargins));
                 marginTop.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().marginTop = result;
+                        BookCSS.get().setMarginTop(foliateMargins, result);
                         return false;
                     }
                 });
 
                 final CustomSeek marginBottom = inflate.findViewById(R.id.marginBottom);
-                marginBottom.init(0, maxMargin, BookCSS.get().marginBottom);
+                marginBottom.init(0, maxMargin, BookCSS.get().marginBottom(foliateMargins));
                 marginBottom.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().marginBottom = result;
+                        BookCSS.get().setMarginBottom(foliateMargins, result);
                         return false;
                     }
                 });
 
                 final CustomSeek marginLeft = inflate.findViewById(R.id.marginLeft);
-                marginLeft.init(0, maxMargin, BookCSS.get().marginLeft);
+                marginLeft.init(0, maxMargin, BookCSS.get().marginLeft(foliateMargins));
                 marginLeft.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().marginLeft = result;
+                        BookCSS.get().setMarginLeft(foliateMargins, result);
                         return false;
                     }
                 });
 
                 final CustomSeek marginRight = inflate.findViewById(R.id.marginRight);
-                marginRight.init(0, maxMargin, BookCSS.get().marginRight);
+                marginRight.init(0, maxMargin, BookCSS.get().marginRight(foliateMargins));
                 marginRight.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().marginRight = result;
+                        BookCSS.get().setMarginRight(foliateMargins, result);
                         return false;
                     }
                 });
@@ -5280,15 +5298,15 @@ public class DragingDialogs {
                                                                   fontWeight.setValueText(
                                                                           "" + BookCSS.get().fontWeight);
 
-                                                                  lineHeight.reset(BookCSS.get().lineHeight12);
+                                                                  lineHeight.reset(BookCSS.get().lineHeight(foliateLines));
                                                                   paragraphHeight.reset(BookCSS.get().paragraphHeight);
 
                                                                   fontParagraph.reset(BookCSS.get().textIndent);
                                                                   //
-                                                                  marginTop.reset(BookCSS.get().marginTop);
-                                                                  marginBottom.reset(BookCSS.get().marginBottom);
-                                                                  marginLeft.reset(BookCSS.get().marginLeft);
-                                                                  marginRight.reset(BookCSS.get().marginRight);
+                                                                  marginTop.reset(BookCSS.get().marginTop(foliateMargins));
+                                                                  marginBottom.reset(BookCSS.get().marginBottom(foliateMargins));
+                                                                  marginLeft.reset(BookCSS.get().marginLeft(foliateMargins));
+                                                                  marginRight.reset(BookCSS.get().marginRight(foliateMargins));
 
                                                                   emptyLine.reset(BookCSS.get().emptyLine);
 
@@ -5576,15 +5594,17 @@ public class DragingDialogs {
                     }
                 });
 
+                // The font size of the engine laying this book out: foliate-js keeps its own
+                final boolean foliateFont = controller.getCodecDocument() instanceof FoliateDocument;
                 final CustomSeek fontSizeSp = inflate.findViewById(R.id.fontSizeSp);
-                fontSizeSp.init(10, 70, BookCSS.get().fontSizeSp);
+                fontSizeSp.init(10, 70, BookCSS.get().fontSize(foliateFont));
                 fontSizeSp.setOnSeekChanged(new IntegerResponse() {
                     @Override public boolean onResultRecive(int result) {
-                        BookCSS.get().fontSizeSp = result;
+                        BookCSS.get().setFontSize(foliateFont, result);
                         return false;
                     }
                 });
-                fontSizeSp.setValueText("" + BookCSS.get().fontSizeSp);
+                fontSizeSp.setValueText("" + BookCSS.get().fontSize(foliateFont));
 
                 inflate.findViewById(R.id.fontSizeLayout).setVisibility(ExtUtils.isTextFomat(controller.getCurrentBook()
                                                                                                        .getPath()) ?

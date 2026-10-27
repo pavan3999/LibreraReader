@@ -244,6 +244,7 @@
    <string name="allow">السماح</string>
    <string name="storage">التخزين</string>
    <string name="add_all_books_with_permission">يُرجى السماح للتطبيق بفحص مجلد التنزيلات لإضافة الكتب إلى مكتبتك تلقائيًا.</string>
+   <string name="allow_access_to_see_files">اسمح بالوصول إلى جميع الملفات لرؤية الكتب في هذا المجلد. بدونه تُعرض مجلداته فقط.</string>
    <string name="save_settings_in_librera_folder">احفظ الإعدادات وتقدّم القراءة في مجلد Librera.</string>
    <string name="regrant_folder_title">اسمح بالوصول إلى المجلد مرة أخرى</string>
    <string name="regrant_folder_msg">لم يعد بإمكان التطبيق قراءة %1$s: يزيل Android صلاحية الوصول إلى المجلدات عند إعادة تثبيت التطبيق. اختر المجلد مرة أخرى في الشاشة التالية.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">اعرض الحرف الكبير</string>
    <string name="size">بحجم</string>
    <string name="quick_bookmark_by_the_headset">المرجعية السريعة من قبل سماعة الرأس</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">إظهار أزرار TTS أسفل الصفحة</string>
    <string name="slider_scale">مقياس المنزلق</string>
    <string name="chapter_format">تنسيق الفصل</string>
    <string name="play_a_music_file">تشغيل ملف موسيقى</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">يتم البحث عن الكتب في هذه المجلدات ومجلداتها الفرعية.</string>
    <string name="add_folder_hint">اختر مجلدًا واحدًا</string>
    <string name="add_storage_hint">بطاقة SD أو محرك USB</string>
+   <string name="folder_no_access">لا يوجد وصول · انقر للسماح مجددًا</string>
    <string name="watch">مشاهدة</string>
    <string name="librerax_not_installed">LibreraX غير مثبّت. نزّله وثبّته، ثم افتح الكتاب مرة أخرى.</string>
    <string name="remove_library_folder">إزالة هذا المجلد من المكتبة؟ لن تُحذف الملفات الموجودة فيه.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">تطبيق ورقة الأنماط الأساسية (foliate-js)</string>
    <string name="pdf_engine">محرك PDF</string>
    <string name="msg_pdf_engine_unavailable">لا تتضمن هذه النسخة مكتبات PDFium.</string>
+   <string name="book_open_failed">تعذّر فتح هذا الكتاب.</string>
+   <string name="book_open_crashed">أُغلق التطبيق بشكل غير متوقع أثناء فتح هذا الكتاب في المرة السابقة.</string>
+   <string name="try_librerax">جرّب فتحه في LibreraX.</string>
+   <string name="get_librerax">قد يتمكن LibreraX من فتحه. نزّله من هنا:</string>
+   <string name="open_in_librerax">فتح في LibreraX</string>
+   <string name="try_again">إعادة المحاولة</string>
+   <string name="export_to_librerax">تصدير إلى LibreraX</string>
+   <string name="update_librerax">حدّث LibreraX إلى أحدث إصدار للاستيراد من Librera.</string>
+   <string name="reading_progress">تقدّم القراءة</string>
 </resources>

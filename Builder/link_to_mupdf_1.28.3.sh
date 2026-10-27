@@ -132,6 +132,15 @@ fi
 
 "$NDK" NDK_APPLICATION_MK=jni/Application.mk APP_ABI=arm64-v8a APP_PLATFORM=android-24
 wait
+
+# libs-nomupdf: every library of libs but libmupdf.so - the very same files, so a DjVu, a .doc,
+# a .mobi or a comic is read by the same binary in both targets
+rm -rf $MUPDF_JAVA/libs-nomupdf
+for ABI in armeabi-v7a arm64-v8a x86 x86_64; do
+  mkdir -p $MUPDF_JAVA/libs-nomupdf/$ABI
+  cp -p $MUPDF_JAVA/libs/$ABI/*.so $MUPDF_JAVA/libs-nomupdf/$ABI/
+  rm -f $MUPDF_JAVA/libs-nomupdf/$ABI/libmupdf.so
+done
 echo "=================="
 echo "NDK:" "$NDK"
 echo "APP_ABI=arm64-v8a"
@@ -179,6 +188,7 @@ echo "liblame.so: OK"
 echo "=================="
 echo "MUPDF:"$MUPDF_JAVA
 echo "JNI:"$LIBS
+echo "JNI without MuPDF:"$LIBS_NOMUPDF
 echo "=================="
 fi
 

@@ -244,6 +244,7 @@
    <string name="allow">Рұқсат беру</string>
    <string name="storage">Жад</string>
    <string name="add_all_books_with_permission">Кітаптарды кітапханаңызға автоматты түрде қосу үшін қолданбаға «Жүктеулер» қалтасын қарап шығуға рұқсат беріңіз.</string>
+   <string name="allow_access_to_see_files">Осы қалтадағы кітаптарды көру үшін барлық файлдарға қол жеткізуге рұқсат беріңіз. Онсыз тек оның қалталары көрсетіледі.</string>
    <string name="save_settings_in_librera_folder">Баптаулар мен оқу барысын Librera қалтасында сақтау.</string>
    <string name="regrant_folder_title">Қалтаға қолжетімділікке қайта рұқсат беру</string>
    <string name="regrant_folder_msg">Қолданба енді %1$s оқи алмайды: қолданба қайта орнатылғанда Android қалталарға қолжетімділікті жояды. Келесі экранда қалтаны қайта таңдаңыз.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Бастапқы бөлімдері бар жетекші басшылары</string>
    <string name="size">Өлшемі</string>
    <string name="quick_bookmark_by_the_headset">Қашықтағы бетбелгілерді қосу (Start / Stop түймешігі)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">TTS түймелерін беттің төменгі жағында көрсету</string>
    <string name="slider_scale">Слайдер шкаласы</string>
    <string name="chapter_format">Мәтіннің пішімі</string>
    <string name="play_a_music_file">Аудио файлды ойнату</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Кітаптар осы қалталар мен олардың ішкі қалталарынан ізделеді.</string>
    <string name="add_folder_hint">Бір қалтаны таңдаңыз</string>
    <string name="add_storage_hint">SD картасы немесе USB жинақтағышы</string>
+   <string name="folder_no_access">Қол жеткізу жоқ · қайта рұқсат беру үшін түртіңіз</string>
    <string name="watch">Көру</string>
    <string name="librerax_not_installed">LibreraX орнатылмаған. Оны жүктеп алып орнатыңыз, содан кейін кітапты қайта ашыңыз.</string>
    <string name="remove_library_folder">Бұл қалтаны кітапханадан алып тастау керек пе? Ондағы файлдар жойылмайды.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Негізгі стиль кестесін қолдану (foliate-js)</string>
    <string name="pdf_engine">PDF қозғалтқышы</string>
    <string name="msg_pdf_engine_unavailable">Бұл құрастырмада PDFium кітапханалары жоқ.</string>
+   <string name="book_open_failed">Бұл кітапты ашу мүмкін болмады.</string>
+   <string name="book_open_crashed">Өткен жолы бұл кітапты ашу кезінде қолданба күтпеген жерден жабылды.</string>
+   <string name="try_librerax">Оны LibreraX-те ашып көріңіз.</string>
+   <string name="get_librerax">LibreraX оны аша алуы мүмкін. Осы жерден жүктеп алыңыз:</string>
+   <string name="open_in_librerax">LibreraX-те ашу</string>
+   <string name="try_again">Қайталау</string>
+   <string name="export_to_librerax">LibreraX-ке экспорттау</string>
+   <string name="update_librerax">Librera-дан импорттау үшін LibreraX-ті соңғы нұсқаға жаңартыңыз.</string>
+   <string name="reading_progress">Оқу барысы</string>
 </resources>

@@ -244,6 +244,7 @@
    <string name="allow">Baimendu</string>
    <string name="storage">Biltegia</string>
    <string name="add_all_books_with_permission">Mesedez, utzi aplikazioari Deskargak karpeta arakatzen, liburuak zure liburutegira automatikoki gehitzeko.</string>
+   <string name="allow_access_to_see_files">Baimendu fitxategi guztietarako sarbidea karpeta honetako liburuak ikusteko. Hori gabe, bere karpetak soilik erakusten dira.</string>
    <string name="save_settings_in_librera_folder">Gorde ezarpenak eta irakurketaren aurrerapena Librera karpetan.</string>
    <string name="regrant_folder_title">Baimendu berriro karpetarako sarbidea</string>
    <string name="regrant_folder_msg">Aplikazioak ezin du jada %1$s irakurri: Androidek karpetetarako sarbidea kentzen du aplikazioa berriro instalatzean. Aukeratu karpeta berriro hurrengo pantailan.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Erakutsi letra larria</string>
    <string name="size">Tamaina</string>
    <string name="quick_bookmark_by_the_headset">Urrutiko laster-markak</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">Erakutsi TTS botoiak orriaren behealdean</string>
    <string name="slider_scale">Graduatzaileen eskala</string>
    <string name="chapter_format">Kapituluaren formatua</string>
    <string name="play_a_music_file">Erreproduzitu musika fitxategia</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Liburuak karpeta hauetan eta haien azpikarpetetan bilatzen dira.</string>
    <string name="add_folder_hint">Aukeratu karpeta bat</string>
    <string name="add_storage_hint">SD txartela edo USB unitatea</string>
+   <string name="folder_no_access">Sarbiderik ez · sakatu berriro baimentzeko</string>
    <string name="watch">Ikusi</string>
    <string name="librerax_not_installed">LibreraX ez dago instalatuta. Deskargatu eta instalatu, eta ireki liburua berriro.</string>
    <string name="remove_library_folder">Karpeta hau liburutegitik kendu? Bertako fitxategiak ez dira ezabatuko.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Aplikatu oinarrizko estilo-orria (foliate-js)</string>
    <string name="pdf_engine">PDF motorra</string>
    <string name="msg_pdf_engine_unavailable">Konpilazio honek ez ditu PDFium liburutegiak.</string>
+   <string name="book_open_failed">Ezin izan da liburu hau ireki.</string>
+   <string name="book_open_crashed">Aplikazioa ustekabean itxi zen azken aldiz liburu hau irekitzean.</string>
+   <string name="try_librerax">Saiatu LibreraX-en irekitzen.</string>
+   <string name="get_librerax">Baliteke LibreraX-ek irekitzea. Deskargatu hemen:</string>
+   <string name="open_in_librerax">Ireki LibreraX-en</string>
+   <string name="try_again">Saiatu berriro</string>
+   <string name="export_to_librerax">Esportatu LibreraX-era</string>
+   <string name="update_librerax">Eguneratu LibreraX azken bertsiora Librera-tik inportatzeko.</string>
+   <string name="reading_progress">Irakurketaren aurrerapena</string>
 </resources>

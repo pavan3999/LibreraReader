@@ -1,5 +1,7 @@
 package com.foobnix.model;
 
+import com.foobnix.LibreraBuildConfig;
+
 import static com.foobnix.pdf.info.Playlists.L_PLAYLIST_RECENT;
 
 import android.content.Context;
@@ -96,6 +98,22 @@ public class AppState {
      */
     /** The theme colour a fresh install starts with: the indigo, second in STYLE_COLORS. */
     public static final int DEFAULT_STYLE_COLOR = 1;
+    /**
+     * The colours a highlight, an underline or a strike-through is made in: the handful readers
+     * reach for, rather than every colour the app knows, so the row fits without scrolling. Black
+     * is for a line; a highlight in it would hide the words.
+     */
+    public static final List<String> ANNOTATION_COLORS = Arrays.asList(//
+            "#FFEB3B", // yellow
+            "#76FF03", // green
+            "#40C4FF", // blue
+            "#FF4081", // pink
+            "#FF9100", // orange
+            "#E53935", // red
+            "#AA00FF", // purple
+            "#000000" // black
+                                                                      );
+
     public static final List<String> STYLE_COLORS = Arrays.asList(//
             "#1B2A4A", // Oxford navy - the leather-bound blue
             "#3949AB", // indigo - the blue Librera wore before the redesign
@@ -375,12 +393,13 @@ public class AppState {
     public int antiAliasLevel = 8;//0-8
     /**
      * The engine a PDF is rendered, searched and read with: {@link #PDF_ENGINE_MUPDF} (the
-     * default, the engine Librera has always used) or {@link #PDF_ENGINE_PDFIUM}. It applies to
+     * engine Librera has always used, and the default) or {@link #PDF_ENGINE_PDFIUM}, the default
+     * in the F-Droid flavour. It applies to
      * .pdf files only - every other format is MuPDF's - and is read by
      * {@link org.ebookdroid.BookType#getCodecContextByPath(String)} each time a document is
      * opened, so the covers and the books follow the setting from the next open on.
      */
-    public int pdfEngine = PDF_ENGINE_MUPDF;
+    public int pdfEngine = "fdroid".equals(LibreraBuildConfig.FLAVOR) ? PDF_ENGINE_PDFIUM : PDF_ENGINE_MUPDF;
     /**
      * The engine a reflowable book is laid out, rendered and read with: {@link #EPUB_ENGINE_MUPDF}
      * (the default) or {@link #EPUB_ENGINE_FOLIATE}, which paginates it in a WebView with
@@ -476,6 +495,7 @@ public class AppState {
     public List<Integer> prevKeys = PREV_KEYS;
     @IgnoreHashCode public boolean isUseVolumeKeys = true;
     @IgnoreHashCode public boolean isFastBookmarkByTTS = false;
+    @IgnoreHashCode public boolean isShowTtsPageControls = true;
     @IgnoreHashCode public boolean isReverseKeys = Dips.isSmallScreen();
     @IgnoreHashCode public boolean isVisibleSorting = true;
     @IgnoreHashCode public boolean isShowBookmarsPanelInMusicMode = true;
@@ -511,7 +531,7 @@ public class AppState {
     public boolean isBookCoverEffect = false;
     public int editWith = EDIT_NONE;
     public String annotationDrawColor = "";
-    public String annotationTextColor = COLORS.get(2);
+    public String annotationTextColor = ANNOTATION_COLORS.get(0);
     public int editAlphaColor = 100;
 
     public String displayPath = AppProfile.DOWNLOADS_DIR.getPath();

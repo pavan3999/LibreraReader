@@ -103,7 +103,7 @@ public class MuPdfDocument extends AbstractCodecDocument {
             // engine to offer - see Engines. The reader reports the file as one it cannot open,
             // which is the truth, instead of dying on a missing native symbol.
             throw new IllegalStateException("MuPDF is not in this build (lib"
-                    + Engines.NATIVE_LIBRARY + ".so): " + fname);
+                    + Engines.MUPDF_LIBRARY + ".so): " + fname);
         }
         TempHolder.lock.lock();
         try {
@@ -113,7 +113,9 @@ public class MuPdfDocument extends AbstractCodecDocument {
             int isImageScale = AppState.get().enableImageScale ? 1 : 0;
 
             LOG.d("accel cache1", fname);
-            String accel = new EpubContext().getCacheFileName(fname)
+            // MuPDF checks a saved layout against the page size, the font size and the CSS, but
+            // knows nothing of Librera's image scaling, so that goes into the name
+            String accel = new EpubContext().getCacheFileName(fname + isImageScale)
                                             .getPath() + "+accel";
             accel = accel.replace(CacheZipUtils.CACHE_BOOK_DIR.getPath(), CacheZipUtils.CACHE_TEMP.getPath());
             LOG.d("accel cache2", accel, new File(accel).exists());

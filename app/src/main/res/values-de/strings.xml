@@ -244,6 +244,7 @@
    <string name="allow">Zulassen</string>
    <string name="storage">Speicher</string>
    <string name="add_all_books_with_permission">Bitte erlaube der App, deinen Download-Ordner zu durchsuchen, um Bücher automatisch zu deiner Bibliothek hinzuzufügen.</string>
+   <string name="allow_access_to_see_files">Erlauben Sie den Zugriff auf alle Dateien, um die Bücher in diesem Ordner zu sehen. Ohne ihn werden nur seine Ordner angezeigt.</string>
    <string name="save_settings_in_librera_folder">Einstellungen und Lesefortschritt im Ordner Librera speichern.</string>
    <string name="regrant_folder_title">Zugriff auf den Ordner erneut erlauben</string>
    <string name="regrant_folder_msg">Die App kann %1$s nicht mehr lesen: Android entfernt den Ordnerzugriff, wenn die App neu installiert wird. Wählen Sie den Ordner im nächsten Bildschirm erneut aus.</string>
@@ -501,6 +502,7 @@
    <string name="show_the_capital_letter">Kapitelinitiale verwenden</string>
    <string name="size">Größe</string>
    <string name="quick_bookmark_by_the_headset">Schnelles Lesezeichen per Headset (Start/Stop-Knopf)</string>
+   <string name="show_tts_buttons_at_the_bottom_of_the_page">TTS-Schaltflächen unten auf der Seite anzeigen</string>
    <string name="slider_scale">Schieberegler</string>
    <string name="chapter_format">Kapitelformat</string>
    <string name="play_a_music_file">Audiodatei abspielen</string>
@@ -702,6 +704,7 @@
    <string name="library_folders_hint">Bücher werden in diesen Ordnern und ihren Unterordnern gesucht.</string>
    <string name="add_folder_hint">Einen Ordner auswählen</string>
    <string name="add_storage_hint">SD-Karte oder USB-Laufwerk</string>
+   <string name="folder_no_access">Kein Zugriff · zum erneuten Erlauben tippen</string>
    <string name="watch">Ansehen</string>
    <string name="librerax_not_installed">LibreraX ist nicht installiert. Lade es herunter, installiere es und öffne das Buch dann erneut.</string>
    <string name="remove_library_folder">Diesen Ordner aus der Bibliothek entfernen? Die Dateien darin werden nicht gelöscht.</string>
@@ -710,4 +713,13 @@
    <string name="base_stylesheet">Basis-Stylesheet anwenden (foliate-js)</string>
    <string name="pdf_engine">PDF-Modul</string>
    <string name="msg_pdf_engine_unavailable">Diese Version enthält die PDFium-Bibliotheken nicht.</string>
+   <string name="book_open_failed">Dieses Buch konnte nicht geöffnet werden.</string>
+   <string name="book_open_crashed">Die App wurde beim letzten Öffnen dieses Buches unerwartet beendet.</string>
+   <string name="try_librerax">Versuchen Sie, es in LibreraX zu öffnen.</string>
+   <string name="get_librerax">LibreraX kann es möglicherweise öffnen. Laden Sie es hier herunter:</string>
+   <string name="open_in_librerax">In LibreraX öffnen</string>
+   <string name="try_again">Erneut versuchen</string>
+   <string name="export_to_librerax">Nach LibreraX exportieren</string>
+   <string name="update_librerax">Aktualisieren Sie LibreraX auf die neueste Version, um aus Librera zu importieren.</string>
+   <string name="reading_progress">Lesefortschritt</string>
 </resources>
