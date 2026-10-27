@@ -27,7 +27,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       # =========================================================
       # Checkout
       # =========================================================
@@ -37,7 +36,6 @@ jobs:
           ref: ${{ inputs.git-ref != '' && inputs.git-ref || github.ref }}
           submodules: recursive
 
-
       # =========================================================
       # Java
       # =========================================================
@@ -46,7 +44,6 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-
 
       # =========================================================
       # Android SDK
@@ -67,7 +64,6 @@ jobs:
           yes | sdkmanager --licenses >/dev/null || true
           sdkmanager "ndk;30.0.14904198"
 
-
       # =========================================================
       # Check NDK
       # =========================================================
@@ -84,9 +80,7 @@ jobs:
           fi
 
           echo "Using NDK: $NDK"
-
           echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
-
 
       # =========================================================
       # Release signing
@@ -114,7 +108,6 @@ jobs:
           RELEASE_KEY_ALIAS=${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_KEY_PASSWORD=${{ secrets.RELEASE_KEY_PASSWORD }}
           EOF
-
 
       # =========================================================
       # Gradle properties
@@ -177,7 +170,6 @@ jobs:
           echo "Configured NDK:"
           grep '^librera_ndk_dir=' "$HOME/.gradle/gradle.properties"
 
-
       # =========================================================
       # Firebase / Google Services
       # =========================================================
@@ -200,22 +192,15 @@ jobs:
             exit 1
           fi
 
-
       # =========================================================
-      # Restore MuPDF ARM64 cache
-      #
-      # Cache changes when the MuPDF build script or MuPdfDocument
-      # Java source changes.
+      # Restore complete ARM64 native-library directory
       # =========================================================
       - name: Restore MuPDF ARM64 cache
         id: mupdf-cache
         uses: actions/cache/restore@v6
         with:
-          path: |
-            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
-            app/src/main/jniLibs/arm64-v8a/liblame.so
-          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.5.sh', 'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java') }}
-
+          path: app/src/main/jniLibs/arm64-v8a/
+          key: mupdf-1.28.5-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.5.sh', 'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java') }}
 
       # =========================================================
       # Prepare MuPDF
@@ -223,20 +208,21 @@ jobs:
       - name: Prepare MuPDF
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           LIB_DIR="app/src/main/jniLibs/arm64-v8a"
 
-          if [ -f "$LIB_DIR/libMuPDF.so" ] &&
-             [ -f "$LIB_DIR/liblame.so" ]; then
+          # These are the required MuPDF preparation outputs.
+          # Other native libraries are checked separately below.
+          if [ -s "$LIB_DIR/libmupdf.so" ] &&
+             [ -s "$LIB_DIR/liblame.so" ]; then
 
-            echo "Cached MuPDF ARM64 libraries found."
+            echo "Cached MuPDF ARM64 build outputs found."
             ls -lh "$LIB_DIR"
-
             exit 0
           fi
 
-          echo "MuPDF cache miss."
+          echo "MuPDF build outputs missing or incomplete."
           echo "Building MuPDF ARM64..."
 
           sudo apt-get update
@@ -254,90 +240,59 @@ jobs:
           cd Builder
 
           chmod +x link_to_mupdf_1.28.5.sh
-
           ./link_to_mupdf_1.28.5.sh
 
-
       # =========================================================
-      # Save MuPDF ARM64 cache
-      #
-      # Only save after a successful MuPDF preparation and only
-      # when the cache was not already restored.
+      # Save complete ARM64 native-library directory
       # =========================================================
       - name: Save MuPDF ARM64 cache
         if: success() && steps.mupdf-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
-          path: |
-            app/src/main/jniLibs/arm64-v8a/libMuPDF.so
-            app/src/main/jniLibs/arm64-v8a/liblame.so
-          key: mupdf-1.28.3-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.5.sh', 'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java') }}
-
-      - name: Copy MuPDF ARM64 libraries
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          SRC="Builder/mupdf-1.28.5/platform/librera/libs/arm64-v8a"
-          DEST="app/src/main/jniLibs/arm64-v8a"
-
-          echo "=== Built native libraries ==="
-          ls -lah "$SRC"
-
-          test -f "$SRC/libmupdf.so"
-          test -f "$SRC/liblame.so"
-
-          mkdir -p "$DEST"
-
-          # Preserve the filename expected by the existing workflow.
-          cp -p "$SRC/libmupdf.so" "$DEST/libMuPDF.so"
-          cp -p "$SRC/liblame.so" "$DEST/liblame.so"
-
-          echo "=== Verify final libraries ==="
-          ls -lah "$DEST"
-          test -s "$DEST/libMuPDF.so"
-          test -s "$DEST/liblame.so"
-
-          file "$DEST/libMuPDF.so" "$DEST/liblame.so"
+          path: app/src/main/jniLibs/arm64-v8a/
+          key: mupdf-1.28.5-ndk30-arm64-${{ hashFiles('Builder/link_to_mupdf_1.28.5.sh', 'app/src/main/java/org/ebookdroid/droids/mupdf/**/*.java') }}
 
       # =========================================================
-      # Verify native libraries
+      # Verify every native library dynamically
       # =========================================================
       - name: Verify native libraries
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           JNI_DIR="app/src/main/jniLibs/arm64-v8a"
 
-          test -f "$JNI_DIR/libMuPDF.so" || {
-            echo "ERROR: libMuPDF.so missing."
+          if [ ! -d "$JNI_DIR" ]; then
+            echo "ERROR: Missing directory: $JNI_DIR"
             exit 1
-          }
+          fi
 
-          test -f "$JNI_DIR/liblame.so" || {
-            echo "ERROR: liblame.so missing."
+          COUNT=0
+
+          echo "=== Native libraries in $JNI_DIR ==="
+
+          while IFS= read -r -d '' LIB; do
+            COUNT=$((COUNT + 1))
+
+            echo
+            echo "Checking: $LIB"
+            file "$LIB"
+
+            if ! file "$LIB" | grep -qi "ARM aarch64"; then
+              echo "ERROR: Invalid or non-ARM64 library: $LIB"
+              exit 1
+            fi
+          done < <(
+            find "$JNI_DIR" -maxdepth 1 -type f -name '*.so' -print0
+          )
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "ERROR: No native libraries found."
             exit 1
-          }
+          fi
 
-          echo "libMuPDF.so:"
-          file "$JNI_DIR/libMuPDF.so"
-
-          echo "liblame.so:"
-          file "$JNI_DIR/liblame.so"
-
-          file "$JNI_DIR/libMuPDF.so" | grep -qi "ARM aarch64" || {
-            echo "ERROR: libMuPDF.so is not ARM64."
-            exit 1
-          }
-
-          file "$JNI_DIR/liblame.so" | grep -qi "ARM aarch64" || {
-            echo "ERROR: liblame.so is not ARM64."
-            exit 1
-          }
-
-          echo "✓ Native libraries are present and ARM64."
-
+          echo
+          echo "SUCCESS: Verified $COUNT ARM64 native libraries."
 
       # =========================================================
       # Build Pro Release
@@ -352,7 +307,6 @@ jobs:
             --stacktrace \
             -PsplitByAbi=arm64-v8a \
             assembleProRelease
-
 
       # =========================================================
       # Prepare APK artifact
@@ -409,7 +363,6 @@ jobs:
           echo "Prepared APK: $OUTPUT"
           ls -lh "$OUTPUT"
 
-
       # =========================================================
       # Verify APK signature
       # =========================================================
@@ -433,14 +386,13 @@ jobs:
             --verbose \
             "$APK_PATH"
 
-
       # =========================================================
-      # Verify ARM64-only APK
+      # Verify ARM64-only APK and all packaged native libraries
       # =========================================================
       - name: Verify ARM64-v8a only
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
 
           APK="$APK_PATH"
 
@@ -476,27 +428,30 @@ jobs:
 
           unzip -q "$APK" -d "$CHECK_DIR"
 
+          APK_LIB_DIR="$CHECK_DIR/lib/arm64-v8a"
           SO_COUNT=0
+
+          if [ ! -d "$APK_LIB_DIR" ]; then
+            echo "ERROR: Native library directory missing from APK."
+            exit 1
+          fi
+
+          echo
+          echo "=== Checking every packaged native library ==="
 
           while IFS= read -r -d '' SO; do
             SO_COUNT=$((SO_COUNT + 1))
 
             echo
-            echo "Checking:"
-            echo "$SO"
-
+            echo "Checking: $SO"
             file "$SO"
 
-            file "$SO" | grep -qi "ARM aarch64" || {
-              echo "ERROR: Non-ARM64 ELF detected."
+            if ! file "$SO" | grep -qi "ARM aarch64"; then
+              echo "ERROR: Invalid or non-ARM64 ELF: $SO"
               exit 1
-            }
-
+            fi
           done < <(
-            find "$CHECK_DIR/lib/arm64-v8a" \
-              -type f \
-              -name "*.so" \
-              -print0
+            find "$APK_LIB_DIR" -maxdepth 1 -type f -name '*.so' -print0
           )
 
           if [ "$SO_COUNT" -eq 0 ]; then
@@ -504,22 +459,19 @@ jobs:
             exit 1
           fi
 
-          test -f "$CHECK_DIR/lib/arm64-v8a/libMuPDF.so" || {
-            echo "ERROR: libMuPDF.so missing from APK."
-            exit 1
-          }
+          echo
+          echo "=== Libraries packaged in APK ==="
 
-          test -f "$CHECK_DIR/lib/arm64-v8a/liblame.so" || {
-            echo "ERROR: liblame.so missing from APK."
-            exit 1
-          }
+          find "$APK_LIB_DIR" \
+            -maxdepth 1 \
+            -type f \
+            -name '*.so' \
+            -printf '%f\n' \
+            | sort
 
           echo
-          echo "✓ ARM64-v8a only"
-          echo "✓ All native ELF files are ARM64"
-          echo "✓ libMuPDF.so present"
-          echo "✓ liblame.so present"
-
+          echo "SUCCESS: Verified $SO_COUNT packaged ARM64 libraries."
+          echo "SUCCESS: ARM64-v8a only."
 
       # =========================================================
       # APK information
@@ -540,7 +492,6 @@ jobs:
           echo "SHA-256:"
           sha256sum "$APK_PATH"
 
-
       # =========================================================
       # Upload GitHub Actions artifact
       # =========================================================
@@ -550,7 +501,6 @@ jobs:
           name: Librera-Pro-${{ env.APP_VERSION }}-ARM64
           path: artifacts/*.apk
           if-no-files-found: error
-
 
       # =========================================================
       # Create draft GitHub Release
