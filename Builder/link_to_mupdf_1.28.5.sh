@@ -55,10 +55,10 @@ mv $MUPDF_JAVA/jni/Android-$VERSION_TAG.mk $MUPDF_JAVA/jni/Android.mk
 
 
 rm -rf "$LIBS"
-mkdir -p "$LIBS"
+mkdir -p "$LIBS/arm64-v8a"
 
-# Expose the NDK output at the exact Android Gradle jniLibs path.
-ln -s "$MUPDF_JAVA/libs/arm64-v8a" "$LIBS/arm64-v8a"
+# Use a real directory (not a symlink) so Gradle and Actions cache/verification
+# can enumerate the compiled libraries reliably. The final copy happens after ndk-build.
 
 # The second target, the flavours without MuPDF (the JS ones): the same libraries but libmupdf.so,
 # in libs-nomupdf, which is filled from libs once the build below is done
@@ -156,17 +156,17 @@ if ! find "$MUPDF_JAVA/libs/arm64-v8a" -maxdepth 1 -type f -name '*.so' -print -
   exit 1
 fi
 
-echo "=== App ARM64 library path ==="
-ls -lah "$LIBS/arm64-v8a"
+# Copy every ARM64 shared library into a real Gradle jniLibs directory.
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/"*.so "$LIBS/arm64-v8a/"
 
-# libs-nomupdf: every library of libs but libmupdf.so - the very same files, so a DjVu, a .doc,
-# a .mobi or a comic is read by the same binary in both targets
-rm -rf $MUPDF_JAVA/libs-nomupdf
-for ABI in armeabi-v7a arm64-v8a x86 x86_64; do
-  mkdir -p $MUPDF_JAVA/libs-nomupdf/$ABI
-  cp -p $MUPDF_JAVA/libs/$ABI/*.so $MUPDF_JAVA/libs-nomupdf/$ABI/
-  rm -f $MUPDF_JAVA/libs-nomupdf/$ABI/libmupdf.so
-done
+echo "=== App ARM64 library path ==="
+find "$LIBS/arm64-v8a" -maxdepth 1 -type f -name '*.so' -printf '%f\n' | sort
+
+# libs-nomupdf: ARM64 libraries without libmupdf.so. This workflow builds ARM64 only.
+rm -rf "$MUPDF_JAVA/libs-nomupdf"
+mkdir -p "$MUPDF_JAVA/libs-nomupdf/arm64-v8a"
+cp -p "$MUPDF_JAVA/libs/arm64-v8a/"*.so "$MUPDF_JAVA/libs-nomupdf/arm64-v8a/"
+rm -f "$MUPDF_JAVA/libs-nomupdf/arm64-v8a/libmupdf.so"
 echo "=================="
 echo "NDK:" "$NDK"
 echo "APP_PLATFORM=android-24"
